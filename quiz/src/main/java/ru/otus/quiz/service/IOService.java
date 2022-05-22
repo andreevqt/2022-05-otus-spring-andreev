@@ -1,5 +1,5 @@
 package ru.otus.quiz.service;
 
-public interface IoService {
+public interface IOService {
   void out(String format, Object... args);
 }

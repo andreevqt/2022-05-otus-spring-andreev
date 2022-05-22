@@ -5,9 +5,9 @@ import ru.otus.quiz.dao.QuestionDao;
 public class QuestionServiceImpl implements QuestionService {
 
   private final QuestionDao questionDao;
-  private final IoService ioService;
+  private final IOService ioService;
 
-  public QuestionServiceImpl(QuestionDao questionDao, IoService ioService) {
+  public QuestionServiceImpl(QuestionDao questionDao, IOService ioService) {
     this.questionDao = questionDao;
     this.ioService = ioService;
   }
