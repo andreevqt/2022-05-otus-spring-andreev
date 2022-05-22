@@ -36,6 +36,7 @@ public class QuestionServiceImplTest {
   @Test
   void shouldExecuteServiceMethodsIfListQuestionsCalled() {
     questionService.listQuestions();
+    verify(questionDao, times(1)).findAll();
     verify(ioService, times(1)).out("%s%n", "Hello world");
     verify(ioService, times(1)).out("• %s%n", "Yes");
     verify(ioService, times(1)).out("• %s\n%n", "No");
