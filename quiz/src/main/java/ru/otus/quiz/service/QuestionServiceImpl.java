@@ -1,9 +1,6 @@
 package ru.otus.quiz.service;
 
 import ru.otus.quiz.dao.QuestionDao;
-import ru.otus.quiz.domain.Question;
-
-import java.util.ArrayList;
 
 public class QuestionServiceImpl implements QuestionService {
 
@@ -14,12 +11,12 @@ public class QuestionServiceImpl implements QuestionService {
   }
 
   @Override
-  public Question findById(int id) {
-    return questionDao.findById(id);
-  }
-
-  @Override
-  public ArrayList<Question> findAll() {
-    return questionDao.findAll();
+  public void listQuestions() {
+    var questions = questionDao.findAll();
+    for (var question : questions) {
+      System.out.printf("%s%n", question.getText());
+      System.out.printf(" • %s%n", question.getAns1());
+      System.out.printf(" • %s\n%n", question.getAns2());
+    }
   }
 }
