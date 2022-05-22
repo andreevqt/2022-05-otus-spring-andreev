@@ -5,18 +5,20 @@ import ru.otus.quiz.dao.QuestionDao;
 public class QuestionServiceImpl implements QuestionService {
 
   private final QuestionDao questionDao;
+  private final IoService ioService;
 
-  public QuestionServiceImpl(QuestionDao questionDao) {
+  public QuestionServiceImpl(QuestionDao questionDao, IoService ioService) {
     this.questionDao = questionDao;
+    this.ioService = ioService;
   }
 
   @Override
   public void listQuestions() {
     var questions = questionDao.findAll();
     for (var question : questions) {
-      System.out.printf("%s%n", question.getText());
-      System.out.printf(" • %s%n", question.getAns1());
-      System.out.printf(" • %s\n%n", question.getAns2());
+      ioService.out("%s%n", question.getText());
+      ioService.out(" • %s%n", question.getAns1());
+      ioService.out(" • %s\n%n", question.getAns2());
     }
   }
 }
