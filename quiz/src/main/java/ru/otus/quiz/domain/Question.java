@@ -1,6 +1,7 @@
 package ru.otus.quiz.domain;
 
 public class Question {
+
   private final int id;
   private final String text;
   private final String ans1;
