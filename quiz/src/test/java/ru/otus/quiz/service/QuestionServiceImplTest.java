@@ -38,7 +38,7 @@ public class QuestionServiceImplTest {
     questionService.listQuestions();
     verify(questionDao, times(1)).findAll();
     verify(ioService, times(1)).out("%s%n", "Hello world");
-    verify(ioService, times(1)).out("• %s%n", "Yes");
-    verify(ioService, times(1)).out("• %s\n%n", "No");
+    verify(ioService, times(1)).out("1) %s%n", "Yes");
+    verify(ioService, times(1)).out("2) %s\n%n", "No");
   }
 }
