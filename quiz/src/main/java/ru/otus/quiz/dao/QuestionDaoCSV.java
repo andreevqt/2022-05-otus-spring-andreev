@@ -21,7 +21,6 @@ public class QuestionDaoCSV implements QuestionDao {
     loadData();
   }
 
-
   private void loadData() throws CSVLoadingException {
     try {
       var resource = getClass().getResourceAsStream("/" + resourceName);
@@ -39,14 +38,13 @@ public class QuestionDaoCSV implements QuestionDao {
     }
   }
 
-
   @Override
   public Question findById(int id) {
     return questions.get(id);
   }
 
   @Override
-  public ArrayList<Question> findAll() {
-    return new ArrayList<>(questions.values());
+  public Question[] findAll() {
+    return questions.values().toArray(new Question[0]);
   }
 }

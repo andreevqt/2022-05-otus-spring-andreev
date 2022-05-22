@@ -7,5 +7,5 @@ import java.util.ArrayList;
 public interface QuestionDao {
   Question findById(int id);
 
-  ArrayList<Question> findAll();
+  Question[] findAll();
 }

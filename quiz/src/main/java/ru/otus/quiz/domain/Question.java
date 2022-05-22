@@ -34,4 +34,25 @@ public class Question {
     return String.format("%o %s %s %s ", id, text, ans1, ans2);
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    Question question = (Question) o;
+
+    if (id != question.id) return false;
+    if (text != null ? !text.equals(question.text) : question.text != null) return false;
+    if (ans1 != null ? !ans1.equals(question.ans1) : question.ans1 != null) return false;
+    return ans2 != null ? ans2.equals(question.ans2) : question.ans2 == null;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = id;
+    result = 31 * result + (text != null ? text.hashCode() : 0);
+    result = 31 * result + (ans1 != null ? ans1.hashCode() : 0);
+    result = 31 * result + (ans2 != null ? ans2.hashCode() : 0);
+    return result;
+  }
 }
