@@ -23,26 +23,21 @@ public class QuestionDaoCSVTest {
   void shouldReturnArrayContainingAllQuestions() {
     var questions = questionDao.findAll();
     assertThat(questions).isNotEmpty().isEqualTo(Arrays.asList(
-      new Question(
-        "I spoke to ____",
-        new Answer("she"), new Answer("her")
-      ),
-      new Question(
-        "Where ____ you come from?",
-        new Answer("do"), new Answer("are")
-      ),
-      new Question(
-        "What time does she ___ up?",
-        new Answer("get"), new Answer("gets")
-      ),
-      new Question(
-        "Where ___ he live?",
-        new Answer("do"), new Answer("does")
-      ),
-      new Question(
-        "I am not ____ this film.",
-        new Answer("liking"), new Answer("enjoying")
-      )
+      new Question("I spoke to ____")
+        .addAnswer(new Answer("she"))
+        .addAnswer(new Answer("her")),
+      new Question("Where ____ you come from?")
+        .addAnswer(new Answer("do"))
+        .addAnswer(new Answer("are")),
+      new Question("What time does she ___ up?")
+        .addAnswer(new Answer("get"))
+        .addAnswer(new Answer("gets")),
+      new Question("Where ___ he live?")
+        .addAnswer(new Answer("do"))
+        .addAnswer(new Answer("does")),
+      new Question("I am not ____ this film.")
+        .addAnswer(new Answer("liking"))
+        .addAnswer(new Answer("enjoying"))
     ));
   }
 }

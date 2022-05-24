@@ -1,6 +1,5 @@
 package ru.otus.quiz.domain;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -8,10 +7,15 @@ import java.util.stream.Collectors;
 public class Question {
 
   private final String text;
-  private final ArrayList<Answer> answers;
+  private ArrayList<Answer> answers;
+
+  public Question(String text) {
+    this.text = text;
+    this.answers = new ArrayList<>();
+  }
 
   public Question(String text, ArrayList<Answer> answers) {
-    this.text = text;
+    this(text);
     this.answers = answers;
   }
 
@@ -25,6 +29,11 @@ public class Question {
 
   public ArrayList<Answer> getAnswers() {
     return answers;
+  }
+
+  public Question addAnswer(Answer answer) {
+    this.answers.add(answer);
+    return this;
   }
 
   @Override

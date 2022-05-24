@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -30,10 +28,12 @@ public class QuestionDaoCSV implements QuestionDao {
         while ((line = reader.readLine()) != null) {
           var cells = line.split(",");
           var text = cells[0];
-          var answers = Arrays.stream(Arrays.copyOfRange(cells, 1, cells.length))
-            .map(ans -> new Answer(ans, false))
-            .collect(Collectors.toList());
-          var question = new Question(text, new ArrayList<>(answers));
+          var question = new Question(text);
+          var answers = Arrays.copyOfRange(cells, 1, cells.length);
+          for (var ans: answers) {
+            var answer = new Answer(ans);
+            question.addAnswer(answer);
+          }
           questions.add(question);
         }
       }
