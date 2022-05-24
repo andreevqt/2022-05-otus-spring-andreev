@@ -4,10 +4,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.otus.quiz.dao.QuestionDao;
+import ru.otus.quiz.domain.Answer;
 import ru.otus.quiz.domain.Question;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
@@ -23,14 +28,14 @@ public class QuestionServiceImplTest {
   @Mock
   private QuestionDao questionDao;
 
-  private QuestionService questionService;
+  @InjectMocks
+  private QuestionServiceImpl questionService;
 
   @BeforeEach
   void setUp() {
-    given(questionDao.findAll()).willReturn(new Question[]{
-      new Question(1, "Hello world", "Yes", "No")
-    });
-    questionService = new QuestionServiceImpl(questionDao, ioService);
+    given(questionDao.findAll()).willReturn(new ArrayList<>(List.of(
+      new Question("Hello world", new Answer("Yes"), new Answer("No"))
+    )));
   }
 
   @Test
@@ -38,7 +43,8 @@ public class QuestionServiceImplTest {
     questionService.listQuestions();
     verify(questionDao, times(1)).findAll();
     verify(ioService, times(1)).out("%s%n", "Hello world");
-    verify(ioService, times(1)).out("1) %s%n", "Yes");
-    verify(ioService, times(1)).out("2) %s\n%n", "No");
+    verify(ioService, times(1)).out("%o) %s%n", 1, "Yes");
+    verify(ioService, times(1)).out("%o) %s%n", 2, "No");
+    verify(ioService, times(1)).out("%n");
   }
 }

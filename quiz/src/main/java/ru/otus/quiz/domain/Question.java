@@ -1,38 +1,36 @@
 package ru.otus.quiz.domain;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class Question {
 
-  private final int id;
   private final String text;
-  private final String ans1;
-  private final String ans2;
+  private final ArrayList<Answer> answers;
 
-  public Question(int id, String text, String ans1, String ans2) {
-    this.id = id;
+  public Question(String text, ArrayList<Answer> answers) {
     this.text = text;
-    this.ans1 = ans1;
-    this.ans2 = ans2;
+    this.answers = answers;
   }
 
-  public int getId() {
-    return id;
+  public Question(String text, Answer... answers) {
+    this(text, new ArrayList<>(Arrays.asList(answers)));
   }
 
   public String getText() {
     return text;
   }
 
-  public String getAns1() {
-    return ans1;
-  }
-
-  public String getAns2() {
-    return ans2;
+  public ArrayList<Answer> getAnswers() {
+    return answers;
   }
 
   @Override
   public String toString() {
-    return String.format("%o %s %s %s ", id, text, ans1, ans2);
+    var answers = this.answers.stream().map(Answer::getText).collect(Collectors.joining(", "));
+    return String.format("%s %s", text, answers);
   }
 
   @Override
@@ -42,18 +40,14 @@ public class Question {
 
     Question question = (Question) o;
 
-    if (id != question.id) return false;
-    if (text != null ? !text.equals(question.text) : question.text != null) return false;
-    if (ans1 != null ? !ans1.equals(question.ans1) : question.ans1 != null) return false;
-    return ans2 != null ? ans2.equals(question.ans2) : question.ans2 == null;
+    if (!text.equals(question.text)) return false;
+    return answers.equals(question.answers);
   }
 
   @Override
   public int hashCode() {
-    int result = id;
-    result = 31 * result + (text != null ? text.hashCode() : 0);
-    result = 31 * result + (ans1 != null ? ans1.hashCode() : 0);
-    result = 31 * result + (ans2 != null ? ans2.hashCode() : 0);
+    int result = text.hashCode();
+    result = 31 * result + answers.hashCode();
     return result;
   }
 }

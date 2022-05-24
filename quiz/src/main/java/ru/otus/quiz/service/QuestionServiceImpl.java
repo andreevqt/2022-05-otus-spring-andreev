@@ -17,8 +17,12 @@ public class QuestionServiceImpl implements QuestionService {
     var questions = questionDao.findAll();
     for (var question : questions) {
       ioService.out("%s%n", question.getText());
-      ioService.out("1) %s%n", question.getAns1());
-      ioService.out("2) %s\n%n", question.getAns2());
+      var answers = question.getAnswers();
+      for (int i = 0; i < answers.size(); i++) {
+        var answer = answers.get(i);
+        ioService.out("%o) %s%n", i + 1, answer.getText());
+      }
+      ioService.out("%n");
     }
   }
 }
