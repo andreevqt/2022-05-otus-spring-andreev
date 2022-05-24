@@ -7,9 +7,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 
 public class QuestionDaoCSV implements QuestionDao {
 
@@ -29,9 +26,8 @@ public class QuestionDaoCSV implements QuestionDao {
           var cells = line.split(",");
           var text = cells[0];
           var question = new Question(text);
-          var answers = Arrays.copyOfRange(cells, 1, cells.length);
-          for (var ans: answers) {
-            var answer = new Answer(ans);
+          for (int i = 1; i < cells.length; i++) {
+            var answer = new Answer(cells[i]);
             question.addAnswer(answer);
           }
           questions.add(question);
