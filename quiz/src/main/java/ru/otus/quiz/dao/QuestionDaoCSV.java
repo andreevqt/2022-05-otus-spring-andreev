@@ -24,8 +24,7 @@ public class QuestionDaoCSV implements QuestionDao {
         String line;
         while ((line = reader.readLine()) != null) {
           var cells = line.split(",");
-          var text = cells[0];
-          var question = new Question(text);
+          var question = new Question(cells[0]);
           for (int i = 1; i < cells.length; i++) {
             var answer = new Answer(cells[i]);
             question.addAnswer(answer);
