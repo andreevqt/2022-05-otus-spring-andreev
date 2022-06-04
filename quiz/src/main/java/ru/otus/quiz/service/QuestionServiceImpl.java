@@ -1,28 +1,45 @@
 package ru.otus.quiz.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.otus.quiz.dao.QuestionDao;
+import ru.otus.quiz.domain.Question;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Service
 public class QuestionServiceImpl implements QuestionService {
 
   private final QuestionDao questionDao;
-  private final IOService ioService;
+  private final Map<Integer, Boolean> answers;
 
-  public QuestionServiceImpl(QuestionDao questionDao, IOService ioService) {
+  @Autowired
+  public QuestionServiceImpl(QuestionDao questionDao) {
     this.questionDao = questionDao;
-    this.ioService = ioService;
+    this.answers = new HashMap<>();
   }
 
   @Override
-  public void listQuestions() {
+  public void answer(int questionId, int answer) {
     var questions = questionDao.findAll();
-    for (var question : questions) {
-      ioService.out("%s%n", question.getText());
-      var answers = question.getAnswers();
-      for (int i = 0; i < answers.size(); i++) {
-        var answer = answers.get(i);
-        ioService.out("%o) %s%n", i + 1, answer.getText());
-      }
-      ioService.out("%n");
-    }
+    questions.stream()
+      .filter(q -> q.getId() == questionId)
+      .findFirst()
+      .ifPresent(question -> answers.put(
+        questionId,
+        question.getCorrectAnswer() == answer
+      ));
+  }
+
+  @Override
+  public List<Question> listAll() {
+    return questionDao.findAll();
+  }
+
+  @Override
+  public int getScore() {
+    return answers.values().stream().reduce(0, (acc, value) -> acc + (value ? 1 : 0), Integer::sum);
   }
 }

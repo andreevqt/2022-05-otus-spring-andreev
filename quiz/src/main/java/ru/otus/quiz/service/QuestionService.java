@@ -1,5 +1,11 @@
 package ru.otus.quiz.service;
 
+import ru.otus.quiz.domain.Question;
+
+import java.util.List;
+
 public interface QuestionService {
-  void listQuestions();
+  List<Question> listAll();
+  void answer(int questionId, int answerId);
+  int getScore();
 }

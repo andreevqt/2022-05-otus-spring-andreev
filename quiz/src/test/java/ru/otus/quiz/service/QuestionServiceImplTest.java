@@ -34,7 +34,7 @@ public class QuestionServiceImplTest {
   @BeforeEach
   void setUp() {
     given(questionDao.findAll()).willReturn(new ArrayList<>(List.of(
-      new Question("Hello world")
+      new Question(1, "Hello world", 1)
         .addAnswer(new Answer("Yes"))
         .addAnswer(new Answer("No"))
     )));

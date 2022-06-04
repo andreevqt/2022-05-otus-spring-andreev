@@ -1,35 +1,47 @@
 package ru.otus.quiz.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import ru.otus.quiz.config.QuestionsResourceProvider;
 import ru.otus.quiz.domain.Answer;
 import ru.otus.quiz.domain.Question;
+import ru.otus.quiz.service.QuestionService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
+@Repository
 public class QuestionDaoCSV implements QuestionDao {
 
-  private final String resourceName;
+  private final QuestionsResourceProvider resourceProvider;
 
-  public QuestionDaoCSV(String resourceName) {
-    this.resourceName = resourceName;
+  @Autowired
+  public QuestionDaoCSV(QuestionsResourceProvider resourceProvider) {
+    this.resourceProvider = resourceProvider;
   }
 
-  private ArrayList<Question> loadData() throws CSVLoadingException {
+  private List<Question> loadData() throws CSVLoadingException {
     try {
       var questions = new ArrayList<Question>();
-      var resource = getClass().getResourceAsStream(resourceName);
+      var resourcePath = resourceProvider.getQuestionsResource();
+      var resource = getClass().getResourceAsStream(resourcePath);
       try (var reader = new BufferedReader(new InputStreamReader(resource))) {
         String line;
+        var questionId = 1;
         while ((line = reader.readLine()) != null) {
           var cells = line.split(",");
-          var question = new Question(cells[0]);
-          for (int i = 1; i < cells.length; i++) {
+          var question = new Question(questionId, cells[0], Integer.parseInt(cells[1]));
+          for (int i = 2; i < cells.length; i++) {
             var answer = new Answer(cells[i]);
             question.addAnswer(answer);
           }
           questions.add(question);
+          questionId++;
         }
       }
       return questions;
@@ -39,7 +51,7 @@ public class QuestionDaoCSV implements QuestionDao {
   }
 
   @Override
-  public ArrayList<Question> findAll() {
+  public List<Question> findAll() {
     return loadData();
   }
 }
