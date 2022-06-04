@@ -21,7 +21,6 @@ public class QuestionServiceImpl implements QuestionService {
     this.answers = new HashMap<>();
   }
 
-  @Override
   public void answer(int questionId, int answer) {
     var questions = questionDao.findAll();
     questions.stream()
@@ -33,12 +32,10 @@ public class QuestionServiceImpl implements QuestionService {
       ));
   }
 
-  @Override
   public List<Question> listAll() {
     return questionDao.findAll();
   }
 
-  @Override
   public int getScore() {
     return answers.values().stream().reduce(0, (acc, value) -> acc + (value ? 1 : 0), Integer::sum);
   }

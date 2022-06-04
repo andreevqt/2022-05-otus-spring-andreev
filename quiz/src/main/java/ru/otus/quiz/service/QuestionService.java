@@ -6,6 +6,4 @@ import java.util.List;
 
 public interface QuestionService {
   List<Question> listAll();
-  void answer(int questionId, int answerId);
-  int getScore();
 }

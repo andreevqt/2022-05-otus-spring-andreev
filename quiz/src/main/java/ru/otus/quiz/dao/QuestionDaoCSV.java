@@ -1,15 +1,13 @@
 package ru.otus.quiz.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import ru.otus.quiz.config.QuestionsResourceProvider;
+import ru.otus.quiz.exceptions.CSVLoadingException;
+import ru.otus.quiz.csv.CSVReader;
 import ru.otus.quiz.domain.Answer;
 import ru.otus.quiz.domain.Question;
-import ru.otus.quiz.service.QuestionService;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -30,14 +28,13 @@ public class QuestionDaoCSV implements QuestionDao {
       var questions = new ArrayList<Question>();
       var resourcePath = resourceProvider.getQuestionsResource();
       var resource = getClass().getResourceAsStream(resourcePath);
-      try (var reader = new BufferedReader(new InputStreamReader(resource))) {
-        String line;
+      try (var reader = new CSVReader(new InputStreamReader(resource))) {
+        String[] line;
         var questionId = 1;
-        while ((line = reader.readLine()) != null) {
-          var cells = line.split(",");
-          var question = new Question(questionId, cells[0], Integer.parseInt(cells[1]));
-          for (int i = 2; i < cells.length; i++) {
-            var answer = new Answer(cells[i]);
+        while ((line = reader.nextLine()) != null) {
+          var question = new Question(questionId, line[0], Integer.parseInt(line[1]));
+          for (int i = 2; i < line.length; i++) {
+            var answer = new Answer(line[i]);
             question.addAnswer(answer);
           }
           questions.add(question);

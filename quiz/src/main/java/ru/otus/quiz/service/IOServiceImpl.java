@@ -13,7 +13,7 @@ public class IOServiceImpl implements IOService {
   private final PrintStream output;
   private final Scanner input;
 
-  @Autowired()
+  @Autowired
   public IOServiceImpl(PrintStream output, InputStream input) {
     this.output = output;
     this.input = new Scanner(input);
@@ -33,5 +33,11 @@ public class IOServiceImpl implements IOService {
   public int readIntWithPrompt(String prompt) {
     out(prompt);
     return Integer.parseInt(input.next());
+  }
+
+  @Override
+  public String readStringWithPrompt(String prompt) {
+    out(prompt);
+    return input.nextLine();
   }
 }
