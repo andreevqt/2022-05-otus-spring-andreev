@@ -33,7 +33,7 @@ public class ListLeadersBoardCommandProcessor implements MenuSingleCommandProces
     users.sort(User::compareTo);
     for (int i = 0; i < users.size(); i++) {
       var user = users.get(i);
-      ioService.out(i + 1 + ". " + userConverter.convertToString(user));
+      ioService.out(userConverter.convertToString(i + 1, user));
     }
   }
 
