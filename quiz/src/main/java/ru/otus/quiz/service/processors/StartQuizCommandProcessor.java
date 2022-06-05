@@ -80,7 +80,7 @@ public class StartQuizCommandProcessor implements MenuSingleCommandProcessor {
       var answerId = readAnswer();
 
       var answersLen = question.getAnswers().size();
-      if (answerId > answersLen || answerId < answersLen) {
+      if (answerId > answersLen || answerId < 1) {
         throw new AnswerIndexOutOfBoundsException("Wrong answer index");
       }
 
