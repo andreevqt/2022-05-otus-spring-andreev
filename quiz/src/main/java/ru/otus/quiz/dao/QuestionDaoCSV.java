@@ -3,10 +3,10 @@ package ru.otus.quiz.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.otus.quiz.config.QuestionsResourceProvider;
-import ru.otus.quiz.exceptions.CSVLoadingException;
 import ru.otus.quiz.csv.CSVReader;
 import ru.otus.quiz.domain.Answer;
 import ru.otus.quiz.domain.Question;
+import ru.otus.quiz.exceptions.CSVLoadingException;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

@@ -3,11 +3,11 @@ package ru.otus.quiz.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.otus.quiz.config.UsersResourceProvider;
-import ru.otus.quiz.exceptions.CSVLoadingException;
 import ru.otus.quiz.csv.CSVReader;
 import ru.otus.quiz.csv.CSVWriter;
-import ru.otus.quiz.exceptions.CSVWritingException;
 import ru.otus.quiz.domain.User;
+import ru.otus.quiz.exceptions.CSVLoadingException;
+import ru.otus.quiz.exceptions.CSVWritingException;
 import ru.otus.quiz.service.UserConverter;
 
 import java.io.FileWriter;

@@ -48,7 +48,7 @@ public class App {
     } catch (MenuCommandProcessorNotFound e) {
       ioService.out("Menu handler not found");
     } catch (AnswerIndexOutOfBoundsException e) {
-      ioService.out("Wrong answer's index");
+      ioService.out("Wrong answer index");
     }
   }
 

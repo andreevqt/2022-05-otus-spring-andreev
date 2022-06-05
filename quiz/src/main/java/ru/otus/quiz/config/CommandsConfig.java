@@ -3,13 +3,11 @@ package ru.otus.quiz.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import ru.otus.quiz.service.IOService;
-import ru.otus.quiz.service.QuestionConverter;
-import ru.otus.quiz.service.QuestionService;
-import ru.otus.quiz.service.UserService;
+import ru.otus.quiz.service.*;
 import ru.otus.quiz.service.menu.MenuOption;
 import ru.otus.quiz.service.menu.MenuOptionsRegistry;
 import ru.otus.quiz.service.menu.MenuOptionsRegistryImpl;
+import ru.otus.quiz.service.processors.ListLeadersBoardCommandProcessor;
 import ru.otus.quiz.service.processors.MenuCommandsProcessor;
 import ru.otus.quiz.service.processors.MenuCommandsProcessorImpl;
 import ru.otus.quiz.service.processors.StartQuizCommandProcessor;
@@ -36,10 +34,13 @@ public class CommandsConfig {
   @Bean
   MenuCommandsProcessor commandsProcessor(QuestionConverter questionConverter,
                                           IOService ioService, QuestionService questionService,
-                                          UserService userService) {
+                                          UserService userService, UserConverter userConverter) {
     var startQuizProcessor = new StartQuizCommandProcessor(questionService,
       startQuiz, questionConverter, ioService, userService);
 
-    return new MenuCommandsProcessorImpl(List.of(startQuizProcessor));
+    var listLeadersBoardProcessor = new ListLeadersBoardCommandProcessor(userConverter, userService,
+      ioService, listLeadersBoard);
+
+    return new MenuCommandsProcessorImpl(List.of(startQuizProcessor, listLeadersBoardProcessor));
   }
 }

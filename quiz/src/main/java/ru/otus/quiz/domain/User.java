@@ -1,6 +1,6 @@
 package ru.otus.quiz.domain;
 
-public class User {
+public class User implements Comparable<User> {
 
   private final String firstName;
   private final String lastName;
@@ -30,5 +30,10 @@ public class User {
 
   public String getLastName() {
     return lastName;
+  }
+
+  @Override
+  public int compareTo(User o) {
+    return (firstName + lastName).compareTo(o.firstName + o.lastName);
   }
 }

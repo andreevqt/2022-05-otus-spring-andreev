@@ -7,7 +7,7 @@ import ru.otus.quiz.domain.User;
 public class UserConverterImpl implements UserConverter {
   @Override
   public String convertToString(User user) {
-    return user.getFirstName() + " " + user.getLastName();
+    return "name: " + user.getFirstName() + " " + user.getLastName() + ", score: " + user.getScore();
   }
 
   @Override
