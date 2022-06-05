@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@Service
 public class MenuCommandsProcessorImpl implements MenuCommandsProcessor {
   private final Map<MenuOption, MenuSingleCommandProcessor> processors;
 
