@@ -35,11 +35,11 @@ public class App {
     return new QuizResult(firstName, lastName, 0);
   }
 
-  void outputResult(QuizResult res) {
+  private void outputResult(QuizResult res) {
     ioService.out(quizResultConverter.convert(res));
   }
 
-  void doQuiz() {
+  private void doQuiz() {
     var result = readCredentials();
 
     getQuestions().forEach((question -> {
