@@ -9,13 +9,9 @@ import ru.otus.quiz.service.App;
 @Configuration
 public class Main {
   public static void main(String[] args) {
-    try {
-      try (var context = new AnnotationConfigApplicationContext(Main.class)) {
-        var app = context.getBean(App.class);
-        app.run();
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
+    try (var context = new AnnotationConfigApplicationContext(Main.class)) {
+      var app = context.getBean(App.class);
+      app.run();
     }
   }
 }

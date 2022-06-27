@@ -1,6 +1,6 @@
 package ru.otus.quiz.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.otus.quiz.config.QuestionsResourceProvider;
 import ru.otus.quiz.csv.CSVReader;
@@ -13,15 +13,11 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
 @Repository
 public class QuestionDaoCSV implements QuestionDao {
 
   private final QuestionsResourceProvider resourceProvider;
-
-  @Autowired
-  public QuestionDaoCSV(QuestionsResourceProvider resourceProvider) {
-    this.resourceProvider = resourceProvider;
-  }
 
   private List<Question> loadData() throws CSVLoadingException {
     try {

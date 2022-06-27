@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.Reader;
 
 public class CSVReader implements Closeable {
-
+  private static final String SEPARATOR = ",";
   private final BufferedReader reader;
 
   public CSVReader(Reader reader) {
@@ -19,7 +19,7 @@ public class CSVReader implements Closeable {
       return null;
     }
 
-    return line.split(",");
+    return line.split(SEPARATOR);
   }
 
   @Override

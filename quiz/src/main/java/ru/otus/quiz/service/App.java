@@ -1,61 +1,75 @@
 package ru.otus.quiz.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.otus.quiz.domain.Question;
 import ru.otus.quiz.exceptions.AnswerIndexOutOfBoundsException;
-import ru.otus.quiz.exceptions.MenuCommandProcessorNotFound;
-import ru.otus.quiz.exceptions.MenuItemIndexOutOfBoundsException;
-import ru.otus.quiz.service.menu.MenuOptionsRegistry;
-import ru.otus.quiz.service.processors.MenuCommandsProcessor;
+import ru.otus.quiz.exceptions.CSVLoadingException;
+
+import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class App {
 
   private final IOService ioService;
-  private final MenuOptionsRegistry menuOptionsRegistry;
-  private final MenuCommandsProcessor commandsProcessor;
+  private final QuestionService questionService;
+  private final Converter<String, Question> questionConverter;
+  private final Converter<String, QuizResult> quizResultConverter;
 
-  @Autowired
-  public App(IOService ioService, MenuOptionsRegistry menuOptionsRegistry,
-             MenuCommandsProcessor commandsProcessor) {
-    this.ioService = ioService;
-    this.menuOptionsRegistry = menuOptionsRegistry;
-    this.commandsProcessor = commandsProcessor;
+  private int readAnswer() {
+    return ioService.readIntWithPrompt("Enter your answer:");
   }
 
-  private void outputMenu() {
-    ioService.out("Select option...");
-    menuOptionsRegistry.getAvailableMenuOptions().stream()
-      .sorted()
-      .map(m -> m.getId() + ". " + m.getDescription())
-      .forEach(ioService::out);
+  private List<Question> getQuestions() {
+    return questionService.listAll();
   }
 
-  private int readSelectedOptionNumber() {
-    return ioService.readInt();
+  private void outputQuestion(Question q) {
+    ioService.out(questionConverter.convert(q));
+  }
+
+  private QuizResult readCredentials() {
+    var firstName = ioService.readStringWithPrompt("Enter your first name");
+    var lastName = ioService.readStringWithPrompt("Enter your last name");
+    return new QuizResult(firstName, lastName, 0);
+  }
+
+  void outputResult(QuizResult res) {
+    ioService.out(quizResultConverter.convert(res));
+  }
+
+  void doQuiz() {
+    var result = readCredentials();
+
+    getQuestions().forEach((question -> {
+      outputQuestion(question);
+
+      var answerId = readAnswer();
+      var answersLen = question.getAnswers().size();
+      if (answerId > answersLen || answerId < 1) {
+        throw new AnswerIndexOutOfBoundsException("Wrong answer's index");
+      }
+
+      if (question.getCorrectAnswer() == answerId) {
+        result.increment();
+      }
+    }));
+
+    outputResult(result);
   }
 
   public void run() {
-    outputMenu();
     try {
-      var selectedMenuItem = readSelectedOptionNumber();
-      processMenuCommand(selectedMenuItem);
-
-    } catch (NumberFormatException e) {
-      ioService.out("Number format error");
-    } catch (MenuItemIndexOutOfBoundsException e) {
-      ioService.out("Wrong option number");
-    } catch (MenuCommandProcessorNotFound e) {
-      ioService.out("Menu handler not found");
-    } catch (AnswerIndexOutOfBoundsException e) {
-      ioService.out("Wrong answer index");
+      doQuiz();
+    } catch (Throwable e) {
+      if (e instanceof AnswerIndexOutOfBoundsException) {
+        ioService.out("Wrong Answer's index!");
+      } else if (e instanceof CSVLoadingException) {
+        ioService.out("CSV file is corrupt!");
+      } else {
+        ioService.out("Application error! " + e.getMessage());
+      }
     }
-  }
-
-  private void processMenuCommand(int selectedMenuItemId) {
-    var selectedMenuOption = menuOptionsRegistry.getMenuOptionById(selectedMenuItemId)
-      .orElseThrow(() -> new MenuItemIndexOutOfBoundsException("Given menu item index is out of range"));
-
-    commandsProcessor.processMenuCommand(selectedMenuOption);
   }
 }

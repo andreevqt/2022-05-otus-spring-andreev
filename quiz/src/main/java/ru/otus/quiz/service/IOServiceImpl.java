@@ -1,9 +1,7 @@
 package ru.otus.quiz.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
 
@@ -13,10 +11,9 @@ public class IOServiceImpl implements IOService {
   private final PrintStream output;
   private final Scanner input;
 
-  @Autowired
-  public IOServiceImpl(PrintStream output, InputStream input) {
-    this.output = output;
-    this.input = new Scanner(input);
+  public IOServiceImpl() {
+    this.output = System.out;
+    this.input = new Scanner(System.in);
   }
 
   @Override
