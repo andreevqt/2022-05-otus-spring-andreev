@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.otus.quiz.domain.Question;
 import ru.otus.quiz.exceptions.AnswerIndexOutOfBoundsException;
 import ru.otus.quiz.exceptions.CSVLoadingException;
+import ru.otus.quiz.service.converters.Converter;
 
 import java.util.List;
 
@@ -36,7 +37,8 @@ public class App {
   }
 
   private void outputResult(QuizResult res) {
-    ioService.out(quizResultConverter.convert(res));
+    var converted = quizResultConverter.convert(res);
+    ioService.out(converted);
   }
 
   private void doQuiz() {

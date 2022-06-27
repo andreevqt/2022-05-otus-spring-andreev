@@ -1,9 +1,10 @@
-package ru.otus.quiz.service;
+package ru.otus.quiz.service.converters;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import ru.otus.quiz.domain.Question;
 
-@Service
+@Component
 public class QuestionConverter implements Converter<String, Question> {
 
   public String convert(Question q) {

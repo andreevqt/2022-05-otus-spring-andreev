@@ -22,7 +22,6 @@ public class QuestionServiceImplTest {
 
   @Mock
   private IOService ioService;
-
   @Mock
   private QuestionDao questionDao;
 
