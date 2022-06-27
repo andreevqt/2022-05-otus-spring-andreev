@@ -2,10 +2,14 @@ package ru.otus.quiz.config;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
+import ru.otus.quiz.service.IOService;
+import ru.otus.quiz.service.IOServiceImpl;
 
-@Component
+@Configuration
 @Getter
 @PropertySource("classpath:application.properties")
 public class AppConfig implements QuestionsResourceProvider {
@@ -19,5 +23,10 @@ public class AppConfig implements QuestionsResourceProvider {
   @Override
   public String getQuestionsResource() {
     return questionsResource;
+  }
+
+  @Bean
+  public IOService getIOService() {
+    return new IOServiceImpl(System.in, System.out);
   }
 }
