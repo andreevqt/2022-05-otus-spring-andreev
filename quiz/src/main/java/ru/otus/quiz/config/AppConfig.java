@@ -26,7 +26,7 @@ public class AppConfig implements QuestionsResourceProvider {
   }
 
   @Bean
-  public IOService getIOService() {
+  public IOService ioService() {
     return new IOServiceImpl(System.in, System.out);
   }
 }
