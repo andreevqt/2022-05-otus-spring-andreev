@@ -7,13 +7,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @EqualsAndHashCode
-public class Answer {
+public class Student {
 
-  private final String text;
-  private boolean correct;
-
-  public Answer(String text) {
-    this(text, false);
-  }
+  private final String firstName;
+  private final String lastName;
 
 }

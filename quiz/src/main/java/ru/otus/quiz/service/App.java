@@ -2,10 +2,12 @@ package ru.otus.quiz.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.otus.quiz.domain.Question;
+import ru.otus.quiz.domain.Answer;
+import ru.otus.quiz.domain.Student;
 import ru.otus.quiz.exceptions.AnswerIndexOutOfBoundsException;
-import ru.otus.quiz.exceptions.CSVLoadingException;
-import ru.otus.quiz.service.converters.Converter;
+import ru.otus.quiz.exceptions.QuestionsReadingException;
+import ru.otus.quiz.service.converters.QuestionConverter;
+import ru.otus.quiz.service.converters.QuizResultConverter;
 
 import java.util.List;
 
@@ -15,51 +17,8 @@ public class App {
 
   private final IOService ioService;
   private final QuestionService questionService;
-  private final Converter<String, Question> questionConverter;
-  private final Converter<String, QuizResult> quizResultConverter;
-
-  private int readAnswer() {
-    return ioService.readIntWithPrompt("Enter your answer:");
-  }
-
-  private List<Question> getQuestions() {
-    return questionService.listAll();
-  }
-
-  private void outputQuestion(Question q) {
-    ioService.out(questionConverter.convert(q));
-  }
-
-  private QuizResult readCredentials() {
-    var firstName = ioService.readStringWithPrompt("Enter your first name");
-    var lastName = ioService.readStringWithPrompt("Enter your last name");
-    return new QuizResult(firstName, lastName, 0);
-  }
-
-  private void outputResult(QuizResult res) {
-    var converted = quizResultConverter.convert(res);
-    ioService.out(converted);
-  }
-
-  private void doQuiz() {
-    var result = readCredentials();
-
-    getQuestions().forEach((question -> {
-      outputQuestion(question);
-
-      var answerId = readAnswer();
-      var answersLen = question.getAnswers().size();
-      if (answerId > answersLen || answerId < 1) {
-        throw new AnswerIndexOutOfBoundsException("Wrong answer's index");
-      }
-
-      if (question.getCorrectAnswer() == answerId) {
-        result.increment();
-      }
-    }));
-
-    outputResult(result);
-  }
+  private final QuestionConverter questionConverter;
+  private final QuizResultConverter quizResultConverter;
 
   public void run() {
     try {
@@ -67,11 +26,43 @@ public class App {
     } catch (Throwable e) {
       if (e instanceof AnswerIndexOutOfBoundsException) {
         ioService.out("Wrong Answer's index!");
-      } else if (e instanceof CSVLoadingException) {
-        ioService.out("CSV file is corrupt!");
+      } else if (e instanceof QuestionsReadingException) {
+        ioService.out("Failed to read questions!");
       } else {
         ioService.out("Application error! " + e.getMessage());
       }
     }
+  }
+
+  private boolean isAnswerOutOfBounds(int answerIdx, List<Answer> answers) {
+    return answerIdx > answers.size() || answerIdx < 1;
+  }
+
+  private Student readUser() {
+    var firstName = ioService.readStringWithPrompt("Enter your first name");
+    var lastName = ioService.readStringWithPrompt("Enter your last name");
+    return new Student(firstName, lastName);
+  }
+
+  private void doQuiz() {
+    var student = readUser();
+    var result = new QuizResult(student, 0);
+
+    questionService.listAll().forEach((question -> {
+      ioService.out(questionConverter.convert(question));
+
+      var answerIdx = ioService.readIntWithPrompt("Enter your answer:");
+      var answers = question.getAnswers();
+      if (isAnswerOutOfBounds(answerIdx, answers)) {
+        throw new AnswerIndexOutOfBoundsException("Wrong answer's index");
+      }
+
+      var answer = answers.get(answerIdx - 1);
+      if (answer.isCorrect()) {
+        result.increment();
+      }
+    }));
+
+    ioService.out(quizResultConverter.convert(result));
   }
 }

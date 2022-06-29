@@ -11,10 +11,9 @@ import java.util.List;
 @Getter
 @EqualsAndHashCode
 public class Question {
+
   private final int id;
   private final String text;
-  private final int correctAnswer;
-
   private final List<Answer> answers = new ArrayList<>();
 
   public Question addAnswer(Answer answer) {

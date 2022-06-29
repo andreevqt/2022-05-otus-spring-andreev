@@ -31,8 +31,8 @@ public class QuestionServiceImplTest {
   @BeforeEach
   void setUp() {
     given(questionDao.findAll()).willReturn(List.of(
-      new Question(1, "Hello world", 1)
-        .addAnswer(new Answer("Yes"))
+      new Question(1, "Hello world")
+        .addAnswer(new Answer("Yes", true))
         .addAnswer(new Answer("No"))
     ));
   }
@@ -41,13 +41,9 @@ public class QuestionServiceImplTest {
   void shouldReturnListOfQuestions() {
     var questions = questionService.listAll();
     assertThat(questions).isNotEmpty().isEqualTo(List.of(
-      new Question(1, "Hello world", 1)
-        .addAnswer(new Answer("Yes"))
+      new Question(1, "Hello world")
+        .addAnswer(new Answer("Yes", true))
         .addAnswer(new Answer("No"))
     ));
-  }
-
-  void shouldRerenderListOfQuestions() {
-
   }
 }

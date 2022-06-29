@@ -1,16 +1,18 @@
 package ru.otus.quiz.service;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import ru.otus.quiz.domain.Student;
 
 @AllArgsConstructor
-@Data
+@Getter
 public class QuizResult {
-  private final String firstName;
-  private final String lastName;
+
+  private final Student student;
   private int score;
 
   public void increment() {
     ++score;
   }
+
 }

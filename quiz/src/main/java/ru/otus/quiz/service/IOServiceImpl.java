@@ -1,11 +1,8 @@
 package ru.otus.quiz.service;
 
-import org.springframework.stereotype.Service;
-
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
-import java.util.stream.Stream;
 
 
 public class IOServiceImpl implements IOService {

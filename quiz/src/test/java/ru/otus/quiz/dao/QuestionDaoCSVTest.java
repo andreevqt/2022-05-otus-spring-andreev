@@ -29,28 +29,28 @@ public class QuestionDaoCSVTest {
   @BeforeEach
   void setUp() {
     given(questionsResourceProvider.getQuestionsResource())
-      .willReturn("/questions.csv");
+      .willReturn("questions.csv");
   }
 
   @Test
   void shouldReturnArrayContainingAllQuestions() {
     var questions = questionDao.findAll();
     assertThat(questions).isNotEmpty().isEqualTo(Arrays.asList(
-      new Question(1, "I spoke to ____", 2)
+      new Question(1, "I spoke to ____")
         .addAnswer(new Answer("she"))
-        .addAnswer(new Answer("her")),
-      new Question(2, "Where ____ you come from?", 2)
+        .addAnswer(new Answer("her", true)),
+      new Question(2, "Where ____ you come from?")
         .addAnswer(new Answer("do"))
-        .addAnswer(new Answer("are")),
-      new Question(3, "What time does she ___ up?", 1)
-        .addAnswer(new Answer("get"))
+        .addAnswer(new Answer("are", true)),
+      new Question(3, "What time does she ___ up?")
+        .addAnswer(new Answer("get", true))
         .addAnswer(new Answer("gets")),
-      new Question(4, "Where ___ he live?", 2)
+      new Question(4, "Where ___ he live?")
         .addAnswer(new Answer("do"))
-        .addAnswer(new Answer("does")),
-      new Question(5, "I am not ____ this film.", 2)
+        .addAnswer(new Answer("does", true)),
+      new Question(5, "I am not ____ this film.")
         .addAnswer(new Answer("liking"))
-        .addAnswer(new Answer("enjoying"))
+        .addAnswer(new Answer("enjoying", true))
     ));
   }
 }

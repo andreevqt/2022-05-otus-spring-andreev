@@ -11,8 +11,9 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import ru.otus.quiz.domain.Answer;
 import ru.otus.quiz.domain.Question;
-import ru.otus.quiz.exceptions.CSVLoadingException;
-import ru.otus.quiz.service.converters.Converter;
+import ru.otus.quiz.exceptions.QuestionsReadingException;
+import ru.otus.quiz.service.converters.QuestionConverter;
+import ru.otus.quiz.service.converters.QuizResultConverter;
 
 import java.util.List;
 
@@ -31,16 +32,16 @@ public class AppTest {
   @Mock
   private QuestionService questionService;
   @Mock
-  private Converter<String, QuizResult> quizResultConverter;
+  private QuizResultConverter quizResultConverter;
   @Mock
-  private Converter<String, Question> questionConverter;
+  private QuestionConverter questionConverter;
   @InjectMocks
   private App app;
 
   private List<Question> getQuestions() {
-    return List.of(new Question(1, "I spoke to ____", 2)
+    return List.of(new Question(1, "I spoke to ____")
       .addAnswer(new Answer("she"))
-      .addAnswer(new Answer("her")));
+      .addAnswer(new Answer("her", true)));
   }
 
   @BeforeEach
@@ -59,23 +60,23 @@ public class AppTest {
 
   @Test
   void shouldOutputErrorIfFailedToLoadCSVFile() {
-    given(questionService.listAll()).willThrow(CSVLoadingException.class);
+    given(questionService.listAll()).willThrow(QuestionsReadingException.class);
 
     app.run();
 
-    verify(ioService).out("CSV file is corrupt!");
+    verify(ioService).out("Failed to read questions!");
   }
 
-//  @Test
-//  void shouldCallOutIfAllGood() {
-//    var strToOutput = "John's Doe score is 1";
-//    given(questionService.listAll()).willReturn(getQuestions());
-//
-//    given(ioService.readIntWithPrompt(anyString())).willReturn(2);
-//    given(quizResultConverter.convert(any(QuizResult.class))).willReturn(strToOutput);
-//
-//    app.run();
-//
-//    verify(ioService).out(strToOutput);
-//   }
+  @Test
+  void shouldCallOutIfAllGood() {
+    var strToOutput = "John's Doe score is 1";
+    given(questionService.listAll()).willReturn(getQuestions());
+
+    given(ioService.readIntWithPrompt(anyString())).willReturn(2);
+    given(quizResultConverter.convert(any(QuizResult.class))).willReturn(strToOutput);
+
+    app.run();
+
+    verify(ioService).out(strToOutput);
+  }
 }
