@@ -38,14 +38,14 @@ public class App {
     return answerIdx > answers.size() || answerIdx < 1;
   }
 
-  private Student readUser() {
+  private Student readStudent() {
     var firstName = ioService.readStringWithPrompt("Enter your first name");
     var lastName = ioService.readStringWithPrompt("Enter your last name");
     return new Student(firstName, lastName);
   }
 
   private void doQuiz() {
-    var student = readUser();
+    var student = readStudent();
     var result = new QuizResult(student, 0);
 
     questionService.listAll().forEach((question -> {
