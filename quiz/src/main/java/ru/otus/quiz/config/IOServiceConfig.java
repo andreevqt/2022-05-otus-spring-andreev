@@ -13,4 +13,5 @@ public class IOServiceConfig {
   public IOService ioService() {
     return new IOServiceImpl(System.in, System.out);
   }
+
 }

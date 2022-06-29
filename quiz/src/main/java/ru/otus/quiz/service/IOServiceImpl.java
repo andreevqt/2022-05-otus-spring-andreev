@@ -36,4 +36,5 @@ public class IOServiceImpl implements IOService {
     out(prompt);
     return input.nextLine();
   }
+
 }

@@ -16,4 +16,5 @@ public class AppConfig implements QuestionsResourceProvider {
   public String getQuestionsResource() {
     return questionsResource;
   }
+  
 }

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.Reader;
 
 public class CSVReader implements Closeable {
+
   private static final String SEPARATOR = ",";
   private final BufferedReader reader;
 
@@ -26,4 +27,5 @@ public class CSVReader implements Closeable {
   public void close() throws IOException {
     reader.close();
   }
+
 }

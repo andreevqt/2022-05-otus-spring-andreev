@@ -6,6 +6,7 @@ import ru.otus.quiz.domain.Question;
 @Component
 public class QuestionConverterImpl implements QuestionConverter {
 
+  @Override
   public String convert(Question q) {
     var sb = new StringBuilder(String.format("%d. %s:\n", q.getId(), q.getText()));
     var answers = q.getAnswers();
