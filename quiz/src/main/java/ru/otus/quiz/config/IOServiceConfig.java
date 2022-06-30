@@ -9,6 +9,7 @@ import ru.otus.quiz.service.IOServiceImpl;
 @Configuration
 @PropertySource("classpath:application.properties")
 public class IOServiceConfig {
+
   @Bean
   public IOService ioService() {
     return new IOServiceImpl(System.in, System.out);

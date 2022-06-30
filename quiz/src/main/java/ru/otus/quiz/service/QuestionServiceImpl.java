@@ -11,7 +11,9 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class QuestionServiceImpl implements QuestionService {
+
   private final QuestionDao questionDao;
+  
   public List<Question> listAll() {
     return questionDao.findAll();
   }
