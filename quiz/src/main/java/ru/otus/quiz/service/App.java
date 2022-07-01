@@ -23,7 +23,7 @@ public class App {
   public void run() {
     try {
       doQuiz();
-    } catch (Throwable e) {
+    } catch (Exception e) {
       if (e instanceof AnswerIndexOutOfBoundsException) {
         ioService.out("Wrong Answer's index!");
       } else if (e instanceof QuestionsReadingException) {
