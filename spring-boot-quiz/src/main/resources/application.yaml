@@ -1,0 +1,3 @@
+application:
+  questions-resource: questions.csv
+  locale: ru_RU
