@@ -2,8 +2,10 @@ package ru.otus.quiz.service;
 
 import ru.otus.quiz.domain.Question;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface QuestionService {
-  void listQuestions();
+
+  List<Question> listAll();
+
 }

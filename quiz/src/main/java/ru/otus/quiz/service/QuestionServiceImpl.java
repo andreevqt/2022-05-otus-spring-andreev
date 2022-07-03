@@ -1,24 +1,20 @@
 package ru.otus.quiz.service;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.otus.quiz.dao.QuestionDao;
+import ru.otus.quiz.domain.Question;
 
+import java.util.List;
+
+@Service
+@AllArgsConstructor
 public class QuestionServiceImpl implements QuestionService {
 
   private final QuestionDao questionDao;
-  private final IOService ioService;
 
-  public QuestionServiceImpl(QuestionDao questionDao, IOService ioService) {
-    this.questionDao = questionDao;
-    this.ioService = ioService;
+  public List<Question> listAll() {
+    return questionDao.findAll();
   }
 
-  @Override
-  public void listQuestions() {
-    var questions = questionDao.findAll();
-    for (var question : questions) {
-      ioService.out("%s%n", question.getText());
-      ioService.out("1) %s%n", question.getAns1());
-      ioService.out("2) %s\n%n", question.getAns2());
-    }
-  }
 }

@@ -1,53 +1,56 @@
 package ru.otus.quiz.dao;
 
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import ru.otus.quiz.config.QuestionsResourceProvider;
+import ru.otus.quiz.domain.Answer;
 import ru.otus.quiz.domain.Question;
 
-import java.util.stream.Stream;
+import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 
 @DisplayName("Дао для работы с вопросами")
+@ExtendWith(MockitoExtension.class)
 public class QuestionDaoCSVTest {
-  private QuestionDao questionDao;
+
+  @Mock
+  private QuestionsResourceProvider questionsResourceProvider;
+
+  @InjectMocks
+  private QuestionDaoCSV questionDao;
 
   @BeforeEach
   void setUp() {
-    questionDao = new QuestionDaoCSV("questions.csv");
-  }
-
-  @ParameterizedTest
-  @MethodSource("generateData")
-  void shouldReturnNotEmptyQuestionByQuestionId(int id, Question expectedQuestion) {
-    var q = questionDao.findById(id);
-    assertThat(q).isNotNull().isEqualTo(expectedQuestion);
+    given(questionsResourceProvider.getQuestionsResource())
+      .willReturn("questions.csv");
   }
 
   @Test
   void shouldReturnArrayContainingAllQuestions() {
     var questions = questionDao.findAll();
-    assertThat(questions).isNotEmpty().isEqualTo(new Question[]{
-      new Question(1, "I spoke to ____", "she", "her"),
-      new Question(2, "Where ____ you come from?", "do", "are"),
-      new Question(3, "What time does she ___ up?", "get", "gets"),
-      new Question(4, "Where ___ he live?", "do", "does"),
-      new Question(5, "I am not ____ this film.", "liking", "enjoying")
-    });
-  }
-
-  private static Stream<Arguments> generateData() {
-    return Stream.of(
-      Arguments.of(1, new Question(1, "I spoke to ____", "she", "her")),
-      Arguments.of(2, new Question(2, "Where ____ you come from?", "do", "are")),
-      Arguments.of(3, new Question(3, "What time does she ___ up?", "get", "gets")),
-      Arguments.of(4, new Question(4, "Where ___ he live?", "do", "does")),
-      Arguments.of(5, new Question(5, "I am not ____ this film.", "liking", "enjoying"))
-    );
+    assertThat(questions).isNotEmpty().isEqualTo(Arrays.asList(
+      new Question(1, "I spoke to ____")
+        .addAnswer(new Answer("she"))
+        .addAnswer(new Answer("her", true)),
+      new Question(2, "Where ____ you come from?")
+        .addAnswer(new Answer("do"))
+        .addAnswer(new Answer("are", true)),
+      new Question(3, "What time does she ___ up?")
+        .addAnswer(new Answer("get", true))
+        .addAnswer(new Answer("gets")),
+      new Question(4, "Where ___ he live?")
+        .addAnswer(new Answer("do"))
+        .addAnswer(new Answer("does", true)),
+      new Question(5, "I am not ____ this film.")
+        .addAnswer(new Answer("liking"))
+        .addAnswer(new Answer("enjoying", true))
+    ));
   }
 }
