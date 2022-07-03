@@ -6,7 +6,7 @@ import ru.otus.springbootquiz.service.IOService;
 import ru.otus.springbootquiz.service.IOServiceImpl;
 
 @Configuration
-public class IOServiceConfig {
+public class IOConfig {
 
   @Bean
   public IOService ioService() {
