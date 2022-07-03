@@ -50,6 +50,7 @@ public class AppTest {
     given(questionService.listAll()).willReturn(getQuestions());
   }
 
+  @DisplayName("Возвращает ошибку если некорректный индекс ответа")
   @Test
   void shouldOutputErrorIfIndexOutOfBoundsExceptionIfWrongIndex() {
     given(ioService.readIntWithPrompt(anyString())).willReturn(-1);
@@ -59,6 +60,7 @@ public class AppTest {
     verify(ioService).out("Wrong Answer's index!");
   }
 
+  @DisplayName("Выводит сообщение об ошибке если не удалось загрузаить CSV файл")
   @Test
   void shouldOutputErrorIfFailedToLoadCSVFile() {
     given(questionService.listAll()).willThrow(QuestionsReadingException.class);
@@ -68,10 +70,11 @@ public class AppTest {
     verify(ioService).out("Failed to read questions!");
   }
 
+  @DisplayName("Выводит сообщение об ошибке ")
   @Test
   void shouldCallOutIfAllGood() {
     var strToOutput = "John's Doe score is 1";
-    given(questionService.listAll()).willReturn(getQuestions());
+    // given(questionService.listAll()).willReturn(getQuestions());
 
     given(ioService.readIntWithPrompt(anyString())).willReturn(2);
     given(quizResultConverter.convert(any(QuizResult.class))).willReturn(strToOutput);

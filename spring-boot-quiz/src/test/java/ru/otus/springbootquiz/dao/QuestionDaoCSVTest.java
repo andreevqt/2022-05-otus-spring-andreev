@@ -32,6 +32,7 @@ public class QuestionDaoCSVTest {
       .willReturn("questions.csv");
   }
 
+  @DisplayName("Возвращает массив содержащий все вопросы")
   @Test
   void shouldReturnArrayContainingAllQuestions() {
     var questions = questionDao.findAll();
