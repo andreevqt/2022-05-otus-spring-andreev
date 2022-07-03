@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import ru.otus.quiz.domain.Answer;
 import ru.otus.quiz.domain.Question;
+import ru.otus.quiz.domain.QuizResult;
 import ru.otus.quiz.exceptions.QuestionsReadingException;
 import ru.otus.quiz.service.converters.QuestionConverter;
 import ru.otus.quiz.service.converters.QuizResultConverter;

@@ -1,7 +1,7 @@
 package ru.otus.quiz.service.converters;
 
 import org.springframework.stereotype.Component;
-import ru.otus.quiz.service.QuizResult;
+import ru.otus.quiz.domain.QuizResult;
 
 @Component
 public class QuizResultConverterImpl implements QuizResultConverter {

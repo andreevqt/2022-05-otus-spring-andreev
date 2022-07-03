@@ -3,6 +3,7 @@ package ru.otus.quiz.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.quiz.domain.Answer;
+import ru.otus.quiz.domain.QuizResult;
 import ru.otus.quiz.domain.Student;
 import ru.otus.quiz.exceptions.AnswerIndexOutOfBoundsException;
 import ru.otus.quiz.exceptions.QuestionsReadingException;
