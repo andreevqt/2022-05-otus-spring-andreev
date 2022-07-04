@@ -1,21 +1,18 @@
 package ru.otus.springbootquiz.config;
 
-import lombok.AllArgsConstructor;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.Locale;
+
 @ConfigurationProperties("application")
-@Setter
+@Data
 @Component
-public class AppConfig implements QuestionsResourceProvider {
+public class AppConfig implements QuestionsResourceProvider, LocaleProvider, QuestionsTranslationProvider {
 
   private String questionsResource;
+  private String questionsTranslationPath;
+  private Locale locale = Locale.getDefault();
 
-  @Override
-  public String getQuestionsResource() {
-    return questionsResource;
-  }
-  
 }

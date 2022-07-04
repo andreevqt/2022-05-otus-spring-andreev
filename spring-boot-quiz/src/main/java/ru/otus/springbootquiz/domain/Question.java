@@ -3,6 +3,7 @@ package ru.otus.springbootquiz.domain;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Getter
 @EqualsAndHashCode
+@ToString
 public class Question {
 
   private final int id;

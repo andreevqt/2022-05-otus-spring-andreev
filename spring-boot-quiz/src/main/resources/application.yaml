@@ -1,7 +1,10 @@
 spring:
   banner:
     location: banner.txt
+  messages:
+    basename: lang/messages
 
 application:
   questions-resource: questions.csv
-  locale: ru_RU
+  questions-translation-path: translation
+  locale: ru
