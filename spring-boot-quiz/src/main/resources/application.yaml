@@ -1,3 +1,7 @@
+spring:
+  banner:
+    location: banner.txt
+
 application:
   questions-resource: questions.csv
   locale: ru_RU
