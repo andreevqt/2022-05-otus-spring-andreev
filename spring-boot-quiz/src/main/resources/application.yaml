@@ -6,4 +6,3 @@ spring:
 
 application:
   questions-resource: questions.csv
-  questions-translation-path: translation

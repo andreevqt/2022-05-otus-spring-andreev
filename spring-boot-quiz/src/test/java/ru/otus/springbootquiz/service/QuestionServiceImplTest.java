@@ -47,4 +47,5 @@ public class QuestionServiceImplTest {
         .addAnswer(new Answer("No"))
     ));
   }
+
 }

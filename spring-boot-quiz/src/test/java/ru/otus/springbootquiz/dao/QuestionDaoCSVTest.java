@@ -7,11 +7,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import ru.otus.springbootquiz.config.LocaleProvider;
 import ru.otus.springbootquiz.config.QuestionsResourceProvider;
 import ru.otus.springbootquiz.domain.Answer;
 import ru.otus.springbootquiz.domain.Question;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -22,12 +24,15 @@ public class QuestionDaoCSVTest {
 
   @Mock
   private QuestionsResourceProvider questionsResourceProvider;
-
+  @Mock
+  private LocaleProvider localeProvider;
   @InjectMocks
   private QuestionDaoCSV questionDao;
 
   @BeforeEach
   void setUp() {
+    given(localeProvider.getLocale())
+      .willReturn(Locale.ENGLISH);
     given(questionsResourceProvider.getQuestionsResource())
       .willReturn("questions.csv");
   }
@@ -37,21 +42,22 @@ public class QuestionDaoCSVTest {
   void shouldReturnArrayContainingAllQuestions() {
     var questions = questionDao.findAll();
     assertThat(questions).isNotEmpty().isEqualTo(Arrays.asList(
-      new Question(1, "I spoke to ____")
-        .addAnswer(new Answer("she"))
-        .addAnswer(new Answer("her", true)),
-      new Question(2, "Where ____ you come from?")
-        .addAnswer(new Answer("do"))
-        .addAnswer(new Answer("are", true)),
-      new Question(3, "What time does she ___ up?")
-        .addAnswer(new Answer("get", true))
-        .addAnswer(new Answer("gets")),
-      new Question(4, "Where ___ he live?")
-        .addAnswer(new Answer("do"))
-        .addAnswer(new Answer("does", true)),
-      new Question(5, "I am not ____ this film.")
-        .addAnswer(new Answer("liking"))
-        .addAnswer(new Answer("enjoying", true))
+      new Question(1, "What is the name of the tallest mountain in the world?")
+        .addAnswer(new Answer("Mount Everest", true))
+        .addAnswer(new Answer("Mount Elbrus")),
+      new Question(2, "Which country has the largest population in the world?")
+        .addAnswer(new Answer("USA"))
+        .addAnswer(new Answer("China", true)),
+      new Question(3, "What is the name of the longest river in Africa?")
+        .addAnswer(new Answer("The Nile River", true))
+        .addAnswer(new Answer("Niger River")),
+      new Question(4, "What American city is the Golden Gate Bridge located in?")
+        .addAnswer(new Answer("New York"))
+        .addAnswer(new Answer("San Francisco", true)),
+      new Question(5, "What is the name of the largest country in the world?")
+        .addAnswer(new Answer("USA"))
+        .addAnswer(new Answer("Russia", true))
     ));
   }
+
 }

@@ -9,10 +9,9 @@ import java.util.Locale;
 @ConfigurationProperties("application")
 @Data
 @Component
-public class AppConfig implements QuestionsResourceProvider, LocaleProvider, QuestionsTranslationProvider {
+public class AppConfig implements QuestionsResourceProvider, LocaleProvider {
 
   private String questionsResource;
-  private String questionsTranslationPath;
   private Locale locale = Locale.getDefault();
 
 }
