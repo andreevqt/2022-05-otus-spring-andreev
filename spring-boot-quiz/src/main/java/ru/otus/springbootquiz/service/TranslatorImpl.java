@@ -14,11 +14,6 @@ public class TranslatorImpl implements Translator {
   private final LocaleProvider localeProvider;
 
   @Override
-  public String translate(String key) {
-    return messageSource.getMessage(key, null, localeProvider.getLocale());
-  }
-
-  @Override
   public String translate(String key, Object... args) {
     return messageSource.getMessage(key, args, localeProvider.getLocale());
   }
