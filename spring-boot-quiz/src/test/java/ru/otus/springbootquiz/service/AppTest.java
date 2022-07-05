@@ -65,7 +65,7 @@ public class AppTest {
     verify(ioService).out(msg);
   }
 
-  @DisplayName("выводить сообщение об ошибке если не удалось загрузаить CSV файл")
+  @DisplayName("выводить сообщение об ошибке если не удалось загрузить CSV файл")
   @Test
   void shouldOutputErrorIfFailedToLoadCSVFile() {
     var msg = "Error! Failed to read questions!";
