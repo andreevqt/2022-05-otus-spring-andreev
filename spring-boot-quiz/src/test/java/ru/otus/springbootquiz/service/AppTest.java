@@ -23,7 +23,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-@DisplayName("Сервис для проведения опроса")
+@DisplayName("Сервис для проведения опроса должен")
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class AppTest {
@@ -52,7 +52,7 @@ public class AppTest {
     given(questionService.listAll()).willReturn(getQuestions());
   }
 
-  @DisplayName("Возвращает ошибку если некорректный индекс ответа")
+  @DisplayName("возвращать ошибку если некорректный индекс ответа")
   @Test
   void shouldOutputErrorIfIndexOutOfBoundsExceptionIfWrongIndex() {
     var msg = "Error! Wrong Answer's index!";
@@ -65,7 +65,7 @@ public class AppTest {
     verify(ioService).out(msg);
   }
 
-  @DisplayName("Выводит сообщение об ошибке если не удалось загрузаить CSV файл")
+  @DisplayName("выводить сообщение об ошибке если не удалось загрузаить CSV файл")
   @Test
   void shouldOutputErrorIfFailedToLoadCSVFile() {
     var msg = "Error! Failed to read questions!";
@@ -78,7 +78,7 @@ public class AppTest {
     verify(ioService).out(msg);
   }
 
-  @DisplayName("Выводит результат если все ок")
+  @DisplayName("выводить результат если все ок")
   @Test
   void shouldCallOutIfAllGood() {
     var msg = "John's Doe score is 1";

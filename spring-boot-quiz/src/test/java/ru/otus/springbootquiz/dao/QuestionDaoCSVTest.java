@@ -18,7 +18,7 @@ import java.util.Locale;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-@DisplayName("Дао для работы с вопросами")
+@DisplayName("Дао для работы с вопросами должно")
 @ExtendWith(MockitoExtension.class)
 public class QuestionDaoCSVTest {
 
@@ -37,7 +37,7 @@ public class QuestionDaoCSVTest {
       .willReturn("questions.csv");
   }
 
-  @DisplayName("Возвращает массив содержащий все вопросы")
+  @DisplayName("возвращать массив содержащий все вопросы")
   @Test
   void shouldReturnArrayContainingAllQuestions() {
     var questions = questionDao.findAll();

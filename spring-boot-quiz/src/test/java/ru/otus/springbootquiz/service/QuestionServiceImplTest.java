@@ -16,7 +16,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-@DisplayName("Сервис для работы с вопросами")
+@DisplayName("Сервис для работы с вопросами должен")
 @ExtendWith(MockitoExtension.class)
 public class QuestionServiceImplTest {
 
@@ -37,7 +37,7 @@ public class QuestionServiceImplTest {
     ));
   }
 
-  @DisplayName("Возвращает список с ответами")
+  @DisplayName("возвращать список с ответами")
   @Test
   void shouldReturnListOfQuestions() {
     var questions = questionService.listAll();
