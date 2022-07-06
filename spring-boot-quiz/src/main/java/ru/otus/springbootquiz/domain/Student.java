@@ -1,12 +1,10 @@
 package ru.otus.springbootquiz.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 @AllArgsConstructor
-@EqualsAndHashCode
 public class Student {
 
   private final String firstName;

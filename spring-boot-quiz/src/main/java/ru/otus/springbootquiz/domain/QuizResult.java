@@ -1,12 +1,8 @@
 package ru.otus.springbootquiz.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
 
-@AllArgsConstructor
-@RequiredArgsConstructor
-@Getter
+@Data
 public class QuizResult {
 
   private final Student student;

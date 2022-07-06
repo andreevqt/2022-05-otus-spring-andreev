@@ -1,17 +1,11 @@
 package ru.otus.springbootquiz.domain;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@RequiredArgsConstructor
-@Getter
-@EqualsAndHashCode
-@ToString
+@Data
 public class Question {
 
   private final int id;

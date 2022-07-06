@@ -1,21 +1,13 @@
 package ru.otus.springbootquiz.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
-@Getter
 @AllArgsConstructor
-@EqualsAndHashCode
-@ToString
+@RequiredArgsConstructor
+@Data
 public class Answer {
 
   private final String text;
-  private boolean correct;
-
-  public Answer(String text) {
-    this(text, false);
-  }
+  private boolean correct ;
 
 }
