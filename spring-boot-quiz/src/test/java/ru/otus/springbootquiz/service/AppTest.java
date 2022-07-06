@@ -37,7 +37,7 @@ public class AppTest {
   @Mock
   private QuestionConverter questionConverter;
   @Mock
-  private Translator translator;
+  private IOTranslated ioTranslated;
   @InjectMocks
   private App app;
 
@@ -57,25 +57,21 @@ public class AppTest {
   void shouldOutputErrorIfIndexOutOfBoundsExceptionIfWrongIndex() {
     var msg = "Error! Wrong Answer's index!";
 
-    given(ioService.readIntWithPrompt(anyString())).willReturn(-1);
-    given(translator.translate("exception.index")).willReturn(msg);
+    given(ioTranslated.readIntWithPrompt(anyString())).willReturn(-1);
 
     app.run();
 
-    verify(ioService).out(msg);
+    verify(ioTranslated).out("exception.index");
   }
 
   @DisplayName("выводить сообщение об ошибке если не удалось загрузить CSV файл")
   @Test
   void shouldOutputErrorIfFailedToLoadCSVFile() {
-    var msg = "Error! Failed to read questions!";
-
     given(questionService.listAll()).willThrow(QuestionsReadingException.class);
-    given(translator.translate("exception.read")).willReturn(msg);
 
     app.run();
 
-    verify(ioService).out(msg);
+    verify(ioTranslated).out("exception.read");
   }
 
   @DisplayName("выводить результат если все ок")
@@ -83,8 +79,7 @@ public class AppTest {
   void shouldCallOutIfAllGood() {
     var msg = "John's Doe score is 1";
 
-    given(translator.translate(anyString())).willReturn("");
-    given(ioService.readIntWithPrompt(anyString())).willReturn(2);
+    given(ioTranslated.readIntWithPrompt(anyString())).willReturn(2);
     given(quizResultConverter.convert(any(QuizResult.class))).willReturn(msg);
 
     app.run();

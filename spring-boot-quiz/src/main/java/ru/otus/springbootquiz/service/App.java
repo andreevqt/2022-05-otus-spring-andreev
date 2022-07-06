@@ -20,18 +20,18 @@ public class App {
   private final QuestionService questionService;
   private final QuestionConverter questionConverter;
   private final QuizResultConverter quizResultConverter;
-  private final Translator translator;
+  private final IOTranslated ioTranslated;
 
   public void run() {
     try {
       doQuiz();
     } catch (Exception e) {
       if (e instanceof AnswerIndexOutOfBoundsException) {
-        ioService.out(translator.translate("exception.index"));
+        ioTranslated.out("exception.index");
       } else if (e instanceof QuestionsReadingException) {
-        ioService.out(translator.translate("exception.read"));
+        ioTranslated.out("exception.read");
       } else {
-        ioService.out(translator.translate("exception.error", e.getMessage()));
+        ioTranslated.out("exception.error", e.getMessage());
       }
     }
   }
@@ -41,8 +41,8 @@ public class App {
   }
 
   private Student readStudent() {
-    var firstName = ioService.readStringWithPrompt(translator.translate("quiz.first_name"));
-    var lastName = ioService.readStringWithPrompt(translator.translate("quiz.last_name"));
+    var firstName = ioTranslated.readStringWithPrompt("quiz.first_name");
+    var lastName = ioTranslated.readStringWithPrompt("quiz.last_name");
     return new Student(firstName, lastName);
   }
 
@@ -53,10 +53,10 @@ public class App {
     questionService.listAll().forEach((question -> {
       ioService.out(questionConverter.convert(question));
 
-      var answerIdx = ioService.readIntWithPrompt(translator.translate("quiz.answer"));
+      var answerIdx = ioTranslated.readIntWithPrompt("quiz.answer");
       var answers = question.getAnswers();
       if (isAnswerOutOfBounds(answerIdx, answers)) {
-        throw new AnswerIndexOutOfBoundsException(translator.translate("exception.index"));
+        throw new AnswerIndexOutOfBoundsException();
       }
 
       var answer = answers.get(answerIdx - 1);
