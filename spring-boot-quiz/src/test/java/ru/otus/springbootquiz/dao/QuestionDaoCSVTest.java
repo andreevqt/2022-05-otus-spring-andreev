@@ -37,9 +37,9 @@ public class QuestionDaoCSVTest {
       .willReturn("questions.csv");
   }
 
-  @DisplayName("возвращать массив содержащий все вопросы")
+  @DisplayName("возвращать список содержащий все вопросы")
   @Test
-  void shouldReturnArrayContainingAllQuestions() {
+  void shouldReturnListContainingAllQuestions() {
     var questions = questionDao.findAll();
     assertThat(questions).isNotEmpty().isEqualTo(Arrays.asList(
       new Question(1, "What is the name of the tallest mountain in the world?")

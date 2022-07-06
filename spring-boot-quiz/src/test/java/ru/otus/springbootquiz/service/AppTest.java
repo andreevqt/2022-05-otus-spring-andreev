@@ -83,6 +83,7 @@ public class AppTest {
   void shouldCallOutIfAllGood() {
     var msg = "John's Doe score is 1";
 
+    given(translator.translate(anyString())).willReturn("");
     given(ioService.readIntWithPrompt(anyString())).willReturn(2);
     given(quizResultConverter.convert(any(QuizResult.class))).willReturn(msg);
 

@@ -37,7 +37,7 @@ public class QuestionServiceImplTest {
     ));
   }
 
-  @DisplayName("возвращать список с ответами")
+  @DisplayName("возвращать список с вопросами")
   @Test
   void shouldReturnListOfQuestions() {
     var questions = questionService.listAll();
