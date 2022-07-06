@@ -2,7 +2,6 @@ package ru.otus.springbootquiz.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import ru.otus.springbootquiz.domain.Answer;
 import ru.otus.springbootquiz.domain.QuizResult;
 import ru.otus.springbootquiz.domain.Student;
@@ -32,7 +31,7 @@ public class App {
       } else if (e instanceof QuestionsReadingException) {
         ioService.out(translator.translate("exception.read"));
       } else {
-        ioService.out(translator.translate("exception.error") + " " + e.getMessage());
+        ioService.out(translator.translate("exception.error", e.getMessage()));
       }
     }
   }
@@ -42,8 +41,8 @@ public class App {
   }
 
   private Student readStudent() {
-    var firstName = ioService.readStringWithPrompt(translator.translate("quiz.first_name") + ":");
-    var lastName = ioService.readStringWithPrompt(translator.translate("quiz.last_name") + ":");
+    var firstName = ioService.readStringWithPrompt(translator.translate("quiz.first_name"));
+    var lastName = ioService.readStringWithPrompt(translator.translate("quiz.last_name"));
     return new Student(firstName, lastName);
   }
 
@@ -54,7 +53,7 @@ public class App {
     questionService.listAll().forEach((question -> {
       ioService.out(questionConverter.convert(question));
 
-      var answerIdx = ioService.readIntWithPrompt(translator.translate("quiz.answer") + ":");
+      var answerIdx = ioService.readIntWithPrompt(translator.translate("quiz.answer"));
       var answers = question.getAnswers();
       if (isAnswerOutOfBounds(answerIdx, answers)) {
         throw new AnswerIndexOutOfBoundsException(translator.translate("exception.index"));
