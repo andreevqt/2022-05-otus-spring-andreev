@@ -52,7 +52,7 @@ public class AppTest {
     given(questionService.listAll()).willReturn(getQuestions());
   }
 
-  @DisplayName("возвращать ошибку если некорректный индекс ответа")
+  @DisplayName("выводить сообщение об ошибке если некорректный индекс ответа")
   @Test
   void shouldOutputErrorIfIndexOutOfBoundsExceptionIfWrongIndex() {
     var msg = "Error! Wrong Answer's index!";
