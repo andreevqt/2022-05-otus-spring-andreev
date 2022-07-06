@@ -1,4 +1,4 @@
-package ru.otus.quiz.service;
+package ru.otus.quiz.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

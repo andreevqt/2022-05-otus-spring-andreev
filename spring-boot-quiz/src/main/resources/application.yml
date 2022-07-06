@@ -1,0 +1,8 @@
+spring:
+  banner:
+    location: banner.txt
+  messages:
+    basename: lang/messages
+
+application:
+  questions-resource: questions.csv

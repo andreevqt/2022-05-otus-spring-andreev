@@ -1,6 +1,6 @@
 package ru.otus.quiz.service.converters;
 
-import ru.otus.quiz.service.QuizResult;
+import ru.otus.quiz.domain.QuizResult;
 
 public interface QuizResultConverter {
 

@@ -1,4 +1,4 @@
-package ru.otus.quiz.service;
+package ru.otus.springbootquiz.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -9,12 +9,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import ru.otus.quiz.domain.Answer;
-import ru.otus.quiz.domain.Question;
-import ru.otus.quiz.domain.QuizResult;
-import ru.otus.quiz.exceptions.QuestionsReadingException;
-import ru.otus.quiz.service.converters.QuestionConverter;
-import ru.otus.quiz.service.converters.QuizResultConverter;
+import ru.otus.springbootquiz.domain.Answer;
+import ru.otus.springbootquiz.domain.Question;
+import ru.otus.springbootquiz.domain.QuizResult;
+import ru.otus.springbootquiz.exceptions.QuestionsReadingException;
+import ru.otus.springbootquiz.service.converters.QuestionConverter;
+import ru.otus.springbootquiz.service.converters.QuizResultConverter;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-@DisplayName("Сервис для проведения опроса")
+@DisplayName("Сервис для проведения опроса должен")
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class AppTest {
@@ -36,6 +36,8 @@ public class AppTest {
   private QuizResultConverter quizResultConverter;
   @Mock
   private QuestionConverter questionConverter;
+  @Mock
+  private IOTranslated ioTranslated;
   @InjectMocks
   private App app;
 
@@ -50,34 +52,38 @@ public class AppTest {
     given(questionService.listAll()).willReturn(getQuestions());
   }
 
+  @DisplayName("выводить сообщение об ошибке если некорректный индекс ответа")
   @Test
   void shouldOutputErrorIfIndexOutOfBoundsExceptionIfWrongIndex() {
-    given(ioService.readIntWithPrompt(anyString())).willReturn(-1);
+    var msg = "Error! Wrong Answer's index!";
+
+    given(ioTranslated.readIntWithPrompt(anyString())).willReturn(-1);
 
     app.run();
 
-    verify(ioService).out("Wrong Answer's index!");
+    verify(ioTranslated).out("exception.index");
   }
 
+  @DisplayName("выводить сообщение об ошибке если не удалось загрузить CSV файл")
   @Test
   void shouldOutputErrorIfFailedToLoadCSVFile() {
     given(questionService.listAll()).willThrow(QuestionsReadingException.class);
 
     app.run();
 
-    verify(ioService).out("Failed to read questions!");
+    verify(ioTranslated).out("exception.read");
   }
 
+  @DisplayName("выводить результат если все ок")
   @Test
   void shouldCallOutIfAllGood() {
-    var strToOutput = "John's Doe score is 1";
-    given(questionService.listAll()).willReturn(getQuestions());
+    var msg = "John's Doe score is 1";
 
-    given(ioService.readIntWithPrompt(anyString())).willReturn(2);
-    given(quizResultConverter.convert(any(QuizResult.class))).willReturn(strToOutput);
+    given(ioTranslated.readIntWithPrompt(anyString())).willReturn(2);
+    given(quizResultConverter.convert(any(QuizResult.class))).willReturn(msg);
 
     app.run();
 
-    verify(ioService).out(strToOutput);
+    verify(ioService).out(msg);
   }
 }

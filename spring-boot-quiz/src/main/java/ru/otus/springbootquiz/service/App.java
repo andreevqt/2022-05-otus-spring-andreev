@@ -1,14 +1,14 @@
-package ru.otus.quiz.service;
+package ru.otus.springbootquiz.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.otus.quiz.domain.Answer;
-import ru.otus.quiz.domain.QuizResult;
-import ru.otus.quiz.domain.Student;
-import ru.otus.quiz.exceptions.AnswerIndexOutOfBoundsException;
-import ru.otus.quiz.exceptions.QuestionsReadingException;
-import ru.otus.quiz.service.converters.QuestionConverter;
-import ru.otus.quiz.service.converters.QuizResultConverter;
+import ru.otus.springbootquiz.domain.Answer;
+import ru.otus.springbootquiz.domain.QuizResult;
+import ru.otus.springbootquiz.domain.Student;
+import ru.otus.springbootquiz.exceptions.AnswerIndexOutOfBoundsException;
+import ru.otus.springbootquiz.exceptions.QuestionsReadingException;
+import ru.otus.springbootquiz.service.converters.QuestionConverter;
+import ru.otus.springbootquiz.service.converters.QuizResultConverter;
 
 import java.util.List;
 
@@ -20,17 +20,18 @@ public class App {
   private final QuestionService questionService;
   private final QuestionConverter questionConverter;
   private final QuizResultConverter quizResultConverter;
+  private final IOTranslated ioTranslated;
 
   public void run() {
     try {
       doQuiz();
     } catch (Exception e) {
       if (e instanceof AnswerIndexOutOfBoundsException) {
-        ioService.out("Wrong Answer's index!");
+        ioTranslated.out("exception.index");
       } else if (e instanceof QuestionsReadingException) {
-        ioService.out("Failed to read questions!");
+        ioTranslated.out("exception.read");
       } else {
-        ioService.out("Application error! " + e.getMessage());
+        ioTranslated.out("exception.error", e.getMessage());
       }
     }
   }
@@ -40,22 +41,22 @@ public class App {
   }
 
   private Student readStudent() {
-    var firstName = ioService.readStringWithPrompt("Enter your first name");
-    var lastName = ioService.readStringWithPrompt("Enter your last name");
+    var firstName = ioTranslated.readStringWithPrompt("quiz.first_name");
+    var lastName = ioTranslated.readStringWithPrompt("quiz.last_name");
     return new Student(firstName, lastName);
   }
 
   private void doQuiz() {
     var student = readStudent();
-    var result = new QuizResult(student, 0);
+    var result = new QuizResult(student);
 
     questionService.listAll().forEach((question -> {
       ioService.out(questionConverter.convert(question));
 
-      var answerIdx = ioService.readIntWithPrompt("Enter your answer:");
+      var answerIdx = ioTranslated.readIntWithPrompt("quiz.answer");
       var answers = question.getAnswers();
       if (isAnswerOutOfBounds(answerIdx, answers)) {
-        throw new AnswerIndexOutOfBoundsException("Wrong answer's index");
+        throw new AnswerIndexOutOfBoundsException();
       }
 
       var answer = answers.get(answerIdx - 1);
