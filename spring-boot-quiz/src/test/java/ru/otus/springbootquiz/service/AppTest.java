@@ -3,12 +3,10 @@ package ru.otus.springbootquiz.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
 import ru.otus.springbootquiz.domain.Answer;
 import ru.otus.springbootquiz.domain.Question;
 import ru.otus.springbootquiz.domain.QuizResult;
@@ -24,21 +22,20 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 @DisplayName("Сервис для проведения опроса должен")
-@ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)
+@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
 public class AppTest {
 
-  @Mock
+  @MockBean
   private IOService ioService;
-  @Mock
+  @MockBean
   private QuestionService questionService;
-  @Mock
+  @MockBean
   private QuizResultConverter quizResultConverter;
-  @Mock
+  @MockBean
   private QuestionConverter questionConverter;
-  @Mock
+  @MockBean
   private IOTranslated ioTranslated;
-  @InjectMocks
+  @Autowired
   private App app;
 
   private List<Question> getQuestions() {
@@ -55,8 +52,6 @@ public class AppTest {
   @DisplayName("выводить сообщение об ошибке если некорректный индекс ответа")
   @Test
   void shouldOutputErrorIfIndexOutOfBoundsExceptionIfWrongIndex() {
-    var msg = "Error! Wrong Answer's index!";
-
     given(ioTranslated.readIntWithPrompt(anyString())).willReturn(-1);
 
     app.run();

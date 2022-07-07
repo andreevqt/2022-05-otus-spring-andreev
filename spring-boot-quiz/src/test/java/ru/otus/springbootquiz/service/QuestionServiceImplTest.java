@@ -3,10 +3,10 @@ package ru.otus.springbootquiz.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
 import ru.otus.springbootquiz.dao.QuestionDao;
 import ru.otus.springbootquiz.domain.Answer;
 import ru.otus.springbootquiz.domain.Question;
@@ -17,15 +17,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 @DisplayName("Сервис для работы с вопросами должен")
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
 public class QuestionServiceImplTest {
 
-  @Mock
+  @MockBean
   private IOService ioService;
-  @Mock
+  @MockBean
   private QuestionDao questionDao;
 
-  @InjectMocks
+  @Autowired
   private QuestionServiceImpl questionService;
 
   @BeforeEach
