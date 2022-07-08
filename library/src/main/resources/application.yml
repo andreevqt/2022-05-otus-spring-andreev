@@ -1,11 +1,10 @@
 spring:
   datasource:
     url: jdbc:h2:mem:test
-    console:
-      enabled: true
+  main:
+    allow-circular-references: true
   sql:
     init: always
-    data-locations: data.sql
   h2:
     console:
       path: /h2-console
