@@ -3,10 +3,10 @@ package ru.otus.springbootquiz.dao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
 import ru.otus.springbootquiz.config.LocaleProvider;
 import ru.otus.springbootquiz.config.QuestionsResourceProvider;
 import ru.otus.springbootquiz.domain.Answer;
@@ -19,14 +19,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 @DisplayName("Дао для работы с вопросами должно")
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest(properties = "spring.shell.interactive.enabled=false")
 public class QuestionDaoCSVTest {
 
-  @Mock
+  @MockBean
   private QuestionsResourceProvider questionsResourceProvider;
-  @Mock
+  @MockBean
   private LocaleProvider localeProvider;
-  @InjectMocks
+  @Autowired
   private QuestionDaoCSV questionDao;
 
   @BeforeEach

@@ -3,6 +3,8 @@ spring:
     location: banner.txt
   messages:
     basename: lang/messages
+  main:
+    allow-circular-references: true
 
 application:
   questions-resource: questions.csv
