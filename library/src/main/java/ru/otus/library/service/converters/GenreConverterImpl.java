@@ -12,7 +12,7 @@ class GenreConverterImpl implements GenreConverter{
 
   @Override
   public String convert(Genre genre) {
-    return "Author(id=" + genre.getId() + ", title=" + genre.getTitle() + ")";
+    return "Genre(id=" + genre.getId() + ", title=" + genre.getTitle() + ")";
   }
 
   @Override
