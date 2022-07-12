@@ -21,24 +21,27 @@ public class BookCommands {
     return bookService.findById(id).map((book) -> converter.convert(book)).orElse("Book not found");
   }
 
-  @ShellMethod(value = "Create new book", key = { "book:create", "book:insert" })
-  public void create(@ShellOption String title, @ShellOption(defaultValue = ShellOption.NULL) Long genreId,
+  @ShellMethod(value = "Create a new book", key = { "book:create", "book:insert" })
+  public String create(@ShellOption String title, @ShellOption(defaultValue = ShellOption.NULL) Long genreId,
       @ShellOption(defaultValue = ShellOption.NULL) Long authorId) {
-    bookService.insert(new Book(null, title, genreId, null, authorId, null));
+    bookService.insert(new Book(null, title, genreId, authorId));
+    return "Created";
   }
 
-  @ShellMethod(value = "Update book", key = { "book:update" })
-  public void update(@ShellOption long id, @ShellOption String title, @ShellOption long genreId,
-      @ShellOption long authorId) {
-    bookService.update(new Book(id, title, genreId, null, authorId, null));
+  @ShellMethod(value = "Update a book", key = { "book:update" })
+  public String update(@ShellOption long id, @ShellOption String title, @ShellOption(defaultValue = ShellOption.NULL) Long genreId,
+      @ShellOption(defaultValue = ShellOption.NULL) Long authorId) {
+    var isUpdated = bookService.update(new Book(id, title, genreId, authorId));
+    return isUpdated ? "Updated" : "Couldn't find a book with id=" + id;
   }
 
-  @ShellMethod(value = "Delete book", key = { "book:delete" })
-  public void delete(@ShellOption long id) {
-    bookService.delete(id);
+  @ShellMethod(value = "Delete a book", key = { "book:delete", "book:del", "book:remove" })
+  public String delete(@ShellOption long id) {
+    var isDeleted = bookService.delete(id);
+    return isDeleted ? "Deleted" : "Couldn't find a book with id=" + id;
   }
 
-  @ShellMethod(value = "List all books", key = { "book:all", "book:list" })
+  @ShellMethod(value = "List all books", key = { "book:all", "book:findAll", "book:list" })
   public String findAll() {
     return converter.convert(bookService.findAll());
   }

@@ -11,10 +11,10 @@ public interface BookService {
 
   void insert(Book book);
 
-  void update(Book book);
+  boolean update(Book book);
 
   List<Book> findAll();
 
-  void delete(long id);
+  boolean delete(long id);
   
 }
