@@ -7,5 +7,5 @@ public class Author {
 
   private final Long id;
   private final String name;
-  
+
 }

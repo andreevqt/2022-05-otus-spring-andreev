@@ -1,18 +1,17 @@
 package ru.otus.library.dao;
 
+import lombok.AllArgsConstructor;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.stereotype.Repository;
+import ru.otus.library.domain.Book;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
-import org.springframework.stereotype.Repository;
-
-import lombok.AllArgsConstructor;
-import ru.otus.library.domain.Book;
 
 @AllArgsConstructor
 @Repository
@@ -24,8 +23,8 @@ public class BookDaoImpl implements BookDao {
   @Override
   public Optional<Book> findById(long id) {
     try {
-      return Optional.of(namedParameterJdbcOperations.queryForObject(
-          "select id, title, author_id, genre_id, from books where id = :id", Map.of("id", id), mapper));
+      return Optional.ofNullable(namedParameterJdbcOperations.queryForObject(
+        "select id, title, author_id, genre_id from books where id = :id", Map.of("id", id), mapper));
     } catch (Exception e) {
       return Optional.empty();
     }
@@ -40,7 +39,7 @@ public class BookDaoImpl implements BookDao {
     attrs.put("genreId", book.getGenreId());
 
     namedParameterJdbcOperations
-        .update("insert into books (title, author_id, genre_id) values (:title, :authorId, :genreId)", attrs);
+      .update("insert into books (title, author_id, genre_id) values (:title, :authorId, :genreId)", attrs);
   }
 
   @Override
@@ -58,7 +57,7 @@ public class BookDaoImpl implements BookDao {
     attrs.put("genreId", book.getGenreId());
 
     return namedParameterJdbcOperations.update(
-        "update books set title = :title, author_id = :authorId, genre_id = :genreId where id = :id", attrs) > 0;
+      "update books set title = :title, author_id = :authorId, genre_id = :genreId where id = :id", attrs) > 0;
   }
 
   @Override

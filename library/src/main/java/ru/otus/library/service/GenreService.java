@@ -1,9 +1,9 @@
 package ru.otus.library.service;
 
+import ru.otus.library.domain.Genre;
+
 import java.util.List;
 import java.util.Optional;
-
-import ru.otus.library.domain.Genre;
 
 public interface GenreService {
 

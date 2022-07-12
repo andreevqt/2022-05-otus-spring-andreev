@@ -1,13 +1,12 @@
 package ru.otus.library.service;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.otus.library.dao.GenreDao;
 import ru.otus.library.domain.Genre;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor

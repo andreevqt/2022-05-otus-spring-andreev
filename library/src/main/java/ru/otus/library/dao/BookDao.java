@@ -1,9 +1,9 @@
 package ru.otus.library.dao;
 
+import ru.otus.library.domain.Book;
+
 import java.util.List;
 import java.util.Optional;
-
-import ru.otus.library.domain.Book;
 
 public interface BookDao {
 
@@ -16,5 +16,5 @@ public interface BookDao {
   boolean update(Book book);
 
   boolean delete(long id);
-  
+
 }

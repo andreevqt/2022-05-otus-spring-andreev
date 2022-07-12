@@ -1,13 +1,12 @@
 package ru.otus.library.service;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.otus.library.dao.BookDao;
 import ru.otus.library.domain.Book;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -39,5 +38,5 @@ public class BookServiceImpl implements BookService {
   public boolean delete(long id) {
     return bookDao.delete(id);
   }
-  
+
 }

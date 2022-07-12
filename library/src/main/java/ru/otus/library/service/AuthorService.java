@@ -1,9 +1,9 @@
 package ru.otus.library.service;
 
+import ru.otus.library.domain.Author;
+
 import java.util.List;
 import java.util.Optional;
-
-import ru.otus.library.domain.Author;
 
 public interface AuthorService {
 
@@ -16,5 +16,5 @@ public interface AuthorService {
   List<Author> findAll();
 
   boolean delete(long id);
-  
+
 }

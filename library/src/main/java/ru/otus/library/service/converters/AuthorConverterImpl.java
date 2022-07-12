@@ -1,11 +1,10 @@
 package ru.otus.library.service.converters;
 
+import org.springframework.stereotype.Component;
+import ru.otus.library.domain.Author;
+
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Component;
-
-import ru.otus.library.domain.Author;
 
 @Component
 class AuthorConverterImpl implements AuthorConverter {

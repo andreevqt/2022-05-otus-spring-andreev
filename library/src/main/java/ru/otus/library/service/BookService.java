@@ -1,9 +1,9 @@
 package ru.otus.library.service;
 
+import ru.otus.library.domain.Book;
+
 import java.util.List;
 import java.util.Optional;
-
-import ru.otus.library.domain.Book;
 
 public interface BookService {
 
@@ -16,5 +16,5 @@ public interface BookService {
   List<Book> findAll();
 
   boolean delete(long id);
-  
+
 }

@@ -1,9 +1,9 @@
 package ru.otus.library.dao;
 
+import ru.otus.library.domain.Author;
+
 import java.util.List;
 import java.util.Optional;
-
-import ru.otus.library.domain.Author;
 
 public interface AuthorDao {
 
