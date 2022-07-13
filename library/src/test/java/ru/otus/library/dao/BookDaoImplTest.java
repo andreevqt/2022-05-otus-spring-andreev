@@ -31,7 +31,7 @@ class BookDaoImplTest {
     assertThat(bookDao.findAll()).isEqualTo(expected);
   }
 
-  @DisplayName("создаваить книгу")
+  @DisplayName("создавать книгу")
   @Test
   void shouldCreateBook() {
     var book = new Book(4L, "Some book", 1L, 1L);
