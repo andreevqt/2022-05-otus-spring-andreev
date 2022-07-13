@@ -13,7 +13,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Dao для работы с книгами должно")
-@JdbcTest
+@JdbcTest(properties = {"spring.datasource.url=jdbc:h2:mem:test"})
 @Import(BookDaoImpl.class)
 class BookDaoImplTest {
 
