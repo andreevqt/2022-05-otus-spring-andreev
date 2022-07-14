@@ -42,12 +42,12 @@ class BookServiceImplTest {
 
   @DisplayName("возвращать книгу по id")
   @Test
-  void shouldFindBookByIf() {
-    var book = Optional.of(new Book(1L, "Alice's Adventures in Wonderland", 1L, 1L));
-    given(bookDao.findById(1L)).willReturn(book);
+  void shouldFindBookById() {
+    var book = new Book(1L, "Alice's Adventures in Wonderland", 1L, 1L);
+    given(bookDao.findById(book.getId())).willReturn(Optional.of(book));
 
-    assertThat(bookService.findById(1L)).isEqualTo(book);
-    verify(bookDao, times(1)).findById(1L);
+    assertThat(bookService.findById(book.getId())).isEqualTo(Optional.of(book));
+    verify(bookDao, times(1)).findById(book.getId());
   }
 
   @DisplayName("возвращать пустой optional если книга не найдена")
@@ -60,6 +60,7 @@ class BookServiceImplTest {
   @Test
   void shouldCreateBook() {
     var book = new Book(5L, "Some book");
+
     bookService.insert(book);
 
     verify(bookDao, times(1)).insert(book);
@@ -87,17 +88,19 @@ class BookServiceImplTest {
   @DisplayName("удалять книгу по id")
   @Test
   void shouldDeleteBookById() {
-    given(bookDao.delete(1L)).willReturn(true);
+    var bookId = 1L;
+    given(bookDao.delete(bookId)).willReturn(true);
 
-    assertThat(bookService.delete(1L)).isEqualTo(true);
-    verify(bookDao, times(1)).delete(1L);
+    assertThat(bookService.delete(bookId)).isEqualTo(true);
+    verify(bookDao, times(1)).delete(bookId);
   }
 
   @DisplayName("возвращать false если не получилось удалить книгу")
   @Test
   void shouldReturnFalseIfCouldntDeleteBook() {
-    assertThat(bookService.delete(1L)).isEqualTo(false);
-    verify(bookDao, times(1)).delete(1L);
+    var bookId = 1L;
+    assertThat(bookService.delete(bookId)).isEqualTo(false);
+    verify(bookDao, times(1)).delete(bookId);
   }
 
 }

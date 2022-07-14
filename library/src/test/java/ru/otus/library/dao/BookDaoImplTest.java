@@ -35,42 +35,40 @@ class BookDaoImplTest {
   @Test
   void shouldCreateBook() {
     var book = new Book(4L, "Some book", 1L, 1L);
+
     bookDao.insert(book);
+
     assertThat(bookDao.findById(book.getId())).isEqualTo(Optional.of(book));
   }
 
   @DisplayName("возвращать книгу по id")
   @Test
   void shouldReturnBookById() {
-    var bookId = 1L;
-    var expected = Optional.of(new Book(bookId, "Alice's Adventures in Wonderland", 1L, 1L));
-    assertThat(bookDao.findById(bookId)).isEqualTo(expected);
+    var book = new Book(1L, "Alice's Adventures in Wonderland", 1L, 1L);
+    assertThat(bookDao.findById(book.getId())).isEqualTo(Optional.of(book));
   }
 
   @DisplayName("возвращать пустой Optional если книга не найдена")
   @Test
   void shouldReturnEmptyOptionalIfBookNotFound() {
-    var bookId = 44L;
-    assertThat(bookDao.findById(bookId).isEmpty()).isEqualTo(true);
+    assertThat(bookDao.findById(44L).isEmpty()).isEqualTo(true);
   }
 
   @DisplayName("обновлять книгу")
   @Test
   void shouldUpdateBook() {
-    var bookId = 1L;
-    var expected = new Book(bookId, "Hello world!", 1L, 1L);
+    var book = new Book(1L, "Hello world!", 1L, 1L);
 
-    assertThat(bookDao.update(expected)).isEqualTo(true);
-    assertThat(bookDao.findById(bookId)).isEqualTo(Optional.of(expected));
+    assertThat(bookDao.update(book)).isEqualTo(true);
+    assertThat(bookDao.findById(book.getId())).isEqualTo(Optional.of(book));
   }
 
   @DisplayName("возвращать false если не получилось обновить")
   @Test
   void shouldReturnFalseIfCouldntUpdateBook() {
-    var bookId = 33L;
-    var expected = new Book(bookId, "Hello world!", 1L, 1L);
+    var book = new Book(33L, "Hello world!", 1L, 1L);
 
-    assertThat(bookDao.update(expected)).isEqualTo(false);
+    assertThat(bookDao.update(book)).isEqualTo(false);
   }
 
   @DisplayName("удалять книгу по id")
@@ -84,8 +82,7 @@ class BookDaoImplTest {
   @DisplayName("возвращать false если не получилось удалить книгу")
   @Test
   void shouldReturnFalseIfCouldntDeleteBook() {
-    var bookId = 100L;
-    assertThat(bookDao.delete(bookId)).isEqualTo(false);
+    assertThat(bookDao.delete(100L)).isEqualTo(false);
   }
 
 }
