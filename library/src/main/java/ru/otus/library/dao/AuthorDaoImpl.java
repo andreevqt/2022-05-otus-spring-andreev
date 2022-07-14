@@ -29,7 +29,7 @@ public class AuthorDaoImpl implements AuthorDao {
   }
 
   @Override
-  public Optional<Author> findById(long id) {
+  public Optional<Author> findById(Long id) {
     try {
       return Optional.of(namedParameterJdbcOperations.queryForObject("select id, name from authors where id = :id",
         Map.of("id", id), mapper));
@@ -50,7 +50,7 @@ public class AuthorDaoImpl implements AuthorDao {
   }
 
   @Override
-  public boolean delete(long id) {
+  public boolean delete(Long id) {
     return namedParameterJdbcOperations.update("delete from authors where id = :id", Map.of("id", id)) > 0;
   }
 

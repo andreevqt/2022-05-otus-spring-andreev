@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
+import ru.otus.library.domain.Author;
 import ru.otus.library.domain.Book;
+import ru.otus.library.domain.Genre;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,9 +26,9 @@ class BookDaoImplTest {
   @Test
   void shouldReturnListOfBooks() {
     var expected = List.of(
-      new Book(1L, "Alice's Adventures in Wonderland", 1L, 1L),
-      new Book(2L, "Harry Potter and the Philosopher's Stone", 1L, 2L),
-      new Book(3L, "Pride and Prejudice", 2L, 3L)
+      new Book(1L, "Alice's Adventures in Wonderland", new Author(1L, "Lewis Carroll"), new Genre(1L, "Adventures")),
+      new Book(2L, "Harry Potter and the Philosopher's Stone", new Author(2L, "J. K. Rowling"), new Genre(1L, "Adventures")),
+      new Book(3L, "Pride and Prejudice", new Author(3L, "Jane Austen"), new Genre(2L, "Novels"))
     );
     assertThat(bookDao.findAll()).isEqualTo(expected);
   }
@@ -34,7 +36,7 @@ class BookDaoImplTest {
   @DisplayName("создавать книгу")
   @Test
   void shouldCreateBook() {
-    var book = new Book(4L, "Some book", 1L, 1L);
+    var book = new Book(4L, "Some book");
 
     bookDao.insert(book);
 
@@ -44,7 +46,9 @@ class BookDaoImplTest {
   @DisplayName("возвращать книгу по id")
   @Test
   void shouldReturnBookById() {
-    var book = new Book(1L, "Alice's Adventures in Wonderland", 1L, 1L);
+    var book = new Book(1L, "Alice's Adventures in Wonderland",
+      new Author(1L, "Lewis Carroll"), new Genre(1L, "Adventures")
+    );
     assertThat(bookDao.findById(book.getId())).isEqualTo(Optional.of(book));
   }
 
@@ -57,7 +61,7 @@ class BookDaoImplTest {
   @DisplayName("обновлять книгу")
   @Test
   void shouldUpdateBook() {
-    var book = new Book(1L, "Hello world!", 1L, 1L);
+    var book = new Book(1L, "Hello world!", null, null);
 
     assertThat(bookDao.update(book)).isEqualTo(true);
     assertThat(bookDao.findById(book.getId())).isEqualTo(Optional.of(book));
@@ -66,7 +70,7 @@ class BookDaoImplTest {
   @DisplayName("возвращать false если не получилось обновить")
   @Test
   void shouldReturnFalseIfCouldntUpdateBook() {
-    var book = new Book(33L, "Hello world!", 1L, 1L);
+    var book = new Book(33L, "Hello world!");
 
     assertThat(bookDao.update(book)).isEqualTo(false);
   }

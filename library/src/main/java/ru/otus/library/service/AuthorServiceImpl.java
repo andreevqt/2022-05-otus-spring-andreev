@@ -15,7 +15,7 @@ public class AuthorServiceImpl implements AuthorService {
   private final AuthorDao authorDao;
 
   @Override
-  public Optional<Author> findById(long id) {
+  public Optional<Author> findById(Long id) {
     return authorDao.findById(id);
   }
 
@@ -35,7 +35,7 @@ public class AuthorServiceImpl implements AuthorService {
   }
 
   @Override
-  public boolean delete(long id) {
+  public boolean delete(Long id) {
     return authorDao.delete(id);
   }
 

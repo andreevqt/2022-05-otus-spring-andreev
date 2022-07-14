@@ -29,7 +29,7 @@ public class GenreDaoImpl implements GenreDao {
   }
 
   @Override
-  public Optional<Genre> findById(long id) {
+  public Optional<Genre> findById(Long id) {
     try {
       return Optional.ofNullable(namedParameterJdbcOperations.queryForObject("select id, title from genres where id = :id",
         Map.of("id", id), mapper));
@@ -50,7 +50,7 @@ public class GenreDaoImpl implements GenreDao {
   }
 
   @Override
-  public boolean delete(long id) {
+  public boolean delete(Long id) {
     return namedParameterJdbcOperations.update("delete from genres where id = :id", Map.of("id", id)) > 0;
   }
 

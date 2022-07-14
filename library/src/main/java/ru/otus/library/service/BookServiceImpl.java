@@ -35,7 +35,7 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  public boolean delete(long id) {
+  public boolean delete(Long id) {
     return bookDao.delete(id);
   }
 

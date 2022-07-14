@@ -9,12 +9,12 @@ public interface GenreDao {
 
   List<Genre> findAll();
 
-  Optional<Genre> findById(long id);
+  Optional<Genre> findById(Long id);
 
   void insert(Genre genre);
 
   boolean update(Genre genre);
 
-  boolean delete(long id);
+  boolean delete(Long id);
 
 }

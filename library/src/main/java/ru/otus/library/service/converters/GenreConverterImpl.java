@@ -16,7 +16,7 @@ class GenreConverterImpl implements GenreConverter {
 
   @Override
   public String convert(List<Genre> genres) {
-    return genres.stream().map((genre) -> convert(genre)).collect(Collectors.joining("\n"));
+    return genres.stream().map(this::convert).collect(Collectors.joining("\n"));
   }
 
 }

@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
+import ru.otus.library.domain.Author;
 import ru.otus.library.domain.Book;
+import ru.otus.library.domain.Genre;
 
 import java.sql.ResultSet;
 import java.util.HashMap;
@@ -21,16 +23,26 @@ public class BookDaoImpl implements BookDao {
   private final RowMapper<Book> mapper = (ResultSet resultSet, int i) -> {
     var id = resultSet.getLong("id");
     var title = resultSet.getString("title");
-    var genreId = resultSet.getLong("genre_id");
+
     var authorId = resultSet.getLong("author_id");
-    return new Book(id, title, genreId, authorId);
+    var author = authorId != 0 ? new Author(authorId, resultSet.getString("author_name")) : null;
+
+    var genreId = resultSet.getLong("genre_id");
+    var genre = genreId != 0 ? new Genre(genreId, resultSet.getString("genre_title")) : null;
+
+    return new Book(id, title, author, genre);
   };
 
   @Override
-  public Optional<Book> findById(long id) {
+  public Optional<Book> findById(Long id) {
     try {
       return Optional.ofNullable(namedParameterJdbcOperations.queryForObject(
-        "select id, title, author_id, genre_id from books where id = :id", Map.of("id", id), mapper));
+        "select books.id as id, books.title as title, authors.id as author_id, authors.name as author_name, " +
+          "genres.id as genre_id, genres.title as genre_title " +
+          "from books " +
+          "left join authors on books.author_id = authors.id " +
+          "left join genres on books.genre_id = genres.id " +
+          "where books.id = :id", Map.of("id", id), mapper));
     } catch (Exception e) {
       return Optional.empty();
     }
@@ -41,8 +53,12 @@ public class BookDaoImpl implements BookDao {
     var attrs = new HashMap<String, Object>();
 
     attrs.put("title", book.getTitle());
-    attrs.put("authorId", book.getAuthorId());
-    attrs.put("genreId", book.getGenreId());
+
+    var author = book.getAuthor();
+    attrs.put("authorId", author != null ? author.getId() : null);
+
+    var genre = book.getGenre();
+    attrs.put("genreId", genre != null ? genre.getId() : null);
 
     namedParameterJdbcOperations
       .update("insert into books (title, author_id, genre_id) values (:title, :authorId, :genreId)", attrs);
@@ -50,7 +66,12 @@ public class BookDaoImpl implements BookDao {
 
   @Override
   public List<Book> findAll() {
-    return namedParameterJdbcOperations.query("select id, title, author_id, genre_id from books", mapper);
+    return namedParameterJdbcOperations.query("select books.id as id, books.title as title, " +
+      "authors.id as author_id, authors.name as author_name, " +
+      "genres.id as genre_id, genres.title as genre_title " +
+      "from books " +
+      "left join authors on books.author_id = authors.id " +
+      "left join genres on books.genre_id = genres.id ", mapper);
   }
 
   @Override
@@ -59,15 +80,19 @@ public class BookDaoImpl implements BookDao {
 
     attrs.put("id", book.getId());
     attrs.put("title", book.getTitle());
-    attrs.put("authorId", book.getAuthorId());
-    attrs.put("genreId", book.getGenreId());
+
+    var author = book.getAuthor();
+    attrs.put("authorId", author != null ? author.getId() : null);
+
+    var genre = book.getGenre();
+    attrs.put("genreId", genre != null ? genre.getId() : null);
 
     return namedParameterJdbcOperations.update(
       "update books set title = :title, author_id = :authorId, genre_id = :genreId where id = :id", attrs) > 0;
   }
 
   @Override
-  public boolean delete(long id) {
+  public boolean delete(Long id) {
     return namedParameterJdbcOperations.update("delete from books where id = :id", Map.of("id", id)) > 0;
   }
 

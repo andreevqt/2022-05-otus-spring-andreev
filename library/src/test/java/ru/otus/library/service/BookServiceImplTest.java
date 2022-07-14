@@ -8,7 +8,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import ru.otus.library.dao.BookDao;
+import ru.otus.library.domain.Author;
 import ru.otus.library.domain.Book;
+import ru.otus.library.domain.Genre;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -31,9 +33,10 @@ class BookServiceImplTest {
   @Test
   void shouldReturnListOfBook() {
     var expected = List.of(
-        new Book(1L, "Alice's Adventures in Wonderland", 1L, 1L),
-        new Book(2L, "Harry Potter and the Philosopher's Stone", 1L, 2L),
-        new Book(3L, "Pride and Prejudice", 2L, 3L));
+      new Book(1L, "Alice's Adventures in Wonderland", new Author(1L, "Lewis Carroll"), new Genre(1L, "Adventures")),
+      new Book(2L, "Harry Potter and the Philosopher's Stone", new Author(2L, "J. K. Rowling"), new Genre(1L, "Adventures")),
+      new Book(3L, "Pride and Prejudice", new Author(2L, "Jane Austen"), new Genre(2L, "Novels"))
+    );
     given(bookDao.findAll()).willReturn(expected);
 
     assertThat(bookService.findAll()).isEqualTo(expected);
@@ -43,7 +46,7 @@ class BookServiceImplTest {
   @DisplayName("возвращать книгу по id")
   @Test
   void shouldFindBookById() {
-    var book = new Book(1L, "Alice's Adventures in Wonderland", 1L, 1L);
+    var book = new Book(1L, "Alice's Adventures in Wonderland");
     given(bookDao.findById(book.getId())).willReturn(Optional.of(book));
 
     assertThat(bookService.findById(book.getId())).isEqualTo(Optional.of(book));

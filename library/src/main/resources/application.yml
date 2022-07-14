@@ -3,6 +3,10 @@ spring:
     url: jdbc:h2:file:~/libraryDb
   main:
     allow-circular-references: true
+  flyway:
+    locations:
+      - classpath:db/migration
+      - classpath:db/seed
   h2:
     console:
       path: /h2-console

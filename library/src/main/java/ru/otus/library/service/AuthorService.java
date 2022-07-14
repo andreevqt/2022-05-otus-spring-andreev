@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface AuthorService {
 
-  Optional<Author> findById(long id);
+  Optional<Author> findById(Long id);
 
   void insert(Author author);
 
@@ -15,6 +15,6 @@ public interface AuthorService {
 
   List<Author> findAll();
 
-  boolean delete(long id);
+  boolean delete(Long id);
 
 }

@@ -16,7 +16,7 @@ class AuthorConverterImpl implements AuthorConverter {
 
   @Override
   public String convert(List<Author> authors) {
-    return authors.stream().map((author) -> convert(author)).collect(Collectors.joining("\n"));
+    return authors.stream().map(this::convert).collect(Collectors.joining("\n"));
   }
 
 }

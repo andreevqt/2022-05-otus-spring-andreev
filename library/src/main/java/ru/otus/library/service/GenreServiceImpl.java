@@ -15,7 +15,7 @@ public class GenreServiceImpl implements GenreService {
   private final GenreDao genreDao;
 
   @Override
-  public Optional<Genre> findById(long id) {
+  public Optional<Genre> findById(Long id) {
     return genreDao.findById(id);
   }
 
@@ -35,7 +35,7 @@ public class GenreServiceImpl implements GenreService {
   }
 
   @Override
-  public boolean delete(long id) {
+  public boolean delete(Long id) {
     return genreDao.delete(id);
   }
 

@@ -9,12 +9,12 @@ public interface AuthorDao {
 
   List<Author> findAll();
 
-  Optional<Author> findById(long id);
+  Optional<Author> findById(Long id);
 
   void insert(Author author);
 
   boolean update(Author author);
 
-  boolean delete(long id);
+  boolean delete(Long id);
 
 }
