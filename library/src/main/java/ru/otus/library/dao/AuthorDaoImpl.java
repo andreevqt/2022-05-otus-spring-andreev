@@ -16,6 +16,7 @@ import java.util.Optional;
 public class AuthorDaoImpl implements AuthorDao {
 
   private final NamedParameterJdbcOperations namedParameterJdbcOperations;
+
   private final RowMapper<Author> mapper = (ResultSet result, int i) -> {
     var id = result.getLong("id");
     var name = result.getString("name");

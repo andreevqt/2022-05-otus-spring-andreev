@@ -17,12 +17,12 @@ import java.util.Optional;
 public class BookDaoImpl implements BookDao {
 
   private final NamedParameterJdbcOperations namedParameterJdbcOperations;
+
   private final RowMapper<Book> mapper = (ResultSet resultSet, int i) -> {
     var id = resultSet.getLong("id");
     var title = resultSet.getString("title");
     var genreId = resultSet.getLong("genre_id");
     var authorId = resultSet.getLong("author_id");
-
     return new Book(id, title, genreId, authorId);
   };
 

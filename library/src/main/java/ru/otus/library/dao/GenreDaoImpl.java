@@ -16,6 +16,7 @@ import java.util.Optional;
 public class GenreDaoImpl implements GenreDao {
 
   private final NamedParameterJdbcOperations namedParameterJdbcOperations;
+
   private final RowMapper<Genre> mapper = (ResultSet result, int i) -> {
     var id = result.getLong("id");
     var title = result.getString("title");
