@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import ru.otus.library.domain.Book;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,14 @@ import java.util.Optional;
 public class BookDaoImpl implements BookDao {
 
   private final NamedParameterJdbcOperations namedParameterJdbcOperations;
-  private final RowMapper<Book> mapper = new BookMapper();
+  private final RowMapper<Book> mapper = (ResultSet resultSet, int i) -> {
+    var id = resultSet.getLong("id");
+    var title = resultSet.getString("title");
+    var genreId = resultSet.getLong("genre_id");
+    var authorId = resultSet.getLong("author_id");
+
+    return new Book(id, title, genreId, authorId);
+  };
 
   @Override
   public Optional<Book> findById(long id) {
@@ -63,20 +69,6 @@ public class BookDaoImpl implements BookDao {
   @Override
   public boolean delete(long id) {
     return namedParameterJdbcOperations.update("delete from books where id = :id", Map.of("id", id)) > 0;
-  }
-
-  private static class BookMapper implements RowMapper<Book> {
-
-    @Override
-    public Book mapRow(ResultSet resultSet, int i) throws SQLException {
-      Long id = resultSet.getLong("id");
-      var title = resultSet.getString("title");
-      Long genreId = resultSet.getLong("genre_id");
-      Long authorId = resultSet.getLong("author_id");
-
-      return new Book(id, title, genreId, authorId);
-    }
-
   }
 
 }

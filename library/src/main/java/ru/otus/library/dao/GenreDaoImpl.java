@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import ru.otus.library.domain.Genre;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -17,7 +16,11 @@ import java.util.Optional;
 public class GenreDaoImpl implements GenreDao {
 
   private final NamedParameterJdbcOperations namedParameterJdbcOperations;
-  private final RowMapper<Genre> mapper = new GenreMapper();
+  private final RowMapper<Genre> mapper = (ResultSet result, int i) -> {
+    var id = result.getLong("id");
+    var title = result.getString("title");
+    return new Genre(id, title);
+  };
 
   @Override
   public List<Genre> findAll() {
@@ -48,17 +51,6 @@ public class GenreDaoImpl implements GenreDao {
   @Override
   public boolean delete(long id) {
     return namedParameterJdbcOperations.update("delete from genres where id = :id", Map.of("id", id)) > 0;
-  }
-
-  private static class GenreMapper implements RowMapper<Genre> {
-
-    @Override
-    public Genre mapRow(ResultSet result, int i) throws SQLException {
-      var id = result.getLong("id");
-      var title = result.getString("title");
-      return new Genre(id, title);
-    }
-
   }
 
 }

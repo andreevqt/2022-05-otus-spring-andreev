@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import ru.otus.library.domain.Author;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -17,7 +16,11 @@ import java.util.Optional;
 public class AuthorDaoImpl implements AuthorDao {
 
   private final NamedParameterJdbcOperations namedParameterJdbcOperations;
-  private final RowMapper<Author> mapper = new AuthorMapper();
+  private final RowMapper<Author> mapper = (ResultSet result, int i) -> {
+    var id = result.getLong("id");
+    var name = result.getString("name");
+    return new Author(id, name);
+  };
 
   @Override
   public List<Author> findAll() {
@@ -48,17 +51,6 @@ public class AuthorDaoImpl implements AuthorDao {
   @Override
   public boolean delete(long id) {
     return namedParameterJdbcOperations.update("delete from authors where id = :id", Map.of("id", id)) > 0;
-  }
-
-  private static class AuthorMapper implements RowMapper<Author> {
-
-    @Override
-    public Author mapRow(ResultSet result, int i) throws SQLException {
-      var id = result.getLong("id");
-      var name = result.getString("name");
-      return new Author(id, name);
-    }
-
   }
 
 }
