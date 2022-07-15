@@ -31,7 +31,7 @@ public class AuthorDaoImpl implements AuthorDao {
   @Override
   public Optional<Author> findById(Long id) {
     try {
-      return Optional.of(namedParameterJdbcOperations.queryForObject("select id, name from authors where id = :id",
+      return Optional.ofNullable(namedParameterJdbcOperations.queryForObject("select id, name from authors where id = :id",
         Map.of("id", id), mapper));
     } catch (Exception e) {
       return Optional.empty();
