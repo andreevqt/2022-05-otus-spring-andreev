@@ -37,7 +37,7 @@ class AuthorDaoImplTest {
   void shouldCreateAuthor() {
     var author = new Author(4L, "Some author");
 
-    authorDao.insert(author);
+    authorDao.save(author);
 
     assertThat(authorDao.findById(author.getId())).isEqualTo(Optional.of(author));
   }

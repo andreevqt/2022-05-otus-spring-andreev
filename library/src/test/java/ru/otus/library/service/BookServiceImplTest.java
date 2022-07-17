@@ -64,7 +64,7 @@ class BookServiceImplTest {
   void shouldCreateBook() {
     var book = new Book(5L, "Some book");
 
-    bookService.insert(book);
+    bookService.save(book);
 
     verify(bookDao, times(1)).insert(book);
   }

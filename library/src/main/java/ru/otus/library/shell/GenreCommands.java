@@ -17,13 +17,13 @@ public class GenreCommands {
 
   @ShellMethod(value = "Create a genre", key = {"genre:create", "genre:insert"})
   String insert(@ShellOption String name) {
-    genreService.insert(new Genre(null, name));
+    genreService.save(new Genre(null, name));
     return "Created";
   }
 
   @ShellMethod(value = "Find genre by id", key = {"genre:find", "genre:findById"})
   String findById(@ShellOption Long id) {
-    return genreService.findById(id).map((genre) -> converter.convert(genre))
+    return genreService.findById(id).map(converter::convert)
       .orElse("Genre with id=" + id + " not found");
   }
 
@@ -33,15 +33,23 @@ public class GenreCommands {
   }
 
   @ShellMethod(value = "Update a genre", key = {"genre:update"})
-  String update(@ShellOption Long id, @ShellOption String title) {
-    var isUpdated = genreService.update(new Genre(id, title));
-    return isUpdated ? "Updated" : "Couldn't update a genre with id=" + id;
+  String update(@ShellOption long id, @ShellOption String title) {
+    try {
+      genreService.save(new Genre(id, title));
+      return "Updated";
+    } catch (Exception e) {
+      return "Couldn't update a genre with id=" + id;
+    }
   }
 
   @ShellMethod(value = "Delete a genre", key = {"genre:delete", "genre:del", "genre:remove"})
-  String update(@ShellOption Long id) {
-    var isDelted = genreService.delete(id);
-    return isDelted ? "Deleted" : "Couldn't delete a genre with id=" + id;
+  String delete(@ShellOption long id) {
+    try {
+      genreService.delete(id);
+      return "Deleted";
+    } catch (Exception e) {
+      return "Couldn't delete a genre with id=" + id;
+    }
   }
 
 }

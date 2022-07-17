@@ -1,0 +1,1 @@
+create table comments (id bigserial, book_id bigint, content text)
