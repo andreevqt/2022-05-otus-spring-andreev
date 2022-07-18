@@ -3,7 +3,7 @@ package ru.otus.library.dao;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 import ru.otus.library.domain.Genre;
@@ -12,9 +12,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("Dao для работы с жанрами должно")
-@JdbcTest
+@DataJpaTest
 @Import(GenreDaoImpl.class)
 class GenreDaoImplTest {
 
@@ -34,10 +35,8 @@ class GenreDaoImplTest {
   @DisplayName("создавать жанр")
   @Test
   void shouldCreateGenre() {
-    var genre = new Genre(3L, "Some genre");
-
-    genreDao.insert(genre);
-
+    var genre = new Genre(null, "Some genre");
+    genreDao.save(genre);
     assertThat(genreDao.findById(genre.getId())).isEqualTo(Optional.of(genre));
   }
 
@@ -51,38 +50,37 @@ class GenreDaoImplTest {
   @DisplayName("возвращать пустой Optional если жанр не найден")
   @Test
   void shouldReturnEmptyOptionalIfGenreNotFound() {
-    assertThat(genreDao.findById(44L).isEmpty()).isEqualTo(true);
+    assertThat(genreDao.findById(44L)).isEmpty();
   }
 
   @DisplayName("обновлять жанр")
   @Test
   void shouldUpdateGenre() {
     var genre = new Genre(1L, "Updated genre");
+    genreDao.save(genre);
 
-    assertThat(genreDao.update(genre)).isEqualTo(true);
     assertThat(genreDao.findById(genre.getId())).isEqualTo(Optional.of(genre));
   }
 
-  @DisplayName("возвращать false если не получилось обновить жанр")
+  @DisplayName("бросать исключение если не получилось обновить жанр")
   @Test
-  void shouldReturnFalseIfCouldntUpdateGenre() {
+  void shouldThrowFalseIfCouldntUpdateGenre() {
     var genre = new Genre(33L, "Some genre");
-
-    assertThat(genreDao.update(genre)).isEqualTo(false);
+    assertThatThrownBy(() -> genreDao.save(genre)).isInstanceOf(IllegalArgumentException.class);
   }
 
   @DisplayName("удалять жанр по id")
   @Test
   void shouldDeleteGenreById() {
     var genreId = 1L;
-    assertThat(genreDao.delete(genreId)).isEqualTo(true);
-    assertThat(genreDao.findById(genreId).isEmpty()).isEqualTo(true);
+    genreDao.delete(genreId);
+    assertThat(genreDao.findById(genreId)).isEmpty();
   }
 
-  @DisplayName("возвращать false если не получилось удалить жанр")
+  @DisplayName("бросать исключение если не получилось удалить жанр")
   @Test
-  void shouldReturnFalseIfCouldntDeleteGenre() {
-    assertThat(genreDao.delete(100L)).isEqualTo(false);
+  void shouldThrowIfCouldntDeleteGenre() {
+    assertThatThrownBy(() -> genreDao.delete(100L)).isInstanceOf(IllegalArgumentException.class);
   }
 
 }

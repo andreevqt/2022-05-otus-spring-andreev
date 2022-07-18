@@ -11,7 +11,8 @@ public class CommentConverterImpl implements CommentConverter {
 
   @Override
   public String convert(Comment comment) {
-    return "Comment(id=" + comment.getId() + ", content=" + comment.getContent() + ")";
+    var book = comment.getBook();
+    return "Comment(id=" + comment.getId() + ", book=" + (book != null ? book.getTitle() : "null") + ", content=" + comment.getContent() + ")";
   }
 
   @Override

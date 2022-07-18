@@ -33,14 +33,22 @@ public class AuthorDaoImpl implements AuthorDao {
       return author;
     }
 
+    if (!isExists(author.getId())) {
+      throw new IllegalArgumentException("Author with id=" + author.getId() + " not exists");
+    }
+
     return em.merge(author);
   }
 
   @Override
   public void delete(Long id) {
-    var query = em.createQuery("delete from Author a where a.id = :id");
-    query.setParameter("id", id);
-    query.executeUpdate();
+    em.remove(em.find(Author.class, id));
+  }
+
+  private boolean isExists(Long id) {
+    return em.createQuery("select count(a) from Author a where id = :id", Long.class)
+      .setParameter("id", id)
+      .getSingleResult() > 0;
   }
 
 }

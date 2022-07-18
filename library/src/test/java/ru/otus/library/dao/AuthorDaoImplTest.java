@@ -3,7 +3,7 @@ package ru.otus.library.dao;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 import ru.otus.library.domain.Author;
@@ -12,9 +12,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("Dao для работы с авторами должно")
-@JdbcTest
+@DataJpaTest
 @Import(AuthorDaoImpl.class)
 class AuthorDaoImplTest {
 
@@ -25,20 +26,17 @@ class AuthorDaoImplTest {
   @Test
   void shouldReturnListOfAuthors() {
     var expected = List.of(
-      new Author(1L, "Lewis Carroll"),
-      new Author(2L, "J. K. Rowling"),
-      new Author(3L, "Jane Austen")
-    );
+        new Author(1L, "Lewis Carroll"),
+        new Author(2L, "J. K. Rowling"),
+        new Author(3L, "Jane Austen"));
     assertThat(authorDao.findAll()).isEqualTo(expected);
   }
 
   @DisplayName("создавать автора")
   @Test
   void shouldCreateAuthor() {
-    var author = new Author(4L, "Some author");
-
+    var author = new Author(null, "Some author");
     authorDao.save(author);
-
     assertThat(authorDao.findById(author.getId())).isEqualTo(Optional.of(author));
   }
 
@@ -52,38 +50,37 @@ class AuthorDaoImplTest {
   @DisplayName("возвращать пустой Optional если автор не найден")
   @Test
   void shouldReturnEmptyOptionalIfAuthorNotFound() {
-    assertThat(authorDao.findById(44L).isEmpty()).isEqualTo(true);
+    assertThat(authorDao.findById(44L)).isEmpty();
   }
 
   @DisplayName("обновлять автора")
   @Test
   void shouldUpdateAuthor() {
     var author = new Author(1L, "Updated author");
+    authorDao.save(author);
 
-    assertThat(authorDao.update(author)).isEqualTo(true);
     assertThat(authorDao.findById(author.getId())).isEqualTo(Optional.of(author));
   }
 
-  @DisplayName("возвращать false если не получилось обновить")
+  @DisplayName("бросать исключение если не получилось обновить")
   @Test
-  void shouldReturnFalseIfCouldntUpdateAuthor() {
+  void shouldThrowIfCouldntUpdateAuthor() {
     var author = new Author(33L, "Some author");
-
-    assertThat(authorDao.update(author)).isEqualTo(false);
+    assertThatThrownBy(() -> authorDao.save(author)).isInstanceOf(IllegalArgumentException.class);
   }
 
   @DisplayName("удалять автора по id")
   @Test
   void shouldDeleteAuthorById() {
     var authorId = 1L;
-    assertThat(authorDao.delete(authorId)).isEqualTo(true);
+    authorDao.delete(authorId);
     assertThat(authorDao.findById(authorId).isEmpty()).isEqualTo(true);
   }
 
-  @DisplayName("возвращать false если не получилось удалить автора")
+  @DisplayName("бросать исключение если не получилось удалить автора")
   @Test
-  void shouldReturnFalseIfCouldntDeleteAuthor() {
-    assertThat(authorDao.delete(100L)).isEqualTo(false);
+  void shouldThrowIfCouldntDeleteAuthor() {
+    assertThatThrownBy(() -> authorDao.delete(100L)).isInstanceOf(IllegalArgumentException.class);
   }
 
 }

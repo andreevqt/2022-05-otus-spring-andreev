@@ -15,12 +15,13 @@ public class BookConverterImpl implements BookConverter {
     var author = book.getAuthor();
     var genre = book.getGenre();
     var comments = book.getComments();
+    var commentsList = comments != null && !comments.isEmpty()
+      ? comments.stream().map(Comment::getContent).collect(Collectors.joining(", "))
+      : "";
 
     return "Book(id=" + book.getId() + ", title=" + book.getTitle() + ", author=" +
       (author != null ? author.getName() : "null") + ", genre=" + (genre != null ? genre.getTitle() : "null") +
-      ", comments=" + (!comments.isEmpty()
-      ? comments.stream().map(Comment::getContent).collect(Collectors.joining(", "))
-      : "[]") + ")";
+      ", comments=[" + commentsList + "]" + ")";
   }
 
   @Override

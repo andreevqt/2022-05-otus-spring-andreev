@@ -3,15 +3,14 @@ package ru.otus.library.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "books")
 public class Book {
@@ -27,7 +26,12 @@ public class Book {
   @JoinColumn(name = "genre_id")
   @ManyToOne(targetEntity = Genre.class, fetch = FetchType.EAGER)
   private Genre genre;
+  @ToString.Exclude
   @OneToMany(targetEntity = Comment.class, fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, mappedBy = "book")
-  private final List<Comment> comments = new ArrayList<>();
+  private List<Comment> comments;
+
+  public Book(Long id, String title, Author author, Genre genre) {
+    this(id, title, author, genre, null);
+  }
 
 }
