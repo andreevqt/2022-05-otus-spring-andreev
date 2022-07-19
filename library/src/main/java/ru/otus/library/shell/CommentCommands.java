@@ -30,7 +30,7 @@ public class CommentCommands {
       .orElse("Comment with id=" + id + " not found");
   }
 
-  @ShellMethod(value = "Find comment by book id", key = {"comment:findByBookId", "comment:forBook"})
+  @ShellMethod(value = "Find comment by book id", key = {"comment:findByBookId", "comment:byBook", "comment:listByBook"})
   String findByBookId(@ShellOption long bookId) {
     return converter.convert(commentService.findByBookId(bookId));
   }
