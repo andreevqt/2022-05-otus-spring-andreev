@@ -28,7 +28,7 @@ class GenreDaoImplTest {
       new Genre(1L, "Adventures"),
       new Genre(2L, "Novels")
     );
-    assertThat(genreDao.findAll()).isEqualTo(expected);
+    assertThat(genreDao.findAll()).usingRecursiveComparison().isEqualTo(expected);
   }
 
   @DisplayName("создавать жанр")
@@ -43,7 +43,7 @@ class GenreDaoImplTest {
   @Test
   void shouldReturnGenreById() {
     var genre = new Genre(1L, "Adventures");
-    assertThat(genreDao.findById(genre.getId())).isEqualTo(Optional.of(genre));
+    assertThat(genreDao.findById(genre.getId())).usingRecursiveComparison().isEqualTo(Optional.of(genre));
   }
 
   @DisplayName("возвращать пустой Optional если жанр не найден")
@@ -58,14 +58,7 @@ class GenreDaoImplTest {
     var genre = new Genre(1L, "Updated genre");
     genreDao.save(genre);
 
-    assertThat(genreDao.findById(genre.getId())).isEqualTo(Optional.of(genre));
-  }
-
-  @DisplayName("бросать исключение если не получилось обновить жанр")
-  @Test
-  void shouldThrowFalseIfCouldntUpdateGenre() {
-    var genre = new Genre(33L, "Some genre");
-    assertThatThrownBy(() -> genreDao.save(genre)).isInstanceOf(IllegalArgumentException.class);
+    assertThat(genreDao.findById(genre.getId())).usingRecursiveComparison().isEqualTo(Optional.of(genre));
   }
 
   @DisplayName("удалять жанр по id")

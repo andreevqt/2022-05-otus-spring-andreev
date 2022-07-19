@@ -17,11 +17,6 @@ public class CommentDaoImpl implements CommentDao {
   private final EntityManager em;
 
   @Override
-  public List<Comment> findAll() {
-    return em.createQuery("select c from Comment c", Comment.class).getResultList();
-  }
-
-  @Override
   public Optional<Comment> findById(Long id) {
     return Optional.ofNullable(em.find(Comment.class, id));
   }

@@ -13,8 +13,6 @@ public interface CommentService {
 
   Comment save(Comment comment);
 
-  List<Comment> findAll();
-
   void delete(Long id);
 
 }

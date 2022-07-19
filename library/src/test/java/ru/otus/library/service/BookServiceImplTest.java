@@ -34,12 +34,20 @@ class BookServiceImplTest {
   @Test
   void shouldReturnListOfBook() {
     var expected = List.of(
-      new Book(1L, "Alice's Adventures in Wonderland", new Author(1L, "Lewis Carroll"), new Genre(1L, "Adventures")),
-      new Book(2L, "Harry Potter and the Philosopher's Stone", new Author(2L, "J. K. Rowling"), new Genre(1L, "Adventures")),
-      new Book(3L, "Pride and Prejudice", new Author(2L, "Jane Austen"), new Genre(2L, "Novels"))
+      new Book(
+        1L, "Alice's Adventures in Wonderland",
+        new Author(1L, "Lewis Carroll"), new Genre(1L, "Adventures")
+      ),
+      new Book(
+        2L, "Harry Potter and the Philosopher's Stone",
+        new Author(2L, "J. K. Rowling"), new Genre(1L, "Adventures")
+      ),
+      new Book(
+        3L, "Pride and Prejudice",
+        new Author(2L, "Jane Austen"), new Genre(2L, "Novels")
+      )
     );
     given(bookDao.findAll()).willReturn(expected);
-
     assertThat(bookService.findAll()).isEqualTo(expected);
     verify(bookDao, times(1)).findAll();
   }
@@ -49,7 +57,6 @@ class BookServiceImplTest {
   void shouldFindBookById() {
     var book = new Book(1L, "Alice's Adventures in Wonderland", null, null);
     given(bookDao.findById(book.getId())).willReturn(Optional.of(book));
-
     assertThat(bookService.findById(book.getId())).isEqualTo(Optional.of(book));
     verify(bookDao, times(1)).findById(book.getId());
   }
@@ -81,7 +88,6 @@ class BookServiceImplTest {
   void shouldThrowIfCouldntUpdateBook() {
     var book = new Book(1L, "Some book", null, null);
     given(bookDao.save(book)).willThrow(IllegalArgumentException.class);
-
     assertThatThrownBy(() -> bookService.save(book)).isInstanceOf(IllegalArgumentException.class);
     verify(bookDao, times(1)).save(book);
   }
@@ -99,7 +105,6 @@ class BookServiceImplTest {
   void shouldReturnFalseIfCouldntDeleteBook() {
     var bookId = 1L;
     willThrow(IllegalArgumentException.class).given(bookDao).delete(bookId);
-    
     assertThatThrownBy(() -> bookService.delete(bookId)).isInstanceOf(IllegalArgumentException.class);
     verify(bookDao, times(1)).delete(bookId);
   }

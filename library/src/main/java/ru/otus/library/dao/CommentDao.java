@@ -7,8 +7,6 @@ import java.util.Optional;
 
 public interface CommentDao {
 
-  List<Comment> findAll();
-
   Optional<Comment> findById(Long id);
 
   List<Comment> findByBookId(Long bookId);

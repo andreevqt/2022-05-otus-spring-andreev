@@ -17,6 +17,7 @@ book:update: Update a book
 
 # Comment Commands
 comment:all, comment:findAll, comment:list: List all comments
+comment:byBook, comment:findByBookId, comment:listByBook: Find comment by book id
 comment:create, comment:insert: Create comment
 comment:del, comment:delete, comment:remove: Delete a comment
 comment:find, comment:findById: Find comment by id

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.library.domain.Book;
 import ru.otus.library.service.AuthorService;
 import ru.otus.library.service.BookService;
@@ -19,9 +20,11 @@ public class BookCommands {
   private final GenreService genreService;
   private final BookConverter converter;
 
+  @Transactional(readOnly = true)
   @ShellMethod(value = "Find book by id", key = {"book:find", "book:findById"})
   public String find(@ShellOption long id) {
-    return bookService.findById(id).map(converter::convert).orElse("Book not found");
+    return bookService.findById(id).map(converter::convert)
+      .orElse("Book not found");
   }
 
   @ShellMethod(value = "Create a new book", key = {"book:create", "book:insert"})

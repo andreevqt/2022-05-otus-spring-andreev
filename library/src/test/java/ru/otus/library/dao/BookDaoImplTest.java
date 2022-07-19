@@ -27,9 +27,18 @@ class BookDaoImplTest {
   @Test
   void shouldReturnListOfBooks() {
     var expected = List.of(
-      new Book(1L, "Alice's Adventures in Wonderland", new Author(1L, "Lewis Carroll"), new Genre(1L, "Adventures")),
-      new Book(2L, "Harry Potter and the Philosopher's Stone", new Author(2L, "J. K. Rowling"), new Genre(1L, "Adventures")),
-      new Book(3L, "Pride and Prejudice", new Author(3L, "Jane Austen"), new Genre(2L, "Novels"))
+      new Book(
+        1L, "Alice's Adventures in Wonderland",
+        new Author(1L, "Lewis Carroll"), new Genre(1L, "Adventures")
+      ),
+      new Book(
+        2L, "Harry Potter and the Philosopher's Stone",
+        new Author(2L, "J. K. Rowling"), new Genre(1L, "Adventures")
+      ),
+      new Book(
+        3L, "Pride and Prejudice",
+        new Author(3L, "Jane Austen"), new Genre(2L, "Novels")
+      )
     );
     assertThat(bookDao.findAll()).usingRecursiveComparison().isEqualTo(expected);
   }
@@ -39,7 +48,8 @@ class BookDaoImplTest {
   void shouldCreateBook() {
     var book = new Book(null, "Some book", null, null);
     bookDao.save(book);
-    assertThat(bookDao.findById(book.getId())).isEqualTo(Optional.of(book));
+    assertThat(bookDao.findById(book.getId())).usingRecursiveComparison()
+      .ignoringFields("author", "genre").isEqualTo(Optional.of(book));
   }
 
   @DisplayName("возвращать книгу по id")
@@ -49,7 +59,7 @@ class BookDaoImplTest {
         new Author(1L, "Lewis Carroll"), new Genre(1L, "Adventures"));
     var res = bookDao.findById(book.getId());
     assertThat(res).isNotEmpty();
-    assertThat(res.get()).usingRecursiveComparison().isEqualTo(book);
+    assertThat(res.get()).usingRecursiveComparison().ignoringFields("author", "genre").isEqualTo(book);
   }
 
   @DisplayName("возвращать пустой Optional если книга не найдена")
@@ -63,15 +73,7 @@ class BookDaoImplTest {
   void shouldUpdateBook() {
     var book = new Book(1L, "Hello world!", null, null);
     bookDao.save(book);
-
-    assertThat(bookDao.findById(book.getId())).isEqualTo(Optional.of(book));
-  }
-
-  @DisplayName("бросать исключение если не получилось обновить")
-  @Test
-  void shouldThrowIfCouldntUpdateBook() {
-    var book = new Book(33L, "Hello world!", null, null);
-    assertThatThrownBy(() -> bookDao.save(book)).isInstanceOf(IllegalArgumentException.class);
+    assertThat(bookDao.findById(book.getId())).usingRecursiveComparison().isEqualTo(Optional.of(book));
   }
 
   @DisplayName("удалять книгу по id")

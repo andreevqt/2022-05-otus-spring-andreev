@@ -28,7 +28,7 @@ class AuthorDaoImplTest {
         new Author(1L, "Lewis Carroll"),
         new Author(2L, "J. K. Rowling"),
         new Author(3L, "Jane Austen"));
-    assertThat(authorDao.findAll()).isEqualTo(expected);
+    assertThat(authorDao.findAll()).usingRecursiveComparison().isEqualTo(expected);
   }
 
   @DisplayName("создавать автора")
@@ -43,7 +43,7 @@ class AuthorDaoImplTest {
   @Test
   void shouldReturnAuthorById() {
     var author = new Author(1L, "Lewis Carroll");
-    assertThat(authorDao.findById(author.getId())).isEqualTo(Optional.of(author));
+    assertThat(authorDao.findById(author.getId())).usingRecursiveComparison().isEqualTo(Optional.of(author));
   }
 
   @DisplayName("возвращать пустой Optional если автор не найден")
@@ -58,14 +58,7 @@ class AuthorDaoImplTest {
     var author = new Author(1L, "Updated author");
     authorDao.save(author);
 
-    assertThat(authorDao.findById(author.getId())).isEqualTo(Optional.of(author));
-  }
-
-  @DisplayName("бросать исключение если не получилось обновить")
-  @Test
-  void shouldThrowIfCouldntUpdateAuthor() {
-    var author = new Author(33L, "Some author");
-    assertThatThrownBy(() -> authorDao.save(author)).isInstanceOf(IllegalArgumentException.class);
+    assertThat(authorDao.findById(author.getId())).usingRecursiveComparison().isEqualTo(Optional.of(author));
   }
 
   @DisplayName("удалять автора по id")

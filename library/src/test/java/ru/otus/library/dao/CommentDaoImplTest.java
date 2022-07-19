@@ -18,25 +18,20 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @Import(CommentDaoImpl.class)
 public class CommentDaoImplTest {
 
+  private static final List<Comment> COMMENTS_LIST = List.of(
+    new Comment(1L, null, "First comment"),
+    new Comment(2L, null, "Second comment"),
+    new Comment(3L, null, "Third comment")
+  );
+
   @Autowired
   private CommentDao commentDao;
 
   @DisplayName("возвращать список комментариев")
   @Test
   void shouldReturnListOfComments() {
-//    var book = new Book(
-//      1L, "Alice's Adventures in Wonderland",
-//      new Author(1L, "Lewis Carroll"), new Genre(1L, "Adventures")
-//    );
-
-    var expected = List.of(
-      new Comment(1L, null, "First comment"),
-      new Comment(2L, null, "Second comment"),
-      new Comment(3L, null, "Third comment")
-    );
-
-    assertThat(commentDao.findAll()).usingRecursiveComparison().comparingOnlyFields("id", "content")
-      .isEqualTo(expected);
+    assertThat(commentDao.findAll()).usingRecursiveComparison().ignoringFields("book")
+      .isEqualTo(COMMENTS_LIST);
   }
 
   @DisplayName("создавать комментарий")
@@ -54,6 +49,13 @@ public class CommentDaoImplTest {
     var res = commentDao.findById(comment.getId());
     assertThat(res).isNotEmpty();
     assertThat(res.get()).usingRecursiveComparison().ignoringFields("book").isEqualTo(comment);
+  }
+
+  @DisplayName("возвращать список комментариев по bookId")
+  @Test
+  void shouldReturnCommentsListByBookId() {
+    assertThat(commentDao.findByBookId(1L)).usingRecursiveComparison().ignoringFields("book")
+      .isEqualTo(COMMENTS_LIST);
   }
 
   @DisplayName("возвращать пустой Optional если комментарий не найден")

@@ -2,6 +2,7 @@ package ru.otus.library.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.library.dao.CommentDao;
 import ru.otus.library.domain.Comment;
@@ -31,12 +32,6 @@ public class CommentServiceImpl implements CommentService {
   @Override
   public Comment save(Comment comment) {
     return commentDao.save(comment);
-  }
-
-  @Transactional(readOnly = true)
-  @Override
-  public List<Comment> findAll() {
-    return commentDao.findAll();
   }
 
   @Transactional

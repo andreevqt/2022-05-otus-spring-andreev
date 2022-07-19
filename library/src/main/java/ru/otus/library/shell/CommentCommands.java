@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.library.domain.Comment;
 import ru.otus.library.service.BookService;
 import ru.otus.library.service.CommentService;
@@ -24,20 +25,17 @@ public class CommentCommands {
     return "Created";
   }
 
+  @Transactional(readOnly = true)
   @ShellMethod(value = "Find comment by id", key = {"comment:find", "comment:findById"})
   String findById(@ShellOption long id) {
     return commentService.findById(id).map(converter::convert)
       .orElse("Comment with id=" + id + " not found");
   }
 
+  @Transactional(readOnly = true)
   @ShellMethod(value = "Find comment by book id", key = {"comment:findByBookId", "comment:byBook", "comment:listByBook"})
   String findByBookId(@ShellOption long bookId) {
     return converter.convert(commentService.findByBookId(bookId));
-  }
-
-  @ShellMethod(value = "List all comments", key = {"comment:all", "comment:list", "comment:findAll"})
-  String findAll() {
-    return converter.convert(commentService.findAll());
   }
 
   @ShellMethod(value = "Update a comment", key = {"comment:update"})
