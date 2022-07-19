@@ -27,13 +27,6 @@ public class CommentDaoImplTest {
   @Autowired
   private CommentDao commentDao;
 
-  @DisplayName("возвращать список комментариев")
-  @Test
-  void shouldReturnListOfComments() {
-    assertThat(commentDao.findAll()).usingRecursiveComparison().ignoringFields("book")
-      .isEqualTo(COMMENTS_LIST);
-  }
-
   @DisplayName("создавать комментарий")
   @Test
   void shouldCreateComment() {
