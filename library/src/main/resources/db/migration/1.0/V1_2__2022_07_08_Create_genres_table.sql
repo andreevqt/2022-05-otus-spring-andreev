@@ -1,1 +1,5 @@
-create table genres (id bigserial, title varchar(255));
+create table genres
+(
+    id bigserial primary key,
+    title varchar(255)
+);
