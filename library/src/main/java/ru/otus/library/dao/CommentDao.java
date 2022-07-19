@@ -11,6 +11,8 @@ public interface CommentDao {
 
   Optional<Comment> findById(Long id);
 
+  List<Comment> findByBookId(Long bookId);
+
   Comment save(Comment comment);
 
   void delete(Long id);

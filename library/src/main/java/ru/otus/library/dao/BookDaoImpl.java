@@ -40,8 +40,8 @@ public class BookDaoImpl implements BookDao {
     return em.createQuery("select distinct b " +
       "from Book b " +
       "left join fetch b.author " +
-      "left join fetch b.genre " +
-      "left join fetch b.comments", Book.class).getResultList();
+      "left join fetch b.genre", 
+      Book.class).getResultList();
   }
 
   @Override

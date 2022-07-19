@@ -18,15 +18,19 @@ public class CommentDaoImpl implements CommentDao {
 
   @Override
   public List<Comment> findAll() {
-    return em.createQuery("select c " +
-      "from Comment c " +
-      "left join fetch c.book", Comment.class
-    ).getResultList();
+    return em.createQuery("select c from Comment c", Comment.class).getResultList();
   }
 
   @Override
   public Optional<Comment> findById(Long id) {
     return Optional.ofNullable(em.find(Comment.class, id));
+  }
+
+  @Override
+  public List<Comment> findByBookId(Long bookId) {
+    return em.createQuery("select c from Comment c where c.bookId = :bookId", Comment.class)
+      .setParameter("bookId", bookId)
+      .getResultList();
   }
 
   @Override

@@ -3,7 +3,6 @@ package ru.otus.library.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -21,13 +20,5 @@ public class Comment {
   private Long bookId;
   @Column(name = "content")
   private String content;
-  @ToString.Exclude
-  @JoinColumn(name = "book_id", insertable = false, updatable = false)
-  @ManyToOne(targetEntity = Book.class, fetch = FetchType.EAGER)
-  private Book book;
-
-  public Comment(Long id, Long bookId, String content) {
-    this(id, bookId, content, null);
-  }
 
 }

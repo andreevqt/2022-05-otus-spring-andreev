@@ -31,7 +31,7 @@ class BookDaoImplTest {
       new Book(2L, "Harry Potter and the Philosopher's Stone", new Author(2L, "J. K. Rowling"), new Genre(1L, "Adventures")),
       new Book(3L, "Pride and Prejudice", new Author(3L, "Jane Austen"), new Genre(2L, "Novels"))
     );
-    assertThat(bookDao.findAll()).usingRecursiveComparison().ignoringFields("comments").isEqualTo(expected);
+    assertThat(bookDao.findAll()).usingRecursiveComparison().isEqualTo(expected);
   }
 
   @DisplayName("создавать книгу")
@@ -39,7 +39,6 @@ class BookDaoImplTest {
   void shouldCreateBook() {
     var book = new Book(null, "Some book", null, null);
     bookDao.save(book);
-
     assertThat(bookDao.findById(book.getId())).isEqualTo(Optional.of(book));
   }
 
@@ -48,10 +47,9 @@ class BookDaoImplTest {
   void shouldReturnBookById() {
     var book = new Book(1L, "Alice's Adventures in Wonderland",
         new Author(1L, "Lewis Carroll"), new Genre(1L, "Adventures"));
-
     var res = bookDao.findById(book.getId());
     assertThat(res).isNotEmpty();
-    assertThat(res.get()).usingRecursiveComparison().ignoringFields("comments").isEqualTo(book);
+    assertThat(res.get()).usingRecursiveComparison().isEqualTo(book);
   }
 
   @DisplayName("возвращать пустой Optional если книга не найдена")

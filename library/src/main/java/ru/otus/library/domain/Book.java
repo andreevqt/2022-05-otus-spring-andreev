@@ -3,10 +3,8 @@ package ru.otus.library.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,18 +18,11 @@ public class Book {
   private Long id;
   @Column(name = "title")
   private String title;
-  @ManyToOne(targetEntity = Author.class, fetch = FetchType.EAGER)
+  @ManyToOne(targetEntity = Author.class, fetch = FetchType.LAZY)
   @JoinColumn(name = "author_id")
   private Author author;
   @JoinColumn(name = "genre_id")
-  @ManyToOne(targetEntity = Genre.class, fetch = FetchType.EAGER)
+  @ManyToOne(targetEntity = Genre.class, fetch = FetchType.LAZY)
   private Genre genre;
-  @ToString.Exclude
-  @OneToMany(targetEntity = Comment.class, fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, mappedBy = "book")
-  private List<Comment> comments;
-
-  public Book(Long id, String title, Author author, Genre genre) {
-    this(id, title, author, genre, null);
-  }
 
 }

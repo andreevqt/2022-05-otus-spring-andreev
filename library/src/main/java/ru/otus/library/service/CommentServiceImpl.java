@@ -22,6 +22,12 @@ public class CommentServiceImpl implements CommentService {
     return commentDao.findById(id);
   }
 
+  @Transactional(readOnly = true)
+  @Override
+  public List<Comment> findByBookId(Long bookId) {
+    return commentDao.findByBookId(bookId);
+  }
+
   @Transactional
   @Override
   public Comment save(Comment comment) {
@@ -39,4 +45,5 @@ public class CommentServiceImpl implements CommentService {
   public void delete(Long id) {
     commentDao.delete(id);
   }
+
 }
