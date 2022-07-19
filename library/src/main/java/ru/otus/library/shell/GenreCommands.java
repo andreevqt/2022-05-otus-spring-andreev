@@ -34,12 +34,8 @@ public class GenreCommands {
 
   @ShellMethod(value = "Update a genre", key = {"genre:update"})
   String update(@ShellOption long id, @ShellOption String title) {
-    try {
-      genreService.save(new Genre(id, title));
-      return "Updated";
-    } catch (Exception e) {
-      return "Couldn't update a genre with id=" + id;
-    }
+    genreService.save(new Genre(id, title));
+    return "Updated";
   }
 
   @ShellMethod(value = "Delete a genre", key = {"genre:delete", "genre:del", "genre:remove"})

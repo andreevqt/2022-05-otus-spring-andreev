@@ -5,6 +5,7 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.library.domain.Comment;
+import ru.otus.library.service.BookService;
 import ru.otus.library.service.CommentService;
 import ru.otus.library.service.converters.CommentConverter;
 
@@ -13,11 +14,13 @@ import ru.otus.library.service.converters.CommentConverter;
 public class CommentCommands {
 
   private final CommentService commentService;
+  private final BookService bookService;
   private final CommentConverter converter;
 
   @ShellMethod(value = "Create comment", key = {"comment:create", "comment:insert"})
   public String insert(@ShellOption long bookId, @ShellOption String content) {
-    commentService.save(new Comment(null, bookId, content));
+    var book = bookService.findById(bookId);
+    commentService.save(new Comment(null, book.orElse(null), content));
     return "Created";
   }
 
@@ -39,12 +42,9 @@ public class CommentCommands {
 
   @ShellMethod(value = "Update a comment", key = {"comment:update"})
   String update(@ShellOption long id, @ShellOption long bookId, @ShellOption String content) {
-    try {
-      commentService.save(new Comment(id, bookId, content));
-      return "Updated";
-    } catch (Exception e) {
-      return "Couldn't update a comment with id=" + id;
-    }
+    var book = bookService.findById(bookId);
+    commentService.save(new Comment(id, book.orElse(null), content));
+    return "Updated";
   }
 
   @ShellMethod(value = "Delete a comment", key = {"comment:delete", "comment:del", "comment:remove"})

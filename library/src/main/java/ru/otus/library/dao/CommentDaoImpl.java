@@ -28,7 +28,7 @@ public class CommentDaoImpl implements CommentDao {
 
   @Override
   public List<Comment> findByBookId(Long bookId) {
-    return em.createQuery("select c from Comment c where c.bookId = :bookId", Comment.class)
+    return em.createQuery("select c from Comment c where c.book.id = :bookId", Comment.class)
       .setParameter("bookId", bookId)
       .getResultList();
   }
@@ -40,22 +40,12 @@ public class CommentDaoImpl implements CommentDao {
       return comment;
     }
 
-    if (!isExists(comment.getId())) {
-      throw new IllegalArgumentException("Comment with id=" + comment.getId() + " not exists");
-    }
-
     return em.merge(comment);
   }
 
   @Override
   public void delete(Long id) {
     em.remove(em.find(Comment.class, id));
-  }
-
-  private boolean isExists(Long id) {
-    return em.createQuery("select count(c) from Comment c where id = :id", Long.class)
-      .setParameter("id", id)
-      .getSingleResult() > 0;
   }
 
 }

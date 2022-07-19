@@ -33,22 +33,12 @@ public class GenreDaoImpl implements GenreDao {
       return genre;
     }
 
-    if (!isExists(genre.getId())) {
-      throw new IllegalArgumentException("Genre with id=" + genre.getId() + " not exists");
-    }
-
     return em.merge(genre);
   }
 
   @Override
   public void delete(Long id) {
     em.remove(em.find(Genre.class, id));
-  }
-
-  private boolean isExists(Long id) {
-    return em.createQuery("select count(g) from Genre g where id = :id", Long.class)
-      .setParameter("id", id)
-      .getSingleResult() > 0;
   }
 
 }

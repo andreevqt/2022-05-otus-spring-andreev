@@ -1,12 +1,12 @@
 package ru.otus.library.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -16,8 +16,9 @@ public class Comment {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  @Column(name = "book_id", nullable = false)
-  private Long bookId;
+  @JoinColumn(name = "book_id")
+  @ManyToOne(targetEntity = Book.class, fetch = FetchType.LAZY)
+  private Book book;
   @Column(name = "content")
   private String content;
 

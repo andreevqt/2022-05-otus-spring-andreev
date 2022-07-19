@@ -28,31 +28,21 @@ public class BookDaoImpl implements BookDao {
       return book;
     }
 
-    if (!isExists(book.getId())) {
-      throw new IllegalArgumentException("Book with id=" + book.getId() + " not exists");
-    }
-
     return em.merge(book);
   }
 
   @Override
   public List<Book> findAll() {
     return em.createQuery("select distinct b " +
-      "from Book b " +
-      "left join fetch b.author " +
-      "left join fetch b.genre", 
+        "from Book b " +
+        "left join fetch b.author " +
+        "left join fetch b.genre",
       Book.class).getResultList();
   }
 
   @Override
   public void delete(Long id) {
     em.remove(em.find(Book.class, id));
-  }
-
-  private boolean isExists(Long id) {
-    return em.createQuery("select count(b) from Book b where id = :id", Long.class)
-      .setParameter("id", id)
-      .getSingleResult() > 0;
   }
 
 }

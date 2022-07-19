@@ -34,12 +34,8 @@ public class AuthorCommands {
 
   @ShellMethod(value = "Update an author", key = {"author:update"})
   String update(@ShellOption long id, @ShellOption String name) {
-    try {
-      authorService.save(new Author(id, name));
-      return "Updated";
-    } catch (Exception e) {
-      return "Couldn't update an author with id=" + id;
-    }
+    authorService.save(new Author(id, name));
+    return "Updated";
   }
 
   @ShellMethod(value = "Delete an author", key = {"author:delete", "author:del", "author:remove"})
