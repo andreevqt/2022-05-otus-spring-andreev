@@ -26,11 +26,13 @@ public class BookCommandProcessorImpl implements BookCommandProcessor {
       .orElse("Book not found");
   }
 
+  @Transactional(readOnly = true)
   @Override
   public String findAll() {
     return converter.convert(bookService.findAll());
   }
   
+  @Transactional
   @Override
   public String insert(String title, long genreId, long authorId) {
     var genre = genreService.findById(genreId);
@@ -39,6 +41,7 @@ public class BookCommandProcessorImpl implements BookCommandProcessor {
     return "Created";
   }
 
+  @Transactional
   @Override
   public String update(long id, String title, long genreId, long authorId) {
     var genre = genreService.findById(genreId);

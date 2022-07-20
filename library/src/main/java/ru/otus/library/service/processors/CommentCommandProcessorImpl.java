@@ -30,6 +30,7 @@ public class CommentCommandProcessorImpl implements CommentCommandProcessor {
     return converter.convert(commentService.findByBookId(bookId));
   }
 
+  @Transactional
   @Override
   public String insert(long bookId, String content) {
     var book = bookService.findById(bookId);
@@ -47,6 +48,7 @@ public class CommentCommandProcessorImpl implements CommentCommandProcessor {
     }
   }
 
+  @Transactional
   @Override
   public String update(long id, long bookId, String content) {
     var book = bookService.findById(bookId);
