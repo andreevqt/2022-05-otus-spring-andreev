@@ -20,27 +20,28 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @Import(BookDaoImpl.class)
 class BookDaoImplTest {
 
+  private static final List<Book> BOOK_LIST = List.of(
+    new Book(
+        1L, "Alice's Adventures in Wonderland",
+        new Author(1L, "Lewis Carroll"), new Genre(1L, "Adventures")
+    ),
+    new Book(
+        2L, "Harry Potter and the Philosopher's Stone",
+        new Author(2L, "J. K. Rowling"), new Genre(1L, "Adventures")
+    ),
+    new Book(
+        3L, "Pride and Prejudice",
+        new Author(3L, "Jane Austen"), new Genre(2L, "Novels")
+    )
+  );
+
   @Autowired
   private BookDaoImpl bookDao;
 
   @DisplayName("возвращать список книг")
   @Test
   void shouldReturnListOfBooks() {
-    var expected = List.of(
-      new Book(
-        1L, "Alice's Adventures in Wonderland",
-        new Author(1L, "Lewis Carroll"), new Genre(1L, "Adventures")
-      ),
-      new Book(
-        2L, "Harry Potter and the Philosopher's Stone",
-        new Author(2L, "J. K. Rowling"), new Genre(1L, "Adventures")
-      ),
-      new Book(
-        3L, "Pride and Prejudice",
-        new Author(3L, "Jane Austen"), new Genre(2L, "Novels")
-      )
-    );
-    assertThat(bookDao.findAll()).usingRecursiveComparison().isEqualTo(expected);
+    assertThat(bookDao.findAll()).usingRecursiveComparison().isEqualTo(BOOK_LIST);
   }
 
   @DisplayName("создавать книгу")
@@ -55,8 +56,7 @@ class BookDaoImplTest {
   @DisplayName("возвращать книгу по id")
   @Test
   void shouldReturnBookById() {
-    var book = new Book(1L, "Alice's Adventures in Wonderland",
-        new Author(1L, "Lewis Carroll"), new Genre(1L, "Adventures"));
+    var book = BOOK_LIST.get(1);
     var res = bookDao.findById(book.getId());
     assertThat(res).isNotEmpty();
     assertThat(res.get()).usingRecursiveComparison().ignoringFields("author", "genre").isEqualTo(book);
@@ -71,7 +71,7 @@ class BookDaoImplTest {
   @DisplayName("обновлять книгу")
   @Test
   void shouldUpdateBook() {
-    var book = new Book(1L, "Hello world!", null, null);
+    var book = new Book(1L, "Some book", null, null);
     bookDao.save(book);
     assertThat(bookDao.findById(book.getId())).usingRecursiveComparison().isEqualTo(Optional.of(book));
   }
