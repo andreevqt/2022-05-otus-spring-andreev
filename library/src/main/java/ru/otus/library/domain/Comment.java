@@ -10,13 +10,16 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "genres")
-public class Genre {
+@Table(name = "comments")
+public class Comment {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  @Column(name = "title")
-  private String title;
+  @JoinColumn(name = "book_id")
+  @ManyToOne(targetEntity = Book.class, fetch = FetchType.LAZY)
+  private Book book;
+  @Column(name = "content")
+  private String content;
 
 }

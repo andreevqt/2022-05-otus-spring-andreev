@@ -4,44 +4,37 @@ import lombok.AllArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.library.domain.Genre;
-import ru.otus.library.service.GenreService;
-import ru.otus.library.service.converters.GenreConverter;
+import ru.otus.library.service.processors.GenreCommandProcessor;
 
 @AllArgsConstructor
 @ShellComponent
 public class GenreCommands {
 
-  private final GenreService genreService;
-  private final GenreConverter converter;
+  private final GenreCommandProcessor processor;
 
   @ShellMethod(value = "Create a genre", key = {"genre:create", "genre:insert"})
-  String insert(@ShellOption String name) {
-    genreService.insert(new Genre(null, name));
-    return "Created";
+  String create(@ShellOption String title) {
+    return processor.insert(title);
   }
 
   @ShellMethod(value = "Find genre by id", key = {"genre:find", "genre:findById"})
   String findById(@ShellOption Long id) {
-    return genreService.findById(id).map((genre) -> converter.convert(genre))
-      .orElse("Genre with id=" + id + " not found");
+    return processor.findById(id);
   }
 
   @ShellMethod(value = "List all genres", key = {"genre:all", "genre:list", "genre:findAll"})
   String findAll() {
-    return converter.convert(genreService.findAll());
+    return processor.findAll();
   }
 
   @ShellMethod(value = "Update a genre", key = {"genre:update"})
-  String update(@ShellOption Long id, @ShellOption String title) {
-    var isUpdated = genreService.update(new Genre(id, title));
-    return isUpdated ? "Updated" : "Couldn't update a genre with id=" + id;
+  String update(@ShellOption long id, @ShellOption String title) {
+    return processor.update(id, title);
   }
 
   @ShellMethod(value = "Delete a genre", key = {"genre:delete", "genre:del", "genre:remove"})
-  String update(@ShellOption Long id) {
-    var isDelted = genreService.delete(id);
-    return isDelted ? "Deleted" : "Couldn't delete a genre with id=" + id;
+  String delete(@ShellOption long id) {
+    return processor.delete(id);
   }
 
 }

@@ -1,11 +1,22 @@
 package ru.otus.library.domain;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+import javax.persistence.*;
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "authors")
 public class Author {
 
-  private final Long id;
-  private final String name;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  @Column(name = "name")
+  private String name;
 
 }

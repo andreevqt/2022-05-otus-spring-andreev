@@ -13,6 +13,7 @@ public class BookConverterImpl implements BookConverter {
   public String convert(Book book) {
     var author = book.getAuthor();
     var genre = book.getGenre();
+
     return "Book(id=" + book.getId() + ", title=" + book.getTitle() + ", author=" +
       (author != null ? author.getName() : "null") + ", genre=" + (genre != null ? genre.getTitle() : "null") + ")";
   }

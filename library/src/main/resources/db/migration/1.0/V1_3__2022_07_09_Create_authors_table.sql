@@ -1,1 +1,5 @@
-create table authors (id bigserial, name varchar(255));
+create table authors
+(
+    id bigserial primary key,
+    name varchar(255)
+);

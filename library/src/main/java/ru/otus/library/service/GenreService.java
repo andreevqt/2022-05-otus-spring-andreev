@@ -9,12 +9,10 @@ public interface GenreService {
 
   Optional<Genre> findById(Long id);
 
-  void insert(Genre genre);
-
-  boolean update(Genre genre);
+  Genre save(Genre genre);
 
   List<Genre> findAll();
 
-  boolean delete(Long id);
+  void delete(Long id);
 
 }

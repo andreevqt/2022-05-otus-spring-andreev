@@ -9,12 +9,10 @@ public interface AuthorService {
 
   Optional<Author> findById(Long id);
 
-  void insert(Author author);
-
-  boolean update(Author author);
+  Author save(Author author);
 
   List<Author> findAll();
 
-  boolean delete(Long id);
+  void delete(Long id);
 
 }

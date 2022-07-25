@@ -11,10 +11,8 @@ public interface BookDao {
 
   Optional<Book> findById(Long id);
 
-  void insert(Book book);
+  Book save(Book book);
 
-  boolean update(Book book);
-
-  boolean delete(Long id);
+  void delete(Long id);
 
 }

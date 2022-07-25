@@ -15,6 +15,13 @@ book:del, book:delete, book:remove: Delete a book
 book:find, book:findById: Find book by id
 book:update: Update a book
 
+# Comment Commands
+comment:byBook, comment:findByBookId, comment:listByBook: Find comment by book id
+comment:create, comment:insert: Create comment
+comment:del, comment:delete, comment:remove: Delete a comment
+comment:find, comment:findById: Find comment by id
+comment:update: Update a comment
+
 # Genre Commands
 genre:all, genre:findAll, genre:list: List all genres
 genre:create, genre:insert: Create a genre

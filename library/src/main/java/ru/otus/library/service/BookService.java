@@ -9,12 +9,10 @@ public interface BookService {
 
   Optional<Book> findById(Long id);
 
-  void insert(Book book);
-
-  boolean update(Book book);
+  Book save(Book book);
 
   List<Book> findAll();
 
-  boolean delete(Long id);
+  void delete(Long id);
 
 }

@@ -11,10 +11,8 @@ public interface GenreDao {
 
   Optional<Genre> findById(Long id);
 
-  void insert(Genre genre);
+  Genre save(Genre genre);
 
-  boolean update(Genre genre);
-
-  boolean delete(Long id);
+  void delete(Long id);
 
 }

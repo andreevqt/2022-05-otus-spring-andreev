@@ -11,10 +11,8 @@ public interface AuthorDao {
 
   Optional<Author> findById(Long id);
 
-  void insert(Author author);
+  Author save(Author author);
 
-  boolean update(Author author);
-
-  boolean delete(Long id);
+  void delete(Long id);
 
 }

@@ -2,6 +2,7 @@ package ru.otus.library.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.library.dao.GenreDao;
 import ru.otus.library.domain.Genre;
 
@@ -14,29 +15,28 @@ public class GenreServiceImpl implements GenreService {
 
   private final GenreDao genreDao;
 
+  @Transactional(readOnly = true)
   @Override
   public Optional<Genre> findById(Long id) {
     return genreDao.findById(id);
   }
 
+  @Transactional
   @Override
-  public void insert(Genre genre) {
-    genreDao.insert(genre);
+  public Genre save(Genre genre) {
+    return genreDao.save(genre);
   }
 
-  @Override
-  public boolean update(Genre genre) {
-    return genreDao.update(genre);
-  }
-
+  @Transactional(readOnly = true)
   @Override
   public List<Genre> findAll() {
     return genreDao.findAll();
   }
 
+  @Transactional
   @Override
-  public boolean delete(Long id) {
-    return genreDao.delete(id);
+  public void delete(Long id) {
+    genreDao.delete(id);
   }
 
 }
