@@ -20,7 +20,7 @@ class BookDaoTest {
   @Autowired
   private TestEntityManager em;
 
-  @DisplayName("должно генерировать ожидаемое количество запросов")
+  @DisplayName("генерировать ожидаемое количество запросов")
   @Test
   void shouldGenerateExpectedQueriesCount() {
     var sessionFactory = em.getEntityManager().getEntityManagerFactory()
