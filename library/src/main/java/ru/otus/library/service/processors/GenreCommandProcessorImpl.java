@@ -1,8 +1,7 @@
 package ru.otus.library.service.processors;
 
-import org.springframework.stereotype.Service;
-
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.otus.library.domain.Genre;
 import ru.otus.library.service.GenreService;
 import ru.otus.library.service.converters.GenreConverter;

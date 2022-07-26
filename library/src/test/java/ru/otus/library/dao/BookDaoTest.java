@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 class BookDaoTest {
 
-  private static final long EXPECTED_QUERIES_COUNT = 1;
+  private static final int EXPECTED_QUERIES_COUNT = 1;
 
   @Autowired
   private BookDao dao;

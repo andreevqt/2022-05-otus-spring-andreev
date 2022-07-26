@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 public class CommentDaoImplTest {
 
-  private static final long EXPECTED_QUERIES_COUNT = 1;
+  private static final int EXPECTED_QUERIES_COUNT = 1;
 
   @Autowired
   private CommentDao dao;
@@ -23,11 +23,12 @@ public class CommentDaoImplTest {
   @DisplayName("должно генерировать ожидаемое количество запросов")
   @Test
   void shouldGenerateExpectedQueriesCount() {
+    var bookId = 1L;
     var sessionFactory = em.getEntityManager().getEntityManagerFactory()
       .unwrap(SessionFactory.class);
     sessionFactory.getStatistics().clear();
     sessionFactory.getStatistics().setStatisticsEnabled(true);
-    dao.findByBookId(1L);
+    dao.findByBookId(bookId);
     assertThat(sessionFactory.getStatistics().getPrepareStatementCount()).isEqualTo(EXPECTED_QUERIES_COUNT);
   }
 

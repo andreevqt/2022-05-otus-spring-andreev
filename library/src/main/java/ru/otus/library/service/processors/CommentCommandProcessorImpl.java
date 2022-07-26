@@ -1,9 +1,8 @@
 package ru.otus.library.service.processors;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import lombok.AllArgsConstructor;
 import ru.otus.library.domain.Comment;
 import ru.otus.library.service.BookService;
 import ru.otus.library.service.CommentService;
