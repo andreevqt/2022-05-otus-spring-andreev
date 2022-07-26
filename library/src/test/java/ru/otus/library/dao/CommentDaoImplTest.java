@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("Dao для работы с комментариями должно")
 @DataJpaTest
-@Import(CommentDaoImpl.class)
+@Import(CommentDao.class)
 public class CommentDaoImplTest {
 
   private static final List<Comment> COMMENTS_LIST = List.of(
@@ -69,14 +69,14 @@ public class CommentDaoImplTest {
   @Test
   void shouldDeleteAuthorById() {
     var commentId = 1L;
-    commentDao.delete(commentId);
+    commentDao.deleteById(commentId);
     assertThat(commentDao.findById(commentId).isEmpty()).isEqualTo(true);
   }
 
   @DisplayName("бросать исключение если не получилось удалить комментарий")
   @Test
   void shouldThrowIfCouldntDeleteComment() {
-    assertThatThrownBy(() -> commentDao.delete(100L)).isInstanceOf(IllegalArgumentException.class);
+    assertThatThrownBy(() -> commentDao.deleteById(100L)).isInstanceOf(IllegalArgumentException.class);
   }
 
 }

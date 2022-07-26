@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("Dao для работы с жанрами должно")
 @DataJpaTest
-@Import(GenreDaoImpl.class)
+@Import(GenreDao.class)
 class GenreDaoImplTest {
 
   @Autowired
@@ -65,14 +65,14 @@ class GenreDaoImplTest {
   @Test
   void shouldDeleteGenreById() {
     var genreId = 1L;
-    genreDao.delete(genreId);
+    genreDao.deleteById(genreId);
     assertThat(genreDao.findById(genreId)).isEmpty();
   }
 
   @DisplayName("бросать исключение если не получилось удалить жанр")
   @Test
   void shouldThrowIfCouldntDeleteGenre() {
-    assertThatThrownBy(() -> genreDao.delete(100L)).isInstanceOf(IllegalArgumentException.class);
+    assertThatThrownBy(() -> genreDao.deleteById(100L)).isInstanceOf(IllegalArgumentException.class);
   }
 
 }

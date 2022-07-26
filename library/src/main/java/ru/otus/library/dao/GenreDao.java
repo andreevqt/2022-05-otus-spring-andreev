@@ -3,16 +3,11 @@ package ru.otus.library.dao;
 import ru.otus.library.domain.Genre;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface GenreDao {
+import org.springframework.data.repository.CrudRepository;
+
+public interface GenreDao extends CrudRepository<Genre, Long> {
 
   List<Genre> findAll();
-
-  Optional<Genre> findById(Long id);
-
-  Genre save(Genre genre);
-
-  void delete(Long id);
 
 }

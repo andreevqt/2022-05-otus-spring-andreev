@@ -3,16 +3,13 @@ package ru.otus.library.dao;
 import ru.otus.library.domain.Comment;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface CommentDao {
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.repository.CrudRepository;
 
-  Optional<Comment> findById(Long id);
+public interface CommentDao extends CrudRepository<Comment, Long> {
 
+  @EntityGraph(attributePaths = "book")
   List<Comment> findByBookId(Long bookId);
-
-  Comment save(Comment comment);
-
-  void delete(Long id);
 
 }

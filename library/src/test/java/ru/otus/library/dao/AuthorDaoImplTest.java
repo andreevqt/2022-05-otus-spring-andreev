@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("Dao для работы с авторами должно")
 @DataJpaTest
-@Import(AuthorDaoImpl.class)
+@Import(AuthorDao.class)
 class AuthorDaoImplTest {
 
   @Autowired
@@ -65,14 +65,14 @@ class AuthorDaoImplTest {
   @Test
   void shouldDeleteAuthorById() {
     var authorId = 1L;
-    authorDao.delete(authorId);
+    authorDao.deleteById(authorId);
     assertThat(authorDao.findById(authorId).isEmpty()).isEqualTo(true);
   }
 
   @DisplayName("бросать исключение если не получилось удалить автора")
   @Test
   void shouldThrowIfCouldntDeleteAuthor() {
-    assertThatThrownBy(() -> authorDao.delete(100L)).isInstanceOf(IllegalArgumentException.class);
+    assertThatThrownBy(() -> authorDao.deleteById(100L)).isInstanceOf(IllegalArgumentException.class);
   }
 
 }

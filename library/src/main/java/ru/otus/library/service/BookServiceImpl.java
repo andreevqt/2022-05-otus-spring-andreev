@@ -36,7 +36,7 @@ public class BookServiceImpl implements BookService {
   @Transactional
   @Override
   public void delete(Long id) {
-    bookDao.delete(id);
+    bookDao.deleteById(id);
   }
 
 }

@@ -36,7 +36,7 @@ public class CommentServiceImpl implements CommentService {
   @Transactional
   @Override
   public void delete(Long id) {
-    commentDao.delete(id);
+    commentDao.deleteById(id);
   }
 
 }

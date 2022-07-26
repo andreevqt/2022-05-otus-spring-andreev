@@ -97,16 +97,16 @@ class BookServiceImplTest {
   void shouldDeleteBookById() {
     var bookId = 1L;
     bookService.delete(bookId);
-    verify(bookDao, times(1)).delete(bookId);
+    verify(bookDao, times(1)).deleteById(bookId);
   }
 
   @DisplayName("бросать исключение если не получилось удалить книгу")
   @Test
   void shouldReturnFalseIfCouldntDeleteBook() {
     var bookId = 1L;
-    willThrow(IllegalArgumentException.class).given(bookDao).delete(bookId);
+    willThrow(IllegalArgumentException.class).given(bookDao).deleteById(bookId);
     assertThatThrownBy(() -> bookService.delete(bookId)).isInstanceOf(IllegalArgumentException.class);
-    verify(bookDao, times(1)).delete(bookId);
+    verify(bookDao, times(1)).deleteById(bookId);
   }
 
 }

@@ -17,8 +17,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("Dao для работы с книгами должно")
 @DataJpaTest
-@Import(BookDaoImpl.class)
-class BookDaoImplTest {
+@Import(BookDao.class)
+class BookDaoTest {
 
   private static final List<Book> BOOK_LIST = List.of(
     new Book(
@@ -36,7 +36,7 @@ class BookDaoImplTest {
   );
 
   @Autowired
-  private BookDaoImpl bookDao;
+  private BookDao bookDao;
 
   @DisplayName("возвращать список книг")
   @Test
@@ -80,14 +80,14 @@ class BookDaoImplTest {
   @Test
   void shouldDeleteBookById() {
     var bookId = 1L;
-    bookDao.delete(bookId);
+    bookDao.deleteById(bookId);
     assertThat(bookDao.findById(bookId).isEmpty()).isEqualTo(true);
   }
 
   @DisplayName("бросать исключение если не получилось удалить книгу")
   @Test
   void shouldThrowIfCouldntDeleteBook() {
-    assertThatThrownBy(() -> bookDao.delete(100L)).isInstanceOf(IllegalArgumentException.class);
+    assertThatThrownBy(() -> bookDao.deleteById(100L)).isInstanceOf(IllegalArgumentException.class);
   }
 
 }

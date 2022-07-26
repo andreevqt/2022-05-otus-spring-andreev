@@ -3,16 +3,13 @@ package ru.otus.library.dao;
 import ru.otus.library.domain.Book;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface BookDao {
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.repository.CrudRepository;
 
+public interface BookDao extends CrudRepository<Book, Long> {
+
+  @EntityGraph(attributePaths = {"author","genre"})
   List<Book> findAll();
-
-  Optional<Book> findById(Long id);
-
-  Book save(Book book);
-
-  void delete(Long id);
 
 }
