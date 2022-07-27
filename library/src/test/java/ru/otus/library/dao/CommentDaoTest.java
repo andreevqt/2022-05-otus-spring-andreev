@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Dao для работы с комментариями должно")
 @DataJpaTest
-public class CommentDaoImplTest {
+public class CommentDaoTest {
 
   private static final int EXPECTED_QUERIES_COUNT = 1;
 
