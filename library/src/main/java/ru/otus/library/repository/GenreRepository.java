@@ -1,11 +1,11 @@
-package ru.otus.library.dao;
+package ru.otus.library.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import ru.otus.library.domain.Genre;
 
 import java.util.List;
 
-public interface GenreDao extends CrudRepository<Genre, Long> {
+public interface GenreRepository extends CrudRepository<Genre, Long> {
 
   List<Genre> findAll();
 

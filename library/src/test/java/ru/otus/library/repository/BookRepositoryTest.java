@@ -1,4 +1,4 @@
-package ru.otus.library.dao;
+package ru.otus.library.repository;
 
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -9,14 +9,14 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Dao для работы с книгами должно")
+@DisplayName("Repository для работы с книгами должно")
 @DataJpaTest
-class BookDaoTest {
+class BookRepositoryTest {
 
   private static final int EXPECTED_QUERIES_COUNT = 1;
 
   @Autowired
-  private BookDao dao;
+  private BookRepository repository;
   @Autowired
   private TestEntityManager em;
 
@@ -27,7 +27,7 @@ class BookDaoTest {
       .unwrap(SessionFactory.class);
     sessionFactory.getStatistics().clear();
     sessionFactory.getStatistics().setStatisticsEnabled(true);
-    dao.findAll();
+    repository.findAll();
     assertThat(sessionFactory.getStatistics().getPrepareStatementCount()).isEqualTo(EXPECTED_QUERIES_COUNT);
   }
 
