@@ -1,11 +1,10 @@
 package ru.otus.library.shell;
 
 import lombok.AllArgsConstructor;
-import ru.otus.library.service.processors.CommentCommandProcessor;
-
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import ru.otus.library.service.processors.CommentCommandProcessor;
 
 @AllArgsConstructor
 @ShellComponent
