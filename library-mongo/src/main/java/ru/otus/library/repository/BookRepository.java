@@ -8,6 +8,7 @@ import java.util.List;
 public interface BookRepository extends CrudRepository<Book, String> {
 
   List<Book> findAll();
+
   void deleteByAuthorId(String authorId);
 
 }
