@@ -15,7 +15,7 @@ import java.util.Optional;
 public class AuthorServiceImpl implements AuthorService {
 
   private final AuthorRepository authorRepository;
-  private final BookRepository bookRepository;
+  private final BookService bookService;
 
   @Transactional(readOnly = true)
   @Override
@@ -39,7 +39,7 @@ public class AuthorServiceImpl implements AuthorService {
   @Override
   public void delete(String id) {
     authorRepository.deleteById(id);
-    bookRepository.deleteByAuthorId(id);
+    bookService.findByAuthorId(id).forEach((book) -> bookService.delete(book.getId()));
   }
 
 }

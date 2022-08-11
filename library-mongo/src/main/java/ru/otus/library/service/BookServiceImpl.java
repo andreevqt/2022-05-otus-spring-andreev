@@ -19,6 +19,12 @@ public class BookServiceImpl implements BookService {
 
   @Transactional(readOnly = true)
   @Override
+  public List<Book> findByAuthorId(String authorId) {
+    return bookRepository.findByAuthorId(authorId);
+  }
+
+  @Transactional(readOnly = true)
+  @Override
   public Optional<Book> findById(String id) {
     return bookRepository.findById(id);
   }
