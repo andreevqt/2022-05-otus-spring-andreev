@@ -17,4 +17,6 @@ public interface BookService {
 
   void delete(String id);
 
+  void deleteByAuthorId(String id);
+
 }

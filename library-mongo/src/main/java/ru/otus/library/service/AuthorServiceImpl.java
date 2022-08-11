@@ -39,7 +39,7 @@ public class AuthorServiceImpl implements AuthorService {
   @Override
   public void delete(String id) {
     authorRepository.deleteById(id);
-    bookService.findByAuthorId(id).forEach((book) -> bookService.delete(book.getId()));
+    bookService.deleteByAuthorId(id);
   }
 
 }

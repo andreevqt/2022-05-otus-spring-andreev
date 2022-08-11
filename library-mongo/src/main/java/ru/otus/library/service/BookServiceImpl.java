@@ -48,4 +48,9 @@ public class BookServiceImpl implements BookService {
     commentRepository.deleteByBookId(id);
   }
 
+  @Override
+  public void deleteByAuthorId(String authorId) {
+    bookRepository.findByAuthorId(authorId).forEach((book) -> delete(book.getId()));
+  }
+
 }
