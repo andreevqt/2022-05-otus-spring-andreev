@@ -10,6 +10,7 @@ import ru.otus.library.domain.Author;
 import ru.otus.library.domain.Book;
 import ru.otus.library.domain.Genre;
 import ru.otus.library.repository.BookRepository;
+import ru.otus.library.repository.CommentRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,8 @@ class BookServiceImplTest {
 
   @Mock
   private BookRepository bookRepository;
+  @Mock
+  private CommentRepository commentRepository;
   @InjectMocks
   private BookServiceImpl bookService;
 

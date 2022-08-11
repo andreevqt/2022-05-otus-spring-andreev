@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.library.domain.Author;
 import ru.otus.library.repository.AuthorRepository;
+import ru.otus.library.repository.BookRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +15,7 @@ import java.util.Optional;
 public class AuthorServiceImpl implements AuthorService {
 
   private final AuthorRepository authorRepository;
+  private final BookRepository bookRepository;
 
   @Transactional(readOnly = true)
   @Override
@@ -37,6 +39,7 @@ public class AuthorServiceImpl implements AuthorService {
   @Override
   public void delete(String id) {
     authorRepository.deleteById(id);
+    bookRepository.deleteByAuthorId(id);
   }
 
 }
