@@ -1,0 +1,8 @@
+spring:
+  mongodb:
+    embedded:
+      version: 3.4.6
+  main:
+    allow-circular-references: true
+mongock:
+  enabled: false

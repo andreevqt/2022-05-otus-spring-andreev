@@ -1,0 +1,9 @@
+spring:
+  data:
+    mongodb:
+      database: library
+  main:
+    allow-circular-references: true
+mongock:
+  change-logs-scan-package: ru.otus.library.changelog
+  enabled: true
