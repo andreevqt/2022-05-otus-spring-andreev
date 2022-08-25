@@ -69,7 +69,6 @@ public class BookController {
   public String save(@Valid @ModelAttribute("book") BookDto book,
                      BindingResult bindingResult, Model model) {
     if (bindingResult.hasErrors()) {
-      System.out.println(bindingResult.getAllErrors());
       model.addAttribute("title", "Create book");
       model.addAttribute("book", book);
       model.addAttribute("authors", authorMapper.authorsToAuthorDtos(authorService.findAll()));
