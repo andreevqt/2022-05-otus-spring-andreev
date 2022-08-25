@@ -15,7 +15,7 @@ public class BookDto {
 
   private Long id;
   @NotBlank
-  @Size(min = 2, max = 30)
+  @Size(min = 2, max = 255)
   private String title;
   private Long authorId;
   private Long genreId;
