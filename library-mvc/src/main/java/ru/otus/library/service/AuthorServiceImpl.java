@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class AuthorServiceImpl implements ru.otus.library.service.AuthorService {
+public class AuthorServiceImpl implements AuthorService {
 
   private final AuthorRepository authorRepository;
 
