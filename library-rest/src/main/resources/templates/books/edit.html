@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="layouts/base" xmlns:th="http://www.thymeleaf.org">
+
+<div layout:fragment="content">
+  <form class="form" th:action="@{/books/save}" th:method="post" th:object="${book}">
+    <input type="hidden" name="id" th:if="${book}" th:value="*{id}">
+    <div
+      class="form__field"
+    >
+      <label class="form__label" for="title">Title</label>
+      <input
+        id="title"
+        name="title"
+        type="text"
+        class="form__input"
+        th:classappend="${#fields.hasErrors('title') ? 'form__input--invalid' : ''}"
+        th:if="${book}"
+        th:value="*{title}"
+      >
+      <input
+        id="title"
+        name="title"
+        type="text"
+        class="form__input"
+        th:unless="${book}"
+      >
+      <div class="form__field-error" th:if="${book}" th:errors="*{title}">
+        Error message
+      </div>
+    </div>
+    <div class="form__field">
+      <label class="form__label" for="author">Author</label>
+      <select name="authorId" id="author" class="form__select">
+        <option
+          th:each="author : ${authors}"
+          th:text="${author.name}"
+          th:value="${author.id}"
+          th:selected="${book} ? ${book.authorId == author.id}"
+        >
+        </option>
+      </select>
+    </div>
+    <div class="form__field">
+      <label class="form__label" for="genre">Genre</label>
+      <select name="genreId" id="genre" class="form__select">
+        <option
+          th:each="genre : ${genres}"
+          th:text="${genre.title}"
+          th:value="${genre.id}"
+          th:selected="${book} ? ${book.genreId == genre.id}"
+        >
+        </option>
+      </select>
+    </div>
+    <div class="form__buttons">
+      <a th:href="@{/books}" class="form__button--remove button  button--primary">Go Back</a>
+      <button type="submit" class="button button--primary">Save</button>
+    </div>
+  </form>
+</div>
+
+</html>
