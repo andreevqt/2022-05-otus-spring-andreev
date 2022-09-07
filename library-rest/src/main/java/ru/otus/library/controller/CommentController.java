@@ -15,7 +15,6 @@ import java.util.Map;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/comments")
 public class CommentController {
 
   private final CommentService commentService;
@@ -23,7 +22,7 @@ public class CommentController {
 
   private final BookService bookService;
 
-  @GetMapping("/book/{bookId}")
+  @GetMapping("/comments/book/{bookId}")
   public ResponseEntity<?> listByBookId(@PathVariable("bookId") Long bookId) {
     return ResponseEntity.ok(Map.of(
       "success", true,
@@ -31,7 +30,7 @@ public class CommentController {
     ));
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("/comments/{id}")
   public ResponseEntity<?> get(@PathVariable("id") Long id) {
     return commentService.findById(id).map((comment) -> ResponseEntity.ok(Map.of(
       "success", true,
@@ -39,27 +38,21 @@ public class CommentController {
     ))).orElseThrow(ResourceNotFoundException::new);
   }
 
-  @PostMapping("/book/{bookId}")
+  @PostMapping("/comments/book/{bookId}")
   public ResponseEntity<?> create(@PathVariable("bookId") Long bookId, @Valid @RequestBody CommentRequestDto dto) {
     return bookService.findById(bookId).map((book) -> {
-      var comment = commentMapper.fromDto(dto);
-      comment.setBook(book);
-      commentService.save(comment);
+      var result = commentService.save(commentMapper.fromDto(null, book, dto));
       return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
         "success", true,
-        "comment", comment
+        "comment", result
       ));
     }).orElseThrow(ResourceNotFoundException::new);
   }
 
-  @PatchMapping("/{id}")
+  @PatchMapping("/comments/{id}")
   public ResponseEntity<?> update(@PathVariable("id") Long id, @Valid @RequestBody CommentRequestDto dto) {
     return commentService.findById(id).map((item) -> {
-      var comment = commentMapper.fromDto(dto);
-      comment.setId(item.getId());
-      comment.setBook(item.getBook());
-      comment.setContent(dto.getContent());
-      var result = commentService.save(comment);
+      var result = commentService.save(commentMapper.fromDto(id, item.getBook(), dto));
       return ResponseEntity.ok(Map.of(
         "success", true,
         "comment", result
@@ -67,8 +60,7 @@ public class CommentController {
     }).orElseThrow(ResourceNotFoundException::new);
   }
 
-
-  @DeleteMapping("/{id}")
+  @DeleteMapping("/comments/{id}")
   public ResponseEntity<?> delete(@PathVariable("id") Long id) {
     try {
       commentService.delete(id);

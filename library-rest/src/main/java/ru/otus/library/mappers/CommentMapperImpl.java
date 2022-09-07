@@ -2,6 +2,7 @@ package ru.otus.library.mappers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
+import ru.otus.library.domain.Book;
 import ru.otus.library.domain.Comment;
 import ru.otus.library.dto.CommentRequestDto;
 import ru.otus.library.dto.CommentResponseDto;
@@ -19,8 +20,8 @@ public class CommentMapperImpl implements CommentMapper {
   }
 
   @Override
-  public Comment fromDto(CommentRequestDto commentRequestDto) {
-    return new Comment(null, null, commentRequestDto.getContent());
+  public Comment fromDto(Long commentId, Book book, CommentRequestDto commentRequestDto) {
+    return new Comment(commentId, book, commentRequestDto.getContent());
   }
 
   @Override

@@ -21,9 +21,9 @@ public class BookMapperImpl implements BookMapper {
   private final GenreMapper genreMapper;
 
   @Override
-  public Book fromDto(BookRequestDto book) {
+  public Book fromDto(Long bookId, BookRequestDto book) {
     return new Book(
-      null, book.getTitle(),
+      bookId, book.getTitle(),
       authorService.findById(book.getAuthorId()).orElse(null),
       genreService.findById(book.getGenreId()).orElse(null)
     );

@@ -11,7 +11,7 @@ public class BookResponseDto {
 
   private Long id;
   private String title;
-  private AuthorDto author;
+  private AuthorRequestDto author;
   private GenreDto genre;
 
 }

@@ -13,13 +13,12 @@ import java.util.Map;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/genres")
 public class GenreController {
 
   private final GenreService genreService;
   private final GenreMapper genreMapper;
 
-  @GetMapping("")
+  @GetMapping("/genres")
   public ResponseEntity<?> list() {
     var items = genreMapper.toDtos(genreService.findAll());
     return ResponseEntity.ok(Map.of(
@@ -27,7 +26,7 @@ public class GenreController {
     ));
   }
 
-  @PostMapping("")
+  @PostMapping("/genres")
   public ResponseEntity<?> create(@RequestBody GenreDto dto) {
     var genre = genreService.save(genreMapper.fromDto(dto));
     return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
@@ -35,7 +34,7 @@ public class GenreController {
     ));
   }
 
-  @PatchMapping("/{id}")
+  @PatchMapping("/genres/{id}")
   public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody GenreDto dto) {
     return genreService.findById(id).map((item) -> {
       var mappedGenre = genreMapper.fromDto(dto);
@@ -47,7 +46,7 @@ public class GenreController {
     }).orElseThrow(ResourceNotFoundException::new);
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("/genres/{id}")
   public ResponseEntity<?> get(@PathVariable("id") Long id) {
     return genreService.findById(id)
       .map((genre) -> ResponseEntity.ok(Map.of(
@@ -56,7 +55,7 @@ public class GenreController {
       ))).orElseThrow(ResourceNotFoundException::new);
   }
 
-  @DeleteMapping(path = "/{id}")
+  @DeleteMapping("/genres/{id}")
   public ResponseEntity<?> delete(@PathVariable("id") Long id) {
     try {
       genreService.delete(id);

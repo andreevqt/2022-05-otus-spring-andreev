@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface BookMapper {
 
-  Book fromDto(BookRequestDto book);
+  Book fromDto(Long bookId, BookRequestDto book);
 
   List<BookResponseDto> toDtos(List<Book> books);
 

@@ -14,13 +14,12 @@ import java.util.Map;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/books")
 public class BookController {
 
   private final BookService bookService;
   private final BookMapper bookMapper;
 
-  @GetMapping(path = "")
+  @GetMapping("/books")
   public ResponseEntity<?> list() {
     return ResponseEntity.ok(Map.of(
       "success", true,
@@ -28,22 +27,20 @@ public class BookController {
     ));
   }
 
-  @PostMapping("")
+  @PostMapping("/books")
   public ResponseEntity<?> create(@Valid @RequestBody BookRequestDto book) {
-    var result = bookService.save(bookMapper.fromDto(book));
+    var result = bookService.save(bookMapper.fromDto(null ,book));
     return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
       "success", true,
       "book", bookMapper.toDto(result)
     ));
   }
 
-  @PatchMapping("/{id}")
+  @PatchMapping("/books/{id}")
   public ResponseEntity<?> update(@PathVariable("id") Long id, @Valid @RequestBody BookRequestDto dto) {
     return bookService.findById(id)
       .map((item) -> {
-        var mappedBook = bookMapper.fromDto(dto);
-        mappedBook.setId(item.getId());
-        var result = bookService.save(mappedBook);
+        var result = bookService.save(bookMapper.fromDto(item.getId(), dto));
         return ResponseEntity.ok(Map.of(
           "success", true,
           "book", bookMapper.toDto(result)
@@ -51,7 +48,7 @@ public class BookController {
       }).orElseThrow(ResourceNotFoundException::new);
   }
 
-  @GetMapping(path = "/{id}")
+  @GetMapping("/books/{id}")
   public ResponseEntity<?> get(@PathVariable("id") Long id) {
     return bookService.findById(id)
       .map((book) -> ResponseEntity.ok(Map.of(
@@ -60,7 +57,7 @@ public class BookController {
       ))).orElseThrow(ResourceNotFoundException::new);
   }
 
-  @DeleteMapping(path = "/{id}")
+  @DeleteMapping( "/books/{id}")
   public ResponseEntity<?> delete(@PathVariable("id") Long id) {
     try {
       bookService.delete(id);
