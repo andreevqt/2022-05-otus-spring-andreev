@@ -1,16 +1,16 @@
 package ru.otus.library.mappers;
 
 import ru.otus.library.domain.Genre;
-import ru.otus.library.dto.GenreDto;
+import ru.otus.library.dto.GenreResponseDto;
 
 import java.util.List;
 
 public interface GenreMapper {
 
-  Genre fromDto(GenreDto genre);
+  Genre fromDto(GenreResponseDto genre);
 
-  GenreDto toDto(Genre genre);
+  GenreResponseDto toDto(Genre genre);
 
-  List<GenreDto> toDtos(List<Genre> genres);
+  List<GenreResponseDto> toDtos(List<Genre> genres);
 
 }

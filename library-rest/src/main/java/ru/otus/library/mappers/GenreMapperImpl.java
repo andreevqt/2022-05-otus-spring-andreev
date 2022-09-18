@@ -2,7 +2,7 @@ package ru.otus.library.mappers;
 
 import org.springframework.stereotype.Component;
 import ru.otus.library.domain.Genre;
-import ru.otus.library.dto.GenreDto;
+import ru.otus.library.dto.GenreResponseDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,17 +11,17 @@ import java.util.stream.Collectors;
 public class GenreMapperImpl implements GenreMapper {
 
   @Override
-  public Genre fromDto(GenreDto genre) {
+  public Genre fromDto(GenreResponseDto genre) {
     return new Genre(null, genre.getTitle());
   }
 
   @Override
-  public GenreDto toDto(Genre genre) {
-    return genre != null ? new GenreDto( genre.getTitle()) : null;
+  public GenreResponseDto toDto(Genre genre) {
+    return genre != null ? new GenreResponseDto(genre.getId(), genre.getTitle()) : null;
   }
 
   @Override
-  public List<GenreDto> toDtos(List<Genre> genres) {
+  public List<GenreResponseDto> toDtos(List<Genre> genres) {
     return genres.stream().map(this::toDto).collect(Collectors.toList());
   }
 

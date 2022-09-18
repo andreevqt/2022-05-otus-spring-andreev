@@ -4,13 +4,14 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.otus.library.dto.GenreDto;
+import ru.otus.library.dto.GenreResponseDto;
 import ru.otus.library.exceptions.ResourceNotFoundException;
 import ru.otus.library.mappers.GenreMapper;
 import ru.otus.library.service.GenreService;
 
 import java.util.Map;
 
+@CrossOrigin
 @AllArgsConstructor
 @RestController
 public class GenreController {
@@ -27,7 +28,7 @@ public class GenreController {
   }
 
   @PostMapping("/genres")
-  public ResponseEntity<?> create(@RequestBody GenreDto dto) {
+  public ResponseEntity<?> create(@RequestBody GenreResponseDto dto) {
     var genre = genreService.save(genreMapper.fromDto(dto));
     return ResponseEntity.status(HttpStatus.CREATED).body(Map.of(
       "success", true, "genre", genre
@@ -35,7 +36,7 @@ public class GenreController {
   }
 
   @PatchMapping("/genres/{id}")
-  public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody GenreDto dto) {
+  public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody GenreResponseDto dto) {
     return genreService.findById(id).map((item) -> {
       var mappedGenre = genreMapper.fromDto(dto);
       mappedGenre.setId(id);

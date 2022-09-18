@@ -7,7 +7,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class GenreDto {
+public class GenreResponseDto {
+
+  private Long id;
 
   private final String title;
 
