@@ -13,7 +13,6 @@ import ru.otus.library.service.CommentService;
 import javax.validation.Valid;
 import java.util.Map;
 
-@CrossOrigin
 @AllArgsConstructor
 @RestController
 public class CommentController {

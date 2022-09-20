@@ -12,7 +12,6 @@ import ru.otus.library.service.AuthorService;
 import javax.validation.Valid;
 import java.util.Map;
 
-@CrossOrigin
 @AllArgsConstructor
 @RestController
 public class AuthorController {

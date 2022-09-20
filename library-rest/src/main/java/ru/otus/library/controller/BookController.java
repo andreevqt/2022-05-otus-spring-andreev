@@ -12,7 +12,6 @@ import ru.otus.library.service.BookService;
 import javax.validation.Valid;
 import java.util.Map;
 
-@CrossOrigin
 @AllArgsConstructor
 @RestController
 public class BookController {

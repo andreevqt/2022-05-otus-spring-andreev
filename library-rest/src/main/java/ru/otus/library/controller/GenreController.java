@@ -11,7 +11,6 @@ import ru.otus.library.service.GenreService;
 
 import java.util.Map;
 
-@CrossOrigin
 @AllArgsConstructor
 @RestController
 public class GenreController {
