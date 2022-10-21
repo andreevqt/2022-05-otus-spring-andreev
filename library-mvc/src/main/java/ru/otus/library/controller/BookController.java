@@ -18,7 +18,6 @@ import javax.validation.Valid;
 
 @AllArgsConstructor
 @Controller
-@RequestMapping("/books")
 public class BookController {
 
   private final BookService bookService;
@@ -28,7 +27,7 @@ public class BookController {
   private final AuthorMapper authorMapper;
   private final GenreMapper genreMapper;
 
-  @GetMapping(path = "")
+  @GetMapping(path = "/books")
   public String list(Model model) {
     var books = bookMapper.booksToBookDtos(bookService.findAll());
     model.addAttribute("title", "Books");
@@ -36,7 +35,7 @@ public class BookController {
     return "books/list";
   }
 
-  @GetMapping(path = "/delete/{id}")
+  @PostMapping(path = "/books/delete/{id}")
   public String delete(@PathVariable("id") Long id) {
     try {
       bookService.delete(id);
@@ -46,7 +45,7 @@ public class BookController {
     }
   }
 
-  @GetMapping(path = "/edit/{id}")
+  @GetMapping(path = "/books/edit/{id}")
   public String edit(@PathVariable("id") Long id, Model model) {
     return bookService.findById(id).map((book) -> {
       model.addAttribute("title", "Edit book");
@@ -57,7 +56,7 @@ public class BookController {
     }).orElseThrow(ResourceNotFoundException::new);
   }
 
-  @GetMapping(path = "/create")
+  @GetMapping(path = "/books/create")
   public String create(Model model) {
     model.addAttribute("title", "Create book");
     model.addAttribute("authors", authorMapper.authorsToAuthorDtos(authorService.findAll()));
@@ -65,7 +64,7 @@ public class BookController {
     return "books/edit";
   }
 
-  @PostMapping(path = "/save")
+  @PostMapping(path = "/books/save")
   public String save(@Valid @ModelAttribute("book") BookDto book,
                      BindingResult bindingResult, Model model) {
     if (bindingResult.hasErrors()) {
