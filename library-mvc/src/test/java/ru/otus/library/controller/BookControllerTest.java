@@ -57,7 +57,7 @@ public class BookControllerTest {
   @DisplayName("защищенные роуты должны возвращать корректный ответ для авторизованнного пользователя")
   @WithMockUser(
     username = "user",
-    authorities = {"ROLE_ADMIN"}
+    authorities = {"ADMIN"}
   )
   @Test
   public void testAuthentificatedUser() throws Exception {

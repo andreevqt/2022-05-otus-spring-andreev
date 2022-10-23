@@ -23,9 +23,9 @@ public class HomeControllerTest {
   @MockBean
   private PasswordEncoder passwordEncoder;
 
-  @DisplayName("login должен быть доступен авторизованным пользователям")
+  @DisplayName("login должен быть доступен не авторизованным пользователям")
   @Test
-  public void testLogin() throws Exception {
+  public void testLoginNotAuthorized() throws Exception {
     mockMvc.perform(get("/login"))
       .andExpect(status().isOk());
   }
