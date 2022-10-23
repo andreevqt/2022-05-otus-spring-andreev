@@ -61,6 +61,8 @@ public class BookControllerTest {
   )
   @Test
   public void testAuthentificatedUser() throws Exception {
+    mockMvc.perform(get("/books"))
+      .andExpect(status().isOk());
     mockMvc.perform(get("/books/edit/1"))
       .andExpect(status().isOk());
     mockMvc.perform(get("/books/create"))
@@ -72,6 +74,8 @@ public class BookControllerTest {
   @DisplayName("защищенные роуты должны возвращать корректный ответ для не авторизованнного пользователя")
   @Test
   public void testNotAuthentificatedUser() throws Exception {
+    mockMvc.perform(get("/books"))
+      .andExpect(status().isUnauthorized());
     mockMvc.perform(get("/books/edit/1"))
       .andExpect(status().isUnauthorized());
     mockMvc.perform(get("/books/create"))
