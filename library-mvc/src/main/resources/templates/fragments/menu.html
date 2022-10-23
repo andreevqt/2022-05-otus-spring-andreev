@@ -1,26 +1,8 @@
-<ul class="nav">
+<ul class="nav" layout:fragment="menu">
   <li
     class="nav__item"
     th:classappend="${#request.requestURI.startsWith('/books') ? 'nav__item--active':''}"
   >
     <a th:href="@{/books}">Books</a>
-  </li>
-  <li
-    class="nav__item"
-    th:classappend="${#request.requestURI.startsWith('/authors') ? 'nav__item--active':''}"
-  >
-    <a th:href="@{/authors}">Authors</a>
-  </li>
-  <li
-    class="nav__item"
-    th:classappend="${#request.requestURI.startsWith('/genres') ? 'nav__item--active':''}"
-  >
-    <a th:href="@{/genres}">Genres</a>
-  </li>
-  <li
-    class="nav__item"
-    th:classappend="${#request.requestURI.startsWith('/comments') ? 'nav__item--active':''}"
-  >
-    <a th:href="@{/comments}">Comments</a>
   </li>
 </ul>

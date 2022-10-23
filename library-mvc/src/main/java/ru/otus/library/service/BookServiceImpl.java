@@ -3,8 +3,8 @@ package ru.otus.library.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.library.repository.BookRepository;
 import ru.otus.library.domain.Book;
+import ru.otus.library.repository.BookRepository;
 
 import java.util.List;
 import java.util.Optional;

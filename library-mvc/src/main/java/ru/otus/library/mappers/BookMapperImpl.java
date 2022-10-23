@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import ru.otus.library.domain.Book;
 import ru.otus.library.dto.BookDto;
 import ru.otus.library.service.AuthorService;
-import ru.otus.library.service.BookService;
 import ru.otus.library.service.GenreService;
 
 import java.util.List;

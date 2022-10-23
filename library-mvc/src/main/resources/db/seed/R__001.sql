@@ -1,4 +1,4 @@
 -- genres
-insert into genres (title) 
+insert into genres (title)
 values ('Adventures'),
        ('Novels');
