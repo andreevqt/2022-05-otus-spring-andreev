@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 @AllArgsConstructor
 @Configuration
 @EnableWebSecurity
-public class Security {
+public class WebSecurityConfig {
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -30,7 +30,6 @@ public class Security {
       .failureUrl("/login-error")
       .usernameParameter("login")
       .passwordParameter("password");
-
 
     return http.build();
   }
