@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserDetailsManager {
     repository.findByUsername(user.getUsername()).ifPresent((model) -> {
       model.setUsername(user.getUsername());
       model.setPassword(user.getPassword());
+      repository.save(model);
     });
   }
 
