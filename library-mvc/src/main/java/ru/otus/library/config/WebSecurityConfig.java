@@ -1,13 +1,14 @@
 package ru.otus.library.config;
 
 import lombok.AllArgsConstructor;
+import ru.otus.library.service.UserServiceImpl;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -36,8 +37,7 @@ public class WebSecurityConfig {
 
   @Bean
   public UserDetailsManager users(DataSource dataSource) {
-    JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-    return jdbcUserDetailsManager;
+    return new UserServiceImpl();
   }
 
   @Bean

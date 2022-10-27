@@ -1,17 +1,20 @@
 create table users
 (
-    username varchar(255) not null,
+    id bigserial primary key,
+    username varchar(255) not null unique,
     password varchar(255) not null,
-    enabled  boolean      not null default false,
-    primary key (username)
+    enabled  boolean      not null default false
 );
 
 create table authorities
 (
-    username  varchar(255) not null,
+    user_id  bigint,
     authority varchar(255) not null,
-    foreign key (username) references users (username)
+    foreign key (user_id) references users (id)
 );
 
+create unique index ix_username
+    on users (username);
+
 create unique index ix_auth_username
-    on authorities (username, authority);
+    on authorities (user_id, authority);
