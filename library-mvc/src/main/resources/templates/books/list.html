@@ -12,11 +12,13 @@
       >
         Title
       </a>
-      <a
-        href="#" class="table__button table__button--trash"
-        onclick="return confirm('Are you sure?')"
-        th:href="@{/books/delete/{path}(path=${book.id})}"
-      ></a>
+      <form th:action="@{/books/delete/{path}(path=${book.id})}" method="post">
+        <button
+          type="submit"
+          class="table__button table__button--trash"
+          onclick="return confirm('Are you sure?')"
+        ></button>
+      </form>
     </div>
   </div>
 </div>
