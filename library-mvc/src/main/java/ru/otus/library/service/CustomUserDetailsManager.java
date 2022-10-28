@@ -1,27 +1,26 @@
 package ru.otus.library.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.UserDetailsManager;
-
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.library.repository.UserRepository;
 
-public class UserServiceImpl implements UserDetailsManager {
+@AllArgsConstructor
+@Service
+public class CustomUserDetailsManager implements UserDetailsManager {
 
-  @Autowired
   private UserRepository repository;
 
+  @Transactional(readOnly = true)
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    var user = repository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
-    return User.withUsername(user.getUsername())
-        .password(user.getPassword())
-        .authorities("ADMIN")
-        .build();
+    return repository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
   }
 
+  @Transactional
   @Override
   public void createUser(UserDetails user) {
     var newUser = new ru.otus.library.domain.User();
@@ -31,6 +30,7 @@ public class UserServiceImpl implements UserDetailsManager {
     repository.save(newUser);
   }
 
+  @Transactional
   @Override
   public void updateUser(UserDetails user) {
     repository.findByUsername(user.getUsername()).ifPresent((model) -> {
@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserDetailsManager {
     });
   }
 
+  @Transactional
   @Override
   public void deleteUser(String username) {
     repository.deleteByUsername(username);
@@ -50,6 +51,7 @@ public class UserServiceImpl implements UserDetailsManager {
     // TODO Auto-generated method stub
   }
 
+  @Transactional(readOnly = true)
   @Override
   public boolean userExists(String username) {
     return repository.existsByUsername(username);
