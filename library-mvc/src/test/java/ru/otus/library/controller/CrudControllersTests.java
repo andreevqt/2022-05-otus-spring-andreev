@@ -72,7 +72,7 @@ public class CrudControllersTests {
       .andExpect(status().isFound());
   }
 
-  @DisplayName("защищенные роуты должны возвращать корректный ответ для авторизованнного пользователя с ролью GUEST")
+/*   @DisplayName("защищенные роуты должны возвращать корректный ответ для авторизованнного пользователя с ролью GUEST")
   @ParameterizedTest
   @ValueSource(strings = {"books"})
   public void testAuthentificatedUserWithRoleGuest(String resource) throws Exception {
@@ -84,7 +84,7 @@ public class CrudControllersTests {
       .andExpect(status().isForbidden());
     mockMvc.perform(post(String.format("/%s/delete/1", resource)).with(csrf()).with(GUEST_USER))
       .andExpect(status().isForbidden());
-  }
+  } */
 
   @DisplayName("защищенные роуты должны возвращать корректный ответ для неавторизованнного пользователя")
   @ParameterizedTest
