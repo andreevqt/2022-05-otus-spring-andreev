@@ -21,7 +21,6 @@ public class WebSecurityConfig {
       .antMatchers("/login**", "/css/**/*", "/js/**/*").permitAll()
       .antMatchers("/**/edit/*", "/**/create", "/**/delete/*").hasRole("ADMIN")
       .antMatchers("/*").hasAnyRole("ADMIN", "GUEST")
-      .anyRequest().authenticated()
       .and()
       .formLogin()
       .loginPage("/login")
